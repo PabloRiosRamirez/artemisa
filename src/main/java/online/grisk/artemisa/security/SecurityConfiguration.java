@@ -11,10 +11,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    @Value("${secret.user}")
+    @Value("${SECRET_USER}")
     String user;
-    @Value("${secret.pass}")
+    @Value("${SECRET_PASS}")
     String pass;
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication().withUser(user).password("{noop}".concat(pass)).roles("USER");
