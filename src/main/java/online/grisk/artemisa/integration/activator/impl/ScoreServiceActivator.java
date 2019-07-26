@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Random;
 
 @Component
-public class ScoreServiceActivator implements Activator {
+public class ScoreServiceActivator {
 
     public Map<String, Object> invoke(@Payload Map<String, Object> payload, @Headers Map<String, Object> header) {
         try {

@@ -7,5 +7,5 @@ import java.util.Map;
 
 public interface GatewayService {
     @Gateway
-    Map process(Message message);
+    Map process(Message<Map> payload);
 }
