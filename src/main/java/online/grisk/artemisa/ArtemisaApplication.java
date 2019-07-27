@@ -1,6 +1,6 @@
 package online.grisk.artemisa;
 
-import online.grisk.entity.ServiceActivator;
+import online.grisk.artemisa.domain.entity.ServiceActivator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.client.RestTemplateBuilder;
