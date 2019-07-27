@@ -1,4 +1,4 @@
-package online.grisk.artemisa.domain.entity;
+package online.grisk.entity;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

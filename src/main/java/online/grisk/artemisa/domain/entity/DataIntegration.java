@@ -9,34 +9,20 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.Date;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.util.Date;
 
 /**
- *
  * @author pablo
  */
 @Getter
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "data_integration",schema = "public", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"id_data_integration", "organization"})})
+@Table(name = "data_integration", schema = "public", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"id_data_integration", "organization"})})
 public class DataIntegration implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -62,11 +48,11 @@ public class DataIntegration implements Serializable {
     @NotNull
     @Column(name = "bureau", nullable = false)
     private boolean bureau;
-    @JoinTable(name = "data_integration_has_variable", joinColumns = {
+    /*@JoinTable(name = "data_integration_has_variable", joinColumns = {
         @JoinColumn(name = "id_data_integration", referencedColumnName = "id_data_integration", nullable = false)}, inverseJoinColumns = {
         @JoinColumn(name = "id_variable", referencedColumnName = "id_variable", nullable = false)})
     @ManyToMany
-    private Collection<Variable> variableCollection;
+    private Collection<Variable> variableCollection;*/
 
     public DataIntegration(Long idDataIntegration) {
         this.idDataIntegration = idDataIntegration;
@@ -80,4 +66,4 @@ public class DataIntegration implements Serializable {
         this.bureau = bureau;
     }
 
-   }
+}

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package online.grisk.artemisa.domain.entity;
+package online.grisk.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,6 +36,10 @@ public class Tree implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_tree", nullable = false)
     private Long idTree;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "organization", nullable = false)
+    private long organization;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
