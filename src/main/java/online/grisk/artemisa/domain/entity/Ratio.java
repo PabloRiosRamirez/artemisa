@@ -66,9 +66,6 @@ public class Ratio implements Serializable {
     @Column(name = "created_at", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
-    @JoinColumn(name = "configuration", referencedColumnName = "id_configuration", nullable = false)
-    @ManyToOne(optional = false)
-    private Configuration configuration;
 
     public Ratio(Long idRatio) {
         this.idRatio = idRatio;

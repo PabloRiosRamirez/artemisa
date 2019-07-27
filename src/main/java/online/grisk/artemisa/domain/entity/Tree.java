@@ -52,9 +52,6 @@ public class Tree implements Serializable {
     private Date createdAt;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tree")
     private Collection<NodeTree> nodeTreeCollection;
-    @JoinColumn(name = "configuration", referencedColumnName = "id_configuration", nullable = false)
-    @OneToOne(optional = false)
-    private Configuration configuration;
 
     public Tree(Long idTree) {
         this.idTree = idTree;

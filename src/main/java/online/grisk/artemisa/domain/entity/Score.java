@@ -61,10 +61,6 @@ public class Score implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 
-    @JoinColumn(name = "configuration", referencedColumnName = "id_configuration", nullable = false)
-    @OneToOne(optional = false)
-    private Configuration configuration;
-
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "score")
     private Collection<ScoreRange> scoreRangeCollection;
