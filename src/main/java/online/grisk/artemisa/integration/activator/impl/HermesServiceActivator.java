@@ -2,7 +2,7 @@ package online.grisk.artemisa.integration.activator.impl;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import online.grisk.artemisa.domain.entity.ServiceActivator;
-import online.grisk.artemisa.domain.service.BasicRestServiceActivator;
+import online.grisk.artemisa.integration.activator.BasicRestServiceActivator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;

@@ -1,4 +1,4 @@
-package online.grisk.artemisa.domain.service;
+package online.grisk.artemisa.integration.activator;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
