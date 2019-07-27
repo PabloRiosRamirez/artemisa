@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NoArgsConstructor
 @Entity
 @Table(name = "tree",schema = "public", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"id_tree", "configuration"})})
+    @UniqueConstraint(columnNames = {"id_tree", "organization"})})
 public class Tree implements Serializable {
 
     private static final long serialVersionUID = 1L;

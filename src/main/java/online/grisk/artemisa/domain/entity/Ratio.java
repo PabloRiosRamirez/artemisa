@@ -24,7 +24,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Entity
 @Table(name = "ratio", schema = "public", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"id_ratio", "configuration"})})
+        @UniqueConstraint(columnNames = {"id_ratio", "organization"})})
 public class Ratio implements Serializable {
 
     private static final long serialVersionUID = 1L;

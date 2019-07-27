@@ -21,15 +21,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -40,7 +36,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NoArgsConstructor
 @Entity
 @Table(name = "data_integration",schema = "public", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"id_data_integration", "configuration"})})
+    @UniqueConstraint(columnNames = {"id_data_integration", "organization"})})
 public class DataIntegration implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -51,8 +47,8 @@ public class DataIntegration implements Serializable {
     private Long idDataIntegration;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "configuration", nullable = false)
-    private long configuration;
+    @Column(name = "organization", nullable = false)
+    private long organization;
     @Basic(optional = false)
     @NotNull
     @Column(name = "created_at", nullable = false)
@@ -76,9 +72,9 @@ public class DataIntegration implements Serializable {
         this.idDataIntegration = idDataIntegration;
     }
 
-    public DataIntegration(Long idDataIntegration, long configuration, Date createdAt, boolean enabled, boolean bureau) {
+    public DataIntegration(Long idDataIntegration, long organization, Date createdAt, boolean enabled, boolean bureau) {
         this.idDataIntegration = idDataIntegration;
-        this.configuration = configuration;
+        this.organization = organization;
         this.createdAt = createdAt;
         this.enabled = enabled;
         this.bureau = bureau;
