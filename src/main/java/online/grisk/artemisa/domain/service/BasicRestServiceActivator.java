@@ -43,6 +43,8 @@ public class BasicRestServiceActivator {
             response = this.restTemplate.exchange(serviceActivator.getUri(), HttpMethod.POST, httpEntity, JsonNode.class);
         } catch (RestClientResponseException e) {
             throw new Exception(this.buildErrorMessage(serviceActivator.getServiceId(), e));
+        } catch (IllegalStateException e) {
+            throw new IllegalStateException("No instances available for " + serviceActivator.getServiceId());
         } catch (Exception e) {
             throw new Exception();
         }

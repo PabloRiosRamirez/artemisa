@@ -33,6 +33,6 @@ public class ServiceActivator {
 
 
     public String getUri(){
-        return String.format("http://%s/%s", this.serviceId, this.servicePath);
+        return String.format("http://%s%s", this.serviceId, this.servicePath);
     }
 }
