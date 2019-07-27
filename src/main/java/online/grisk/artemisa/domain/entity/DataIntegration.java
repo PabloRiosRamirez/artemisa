@@ -13,21 +13,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.Lob;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
-import javax.validation.constraints.NotNull;
 
 /**
  * @author pablo
@@ -76,35 +61,27 @@ public class DataIntegration implements Serializable {
     @ManyToMany
     private Collection<Variable> variableCollection;*/
 
-	@JoinTable(name = "data_integration_has_variable", joinColumns = {
-			@JoinColumn(name = "id_data_integration", referencedColumnName = "id_data_integration", nullable = false) }, inverseJoinColumns = {
-					@JoinColumn(name = "id_variable", referencedColumnName = "id_variable", nullable = false) })
-	@ManyToMany
-	private Collection<Variable> variableCollection;
+    public DataIntegration(Long idDataIntegration) {
+        this.idDataIntegration = idDataIntegration;
+    }
 
-	public DataIntegration(Long idDataIntegration) {
-		this.idDataIntegration = idDataIntegration;
-	}
+    public DataIntegration(Long idDataIntegration, long organization, Date createdAt, boolean enabled, boolean bureau) {
+        this.idDataIntegration = idDataIntegration;
+        this.organization = organization;
+        this.createdAt = createdAt;
+        this.enabled = enabled;
+        this.bureau = bureau;
+    }
 
-	public DataIntegration(Long idDataIntegration, long organization, Date createdAt, boolean enabled, boolean bureau) {
-		this.idDataIntegration = idDataIntegration;
-		this.organization = organization;
-		this.createdAt = createdAt;
-		this.enabled = enabled;
-		this.bureau = bureau;
-	}
-
-	public DataIntegration(@NotNull long organization, @NotNull Date createdAt, @NotNull boolean enabled,
-			@NotNull boolean bureau, byte[] analyticsFile, String analyticsFileName, String analyticsFileType,
-			Collection<Variable> variableCollection) {
-		super();
-		this.organization = organization;
-		this.createdAt = createdAt;
-		this.enabled = enabled;
-		this.bureau = bureau;
-		this.analyticsFile = analyticsFile;
-		this.analyticsFileName = analyticsFileName;
-		this.analyticsFileType = analyticsFileType;
-		this.variableCollection = variableCollection;
-	}
+    public DataIntegration(@NotNull long organization, @NotNull Date createdAt, @NotNull boolean enabled,
+                           @NotNull boolean bureau, byte[] analyticsFile, String analyticsFileName, String analyticsFileType) {
+        super();
+        this.organization = organization;
+        this.createdAt = createdAt;
+        this.enabled = enabled;
+        this.bureau = bureau;
+        this.analyticsFile = analyticsFile;
+        this.analyticsFileName = analyticsFileName;
+        this.analyticsFileType = analyticsFileType;
+    }
 }
