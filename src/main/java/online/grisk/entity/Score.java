@@ -18,7 +18,9 @@ import java.util.Collection;
 import java.util.Date;
 
 /**
- * @author pablo
+ * @author Pablo Ríos Ramírez
+ * @email pa.riosramirez@gmail.com
+ * @web www.pabloriosramirez.com
  */
 
 @Getter

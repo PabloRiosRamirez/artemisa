@@ -25,7 +25,9 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author pablo
+ * @author Pablo Ríos Ramírez
+ * @email pa.riosramirez@gmail.com
+ * @web www.pabloriosramirez.com
  */
 @Getter
 @Setter

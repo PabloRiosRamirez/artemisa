@@ -28,7 +28,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author pablo
+ * @author Pablo Ríos Ramírez
+ * @email pa.riosramirez@gmail.com
+ * @web www.pabloriosramirez.com
  */
 @Getter
 @Setter

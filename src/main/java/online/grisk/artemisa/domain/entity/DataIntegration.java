@@ -15,8 +15,13 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * @author pablo
+ *
+ * @author Pablo Ríos Ramírez
+ * @email pa.riosramirez@gmail.com
+ * @web www.pabloriosramirez.com
+ *
  */
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -26,35 +31,44 @@ import java.util.Date;
 public class DataIntegration implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id_data_integration", nullable = false)
     private Long idDataIntegration;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "organization", nullable = false)
     private long organization;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "created_at", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "enabled", nullable = false)
     private boolean enabled;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "bureau", nullable = false)
     private boolean bureau;
+
     @Lob
     @Column(name = "analytics_file")
     private byte[] analyticsFile;
+
     @Column(name = "analytics_filename")
     private String analyticsFileName;
+
     @Column(name = "analytics_filetype")
     private String analyticsFileType;
+
     /*@JoinTable(name = "data_integration_has_variable", joinColumns = {
         @JoinColumn(name = "id_data_integration", referencedColumnName = "id_data_integration", nullable = false)}, inverseJoinColumns = {
         @JoinColumn(name = "id_variable", referencedColumnName = "id_variable", nullable = false)})
@@ -75,7 +89,6 @@ public class DataIntegration implements Serializable {
 
     public DataIntegration(@NotNull long organization, @NotNull Date createdAt, @NotNull boolean enabled,
                            @NotNull boolean bureau, byte[] analyticsFile, String analyticsFileName, String analyticsFileType) {
-        super();
         this.organization = organization;
         this.createdAt = createdAt;
         this.enabled = enabled;
