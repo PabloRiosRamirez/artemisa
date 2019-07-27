@@ -1,12 +1,12 @@
-package online.grisk.artemisa.presentation.response;
+package online.grisk.artemisa.domain.dto;
 
-public class UploadFileResponse {
+public class FileResponseDTO {
 	private String fileName;
 	private String fileDownloadUri;
 	private String fileType;
 	private long size;
 
-	public UploadFileResponse(String fileName, String fileDownloadUri, String fileType, long size) {
+	public FileResponseDTO(String fileName, String fileDownloadUri, String fileType, long size) {
 		this.fileName = fileName;
 		this.fileDownloadUri = fileDownloadUri;
 		this.fileType = fileType;

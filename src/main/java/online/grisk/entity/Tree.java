@@ -20,7 +20,9 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author pablo
+ * @author Pablo Ríos Ramírez
+ * @email pa.riosramirez@gmail.com
+ * @web www.pabloriosramirez.com
  */
 @Getter
 @Setter

@@ -8,8 +8,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import online.grisk.artemisa.domain.entity.DataIntegration;
-import online.grisk.artemisa.exception.FileStorageException;
-import online.grisk.artemisa.exception.MyFileNotFoundException;
+import online.grisk.artemisa.domain.exception.FileStorageException;
+import online.grisk.artemisa.domain.exception.MyFileNotFoundException;
 import online.grisk.artemisa.persistence.repository.IDataIntegrationRepository;
 
 @Service
