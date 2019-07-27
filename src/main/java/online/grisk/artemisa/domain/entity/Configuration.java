@@ -38,9 +38,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Getter
 @Setter
 @NoArgsConstructor
-@Getter
-@Setter
-@NoArgsConstructor@Entity
+@Entity
 @Table(name = "configuration",schema = "public")
 public class Configuration implements Serializable {
 
