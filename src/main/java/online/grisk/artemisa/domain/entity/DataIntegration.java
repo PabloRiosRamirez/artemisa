@@ -9,8 +9,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -29,7 +30,6 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 /**
- *
  * @author pablo
  */
 @Getter
@@ -37,39 +37,44 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @Entity
 @Table(name = "data_integration", schema = "public", uniqueConstraints = {
-		@UniqueConstraint(columnNames = { "id_data_integration", "organization" }) })
+        @UniqueConstraint(columnNames = {"id_data_integration", "organization"})})
 public class DataIntegration implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Basic(optional = false)
-	@Column(name = "id_data_integration", nullable = false)
-	private Long idDataIntegration;
-	@Basic(optional = false)
-	@NotNull
-	@Column(name = "organization", nullable = false)
-	private long organization;
-	@Basic(optional = false)
-	@NotNull
-	@Column(name = "created_at", nullable = false)
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date createdAt;
-	@Basic(optional = false)
-	@NotNull
-	@Column(name = "enabled", nullable = false)
-	private boolean enabled;
-	@Basic(optional = false)
-	@NotNull
-	@Column(name = "bureau", nullable = false)
-	private boolean bureau;
-	@Lob
-	@Column(name = "analytics_file")
-	private byte[] analyticsFile;
-	@Column(name = "analytics_filename")
-	private String analyticsFileName;
-	@Column(name = "analytics_filetype")
-	private String analyticsFileType;
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id_data_integration", nullable = false)
+    private Long idDataIntegration;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "organization", nullable = false)
+    private long organization;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "created_at", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "enabled", nullable = false)
+    private boolean enabled;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "bureau", nullable = false)
+    private boolean bureau;
+    @Lob
+    @Column(name = "analytics_file")
+    private byte[] analyticsFile;
+    @Column(name = "analytics_filename")
+    private String analyticsFileName;
+    @Column(name = "analytics_filetype")
+    private String analyticsFileType;
+    /*@JoinTable(name = "data_integration_has_variable", joinColumns = {
+        @JoinColumn(name = "id_data_integration", referencedColumnName = "id_data_integration", nullable = false)}, inverseJoinColumns = {
+        @JoinColumn(name = "id_variable", referencedColumnName = "id_variable", nullable = false)})
+    @ManyToMany
+    private Collection<Variable> variableCollection;*/
 
 	@JoinTable(name = "data_integration_has_variable", joinColumns = {
 			@JoinColumn(name = "id_data_integration", referencedColumnName = "id_data_integration", nullable = false) }, inverseJoinColumns = {
@@ -102,5 +107,4 @@ public class DataIntegration implements Serializable {
 		this.analyticsFileType = analyticsFileType;
 		this.variableCollection = variableCollection;
 	}
-
 }

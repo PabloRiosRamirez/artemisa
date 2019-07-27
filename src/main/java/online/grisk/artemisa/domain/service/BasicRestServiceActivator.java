@@ -2,6 +2,7 @@ package online.grisk.artemisa.domain.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import online.grisk.entity.ServiceActivator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -21,12 +22,12 @@ public class BasicRestServiceActivator {
     @Autowired
     ObjectMapper objectMapper;
 
-    protected HttpEntity<Object> buildHttpEntity(Map<String, Object> payload, Map<String, Object> headers, online.grisk.artemisa.domain.entity.ServiceActivator serviceActivator) {
+    protected HttpEntity<Object> buildHttpEntity(Map<String, Object> payload, Map<String, Object> headers, ServiceActivator serviceActivator) {
         HttpHeaders httpHeaders = createHttpHeaders(headers, serviceActivator);
         return new HttpEntity<>(payload, httpHeaders);
     }
 
-    private HttpHeaders createHttpHeaders(Map<String, Object> mapHeaders, online.grisk.artemisa.domain.entity.ServiceActivator serviceActivator) {
+    private HttpHeaders createHttpHeaders(Map<String, Object> mapHeaders, ServiceActivator serviceActivator) {
         HttpHeaders httpHeaders = new HttpHeaders();
         mapHeaders.forEach((k, v) -> {
             if (v instanceof String) {
@@ -37,7 +38,7 @@ public class BasicRestServiceActivator {
         return httpHeaders;
     }
 
-    protected ResponseEntity<JsonNode> executeRequest(online.grisk.artemisa.domain.entity.ServiceActivator serviceActivator, HttpEntity<Object> httpEntity) throws Exception {
+    protected ResponseEntity<JsonNode> executeRequest(ServiceActivator serviceActivator, HttpEntity<Object> httpEntity) throws Exception {
         ResponseEntity response;
         try {
             response = this.restTemplate.exchange(serviceActivator.getUri(), HttpMethod.POST, httpEntity, JsonNode.class);

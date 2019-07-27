@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package online.grisk.artemisa.domain.entity;
+package online.grisk.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
