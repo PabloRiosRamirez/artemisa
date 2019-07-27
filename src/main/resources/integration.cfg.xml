@@ -23,7 +23,7 @@
     <int:channel id="channelDataIntegration"/>
 
     <int:service-activator input-channel="channelDataIntegration" output-channel="channelSplitter"
-                           ref="dataIntegrationServiceActivator"/>
+                           ref="ateneaServiceActivator"/>
 
     <int:channel id="channelSplitter"/>
 
@@ -52,6 +52,6 @@
     <int:channel id="channelHermes"/>
 
     <int:service-activator input-channel="channelHermes"
-                           ref="hermesBasicRestServiceActivator"/>
+                           ref="hermesServiceActivator"/>
 
 </beans>

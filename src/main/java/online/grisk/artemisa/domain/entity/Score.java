@@ -5,6 +5,7 @@
  */
 package online.grisk.artemisa.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,41 +21,51 @@ import java.util.Date;
 /**
  * @author pablo
  */
+
 @Getter
 @Setter
 @NoArgsConstructor
+@Entity
 @Table(name = "score", schema = "public", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"configuration", "id_score"})})
 public class Score implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id_score", nullable = false)
     private Long idScore;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
     @Column(name = "titule", nullable = false, length = 100)
     private String titule;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
     @Column(name = "variable", nullable = false, length = 100)
     private String variable;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "enabled", nullable = false)
     private boolean enabled;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "created_at", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
+
     @JoinColumn(name = "configuration", referencedColumnName = "id_configuration", nullable = false)
-    @ManyToOne(optional = false)
+    @OneToOne(optional = false)
     private Configuration configuration;
+
+    @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "score")
     private Collection<ScoreRange> scoreRangeCollection;
 
