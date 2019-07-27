@@ -1,4 +1,4 @@
-package online.grisk.artemisa.presentation;
+package online.grisk.artemisa.presentation.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

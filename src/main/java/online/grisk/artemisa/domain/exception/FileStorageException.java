@@ -1,4 +1,4 @@
-package online.grisk.artemisa.exception;
+package online.grisk.artemisa.domain.exception;
 
 public class FileStorageException extends RuntimeException {
     /**
