@@ -14,15 +14,14 @@ import online.grisk.artemisa.persistence.repository.IDataIntegrationRepository;
 
 @Service
 public class DataIntegrationService {
-	
+
 	@Autowired
 	private IDataIntegrationRepository dataIntegrationRepository;
-	
-	
+
 	public DataIntegration save(DataIntegration dataIntegration) {
 		return dataIntegrationRepository.save(dataIntegration);
 	}
-	
+
 	public DataIntegration uploadFile(long id, MultipartFile file) {
 		// Normalize file name
 		String fileName = StringUtils.cleanPath(file.getOriginalFilename());
@@ -32,13 +31,13 @@ public class DataIntegrationService {
 			if (fileName.contains("..")) {
 				throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
 			}
-			
+
 			DataIntegration di = dataIntegrationRepository.getOne(id);
-			
+
 			di.setAnalyticsFileName(fileName);
 			di.setAnalyticsFileType(file.getContentType());
 			di.setAnalyticsFile(file.getBytes());
-			
+
 			return dataIntegrationRepository.save(di);
 		} catch (IOException ex) {
 			throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);

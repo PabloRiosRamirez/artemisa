@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -33,7 +34,9 @@ public class DataIntegrationController {
 	
 	@PostMapping("/dataIntegrations")
 	private ResponseEntity<?> save(@RequestBody DataIntegration dataIntegration){
+		
 		DataIntegration di = dataIntegrationService.save(dataIntegration);
+		
 		if(di != null) {
 			return new ResponseEntity<DataIntegration>(HttpStatus.CREATED);
 		}else {
@@ -41,7 +44,7 @@ public class DataIntegrationController {
 		}
 	}
 
-	@PutMapping("/uploadFile/{id}")
+	@PutMapping("dataIntegrations/{id}/uploadFile")
 	public FileResponseDTO uploadFile(@PathVariable("id") long id, @RequestParam("file") MultipartFile file) {
 		DataIntegration di = dataIntegrationService.uploadFile(id, file);
 
@@ -51,7 +54,7 @@ public class DataIntegrationController {
 		return new FileResponseDTO(di.getAnalyticsFileName(), fileDownloadUri, file.getContentType(), file.getSize());
 	}
 
-	@GetMapping("/downloadFile/{id}")
+	@GetMapping("dataIntegrations/{id}/downloadFile")
 	public ResponseEntity<Resource> downloadFile(@PathVariable long id) {
 		// Load file from database
 		DataIntegration di = dataIntegrationService.findOne(id);
