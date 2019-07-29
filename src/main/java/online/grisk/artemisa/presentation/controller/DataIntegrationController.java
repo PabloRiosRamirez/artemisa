@@ -33,12 +33,17 @@ public class DataIntegrationController {
 	private DataIntegrationService dataIntegrationService;
 	
 	@PostMapping("/dataIntegrations")
-	private ResponseEntity<?> save(@RequestBody DataIntegration dataIntegration){
+	private ResponseEntity<?> save(@RequestParam("organization") long organization, @RequestParam("enabled") boolean enabled, @RequestParam("bureau") boolean bureau, @RequestParam("file") MultipartFile file){
 		
-		DataIntegration di = dataIntegrationService.save(dataIntegration);
+		DataIntegration dataIntegration = new DataIntegration();
+		dataIntegration.setOrganization(organization);
+		dataIntegration.setEnabled(enabled);
+		dataIntegration.setBureau(bureau);
+		
+		DataIntegration di = dataIntegrationService.save(dataIntegration, file);
 		
 		if(di != null) {
-			return new ResponseEntity<DataIntegration>(HttpStatus.CREATED);
+			return new ResponseEntity<DataIntegration>(di, HttpStatus.CREATED);
 		}else {
 			return new ResponseEntity<String>("Error interno del servidor.", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -59,8 +64,7 @@ public class DataIntegrationController {
 		// Load file from database
 		DataIntegration di = dataIntegrationService.findOne(id);
 
-		return ResponseEntity.ok().contentType(MediaType.parseMediaType(di.getAnalyticsFileType()))
-				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + di.getAnalyticsFileName() + "\"")
+		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + di.getAnalyticsFileName() + "\"")
 				.body(new ByteArrayResource(di.getAnalyticsFile()));
 	}
 

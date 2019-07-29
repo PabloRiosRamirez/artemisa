@@ -44,7 +44,6 @@ public class DataIntegration implements Serializable {
     private long organization;
 
     @Basic(optional = false)
-    @NotNull
     @Column(name = "created_at", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
@@ -66,9 +65,6 @@ public class DataIntegration implements Serializable {
     @Column(name = "analytics_filename")
     private String analyticsFileName;
 
-    @Column(name = "analytics_filetype")
-    private String analyticsFileType;
-
     /*@JoinTable(name = "data_integration_has_variable", joinColumns = {
         @JoinColumn(name = "id_data_integration", referencedColumnName = "id_data_integration", nullable = false)}, inverseJoinColumns = {
         @JoinColumn(name = "id_variable", referencedColumnName = "id_variable", nullable = false)})
@@ -88,13 +84,12 @@ public class DataIntegration implements Serializable {
     }
 
     public DataIntegration(@NotNull long organization, @NotNull Date createdAt, @NotNull boolean enabled,
-                           @NotNull boolean bureau, byte[] analyticsFile, String analyticsFileName, String analyticsFileType) {
+                           @NotNull boolean bureau, byte[] analyticsFile, String analyticsFileName) {
         this.organization = organization;
         this.createdAt = createdAt;
         this.enabled = enabled;
         this.bureau = bureau;
         this.analyticsFile = analyticsFile;
         this.analyticsFileName = analyticsFileName;
-        this.analyticsFileType = analyticsFileType;
     }
 }

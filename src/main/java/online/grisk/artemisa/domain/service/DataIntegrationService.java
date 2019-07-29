@@ -1,6 +1,7 @@
 package online.grisk.artemisa.domain.service;
 
 import java.io.IOException;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,8 +19,28 @@ public class DataIntegrationService {
 	@Autowired
 	private IDataIntegrationRepository dataIntegrationRepository;
 
-	public DataIntegration save(DataIntegration dataIntegration) {
-		return dataIntegrationRepository.save(dataIntegration);
+	public DataIntegration save(DataIntegration dataIntegration, MultipartFile file) {
+		
+		// Normalize file name
+		String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+
+		try {
+			// Check if the file's name contains invalid characters
+			if (fileName.contains("..")) {
+				throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
+			}
+
+			dataIntegration.setAnalyticsFileName(fileName);
+			dataIntegration.setAnalyticsFile(file.getBytes());
+
+			dataIntegration.setCreatedAt(new Date());
+			return dataIntegrationRepository.save(dataIntegration);
+			
+		} catch (IOException ex) {
+			throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
+		}
+		
+		
 	}
 
 	public DataIntegration uploadFile(long id, MultipartFile file) {
@@ -35,7 +56,6 @@ public class DataIntegrationService {
 			DataIntegration di = dataIntegrationRepository.getOne(id);
 
 			di.setAnalyticsFileName(fileName);
-			di.setAnalyticsFileType(file.getContentType());
 			di.setAnalyticsFile(file.getBytes());
 
 			return dataIntegrationRepository.save(di);
