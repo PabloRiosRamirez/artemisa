@@ -18,6 +18,8 @@
                        selector-expression="headers.action.equals('sendEmailRegisterUser')"/>
         <int:recipient channel="channelDataIntegration"
                        selector-expression="headers.action.equals('proccessAnalisys')"/>
+        <int:recipient channel="channelRegisterDataIntegrationExcel"
+                       selector-expression="headers.action.equals('registerDataIntegrationExcel')"/>
     </int:recipient-list-router>
 
     <int:channel id="channelDataIntegration"/>
@@ -53,5 +55,10 @@
 
     <int:service-activator input-channel="channelHermes"
                            ref="hermesServiceActivator"/>
+
+    <int:channel id="channelRegisterDataIntegrationExcel"/>
+
+    <int:service-activator input-channel="channelRegisterDataIntegrationExcel"
+                           ref="ateneaServiceActivator" method="invokeRegisterDataIntegrationExcel"/>
 
 </beans>

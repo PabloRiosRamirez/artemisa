@@ -7,5 +7,7 @@ import online.grisk.artemisa.domain.entity.DataIntegration;
 
 @Repository
 public interface IDataIntegrationRepository extends JpaRepository<DataIntegration, Long>{
+//    Iterable<DataIntegration> findDataIntegrationsByOrganization(Long organization);
+    void deleteAllByOrganization(Long organization);
 
 }

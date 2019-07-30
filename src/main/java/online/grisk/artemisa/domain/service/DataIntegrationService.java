@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,13 +18,17 @@ public class DataIntegrationService {
 	
 	@Autowired
 	private IDataIntegrationRepository dataIntegrationRepository;
-	
-	
+
+	@Transactional
+	public void deletedByOrganization(Long organization) {
+		dataIntegrationRepository.deleteAllByOrganization(organization);
+	}
+	@Transactional
 	public DataIntegration save(DataIntegration dataIntegration) {
 		return dataIntegrationRepository.save(dataIntegration);
 	}
-	
-	public DataIntegration uploadFile(long id, MultipartFile file) {
+	@Transactional
+	public DataIntegration uploadFile(long id_dataintegration, MultipartFile file) {
 		// Normalize file name
 		String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
@@ -33,10 +38,9 @@ public class DataIntegrationService {
 				throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
 			}
 			
-			DataIntegration di = dataIntegrationRepository.getOne(id);
+			DataIntegration di = dataIntegrationRepository.getOne(id_dataintegration);
 			
 			di.setAnalyticsFileName(fileName);
-			di.setAnalyticsFileType(file.getContentType());
 			di.setAnalyticsFile(file.getBytes());
 			
 			return dataIntegrationRepository.save(di);
@@ -44,9 +48,9 @@ public class DataIntegrationService {
 			throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
 		}
 	}
-
-	public DataIntegration findOne(long fileId) {
-		return dataIntegrationRepository.findById(fileId)
-				.orElseThrow(() -> new MyFileNotFoundException("DataIntegration not found with id " + fileId));
+	@Transactional
+	public DataIntegration findOne(long id_dataintegration) {
+		return dataIntegrationRepository.findById(id_dataintegration)
+				.orElseThrow(() -> new MyFileNotFoundException("DataIntegration not found with id " + id_dataintegration));
 	}
 }

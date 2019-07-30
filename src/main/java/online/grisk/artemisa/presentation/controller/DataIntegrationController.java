@@ -8,11 +8,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -36,22 +32,20 @@ public class DataIntegrationController {
 //		}
 //	}
 
-	@PutMapping("/uploadFile/{id}")
-	public FileResponseDTO uploadFile(@PathVariable("id") long id, @RequestParam("file") MultipartFile file) {
-		DataIntegration di = dataIntegrationService.uploadFile(id, file);
-
-		String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/downloadFile/")
+	@PostMapping("/v1/rest/data-integration/{id_dataintegration}")
+	public FileResponseDTO uploadFile(@PathVariable("id_dataintegration") long id_dataintegration, @RequestParam("file") MultipartFile file) {
+		DataIntegration di = dataIntegrationService.uploadFile(id_dataintegration, file);
+		String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/v1/rest/data-integration/organization/")
 				.path(di.getIdDataIntegration() + "").toUriString();
-
 		return new FileResponseDTO(di.getAnalyticsFileName(), fileDownloadUri, file.getContentType(), file.getSize());
 	}
 
-	@GetMapping("/downloadFile/{id}")
-	public ResponseEntity<Resource> downloadFile(@PathVariable long id) {
+	@GetMapping("/v1/rest/data-integration/{id_organization}")
+	public ResponseEntity<Resource> downloadFile(@PathVariable long id_organization) {
 		// Load file from database
-		DataIntegration di = dataIntegrationService.findOne(id);
+		DataIntegration di = dataIntegrationService.findOne(id_organization);
 
-		return ResponseEntity.ok().contentType(MediaType.parseMediaType(di.getAnalyticsFileType()))
+		return ResponseEntity.ok().contentType(MediaType.APPLICATION_OCTET_STREAM)
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + di.getAnalyticsFileName() + "\"")
 				.body(new ByteArrayResource(di.getAnalyticsFile()));
 	}

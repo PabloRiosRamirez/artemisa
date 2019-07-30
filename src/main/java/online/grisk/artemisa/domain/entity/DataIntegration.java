@@ -8,6 +8,7 @@ package online.grisk.artemisa.domain.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -15,11 +16,9 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- *
  * @author Pablo Ríos Ramírez
  * @email pa.riosramirez@gmail.com
  * @web www.pabloriosramirez.com
- *
  */
 
 @Getter
@@ -60,14 +59,11 @@ public class DataIntegration implements Serializable {
     private boolean bureau;
 
     @Lob
-    @Column(name = "analytics_file")
+    @Column(length = 16000000, name = "analytics_file")
     private byte[] analyticsFile;
 
     @Column(name = "analytics_filename")
     private String analyticsFileName;
-
-    @Column(name = "analytics_filetype")
-    private String analyticsFileType;
 
     /*@JoinTable(name = "data_integration_has_variable", joinColumns = {
         @JoinColumn(name = "id_data_integration", referencedColumnName = "id_data_integration", nullable = false)}, inverseJoinColumns = {
@@ -87,14 +83,20 @@ public class DataIntegration implements Serializable {
         this.bureau = bureau;
     }
 
+    public DataIntegration(long organization, Date createdAt, boolean enabled, boolean bureau) {
+        this.organization = organization;
+        this.createdAt = createdAt;
+        this.enabled = enabled;
+        this.bureau = bureau;
+    }
+
     public DataIntegration(@NotNull long organization, @NotNull Date createdAt, @NotNull boolean enabled,
-                           @NotNull boolean bureau, byte[] analyticsFile, String analyticsFileName, String analyticsFileType) {
+                           @NotNull boolean bureau, byte[] analyticsFile, String analyticsFileName) {
         this.organization = organization;
         this.createdAt = createdAt;
         this.enabled = enabled;
         this.bureau = bureau;
         this.analyticsFile = analyticsFile;
         this.analyticsFileName = analyticsFileName;
-        this.analyticsFileType = analyticsFileType;
     }
 }
