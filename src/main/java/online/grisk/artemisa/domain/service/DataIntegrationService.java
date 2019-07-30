@@ -1,6 +1,7 @@
 package online.grisk.artemisa.domain.service;
 
 import java.io.IOException;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,10 +16,10 @@ import online.grisk.artemisa.persistence.repository.IDataIntegrationRepository;
 
 @Service
 public class DataIntegrationService {
-	
+
 	@Autowired
 	private IDataIntegrationRepository dataIntegrationRepository;
-
+	
 	@Transactional
 	public void deletedByOrganization(Long organization) {
 		dataIntegrationRepository.deleteAllByOrganization(organization);
@@ -36,13 +37,12 @@ public class DataIntegrationService {
 			// Check if the file's name contains invalid characters
 			if (fileName.contains("..")) {
 				throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
-			}
-			
+			}			
 			DataIntegration di = dataIntegrationRepository.getOne(id_dataintegration);
 			
 			di.setAnalyticsFileName(fileName);
 			di.setAnalyticsFile(file.getBytes());
-			
+
 			return dataIntegrationRepository.save(di);
 		} catch (IOException ex) {
 			throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);

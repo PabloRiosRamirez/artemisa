@@ -31,6 +31,7 @@ public class ServiceActivator {
     @ApiModelProperty("Service Headers")
     private Map<String, Object> serviceHeaders;
 
+    
 
     public String getUri(){
         return String.format("http://%s%s", this.serviceId, this.servicePath);
