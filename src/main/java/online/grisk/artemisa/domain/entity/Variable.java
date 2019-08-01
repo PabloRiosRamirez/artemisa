@@ -78,23 +78,40 @@ public class Variable implements Serializable {
     @ManyToOne(optional = false)
     private TypeVariable typeVariable;
 
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "bureau", nullable = false)
+    private boolean bureau;
+
     public Variable(Long idVariable) {
         this.idVariable = idVariable;
     }
 
-    public Variable(String name, String code, String coordinate, String defaultValue) {
+    public Variable(String name, String code, String coordinate, String defaultValue, boolean bureau) {
         this.idVariable = idVariable;
         this.name = name;
         this.code = code;
         this.coordinate = coordinate;
         this.defaultValue = defaultValue;
+        this.bureau = bureau;
     }
 
-    public Variable(@NotNull @Size(min = 1, max = 100) String name, @NotNull @Size(min = 1, max = 50) String code, @NotNull @Size(min = 1, max = 50) String coordinate, @NotNull @Size(min = 1, max = 100) String defaultValue, TypeVariable typeVariable) {
+    public Variable(@NotNull @Size(min = 1, max = 100) String name, @NotNull @Size(min = 1, max = 50) String code, @NotNull @Size(min = 1, max = 50) String coordinate, @NotNull @Size(min = 1, max = 100) String defaultValue, Collection<DataIntegration> dataIntegrationCollection, TypeVariable typeVariable, @NotNull boolean bureau) {
+        this.name = name;
+        this.code = code;
+        this.coordinate = coordinate;
+        this.defaultValue = defaultValue;
+        this.dataIntegrationCollection = dataIntegrationCollection;
+        this.typeVariable = typeVariable;
+        this.bureau = bureau;
+    }
+
+    public Variable(@NotNull @Size(min = 1, max = 100) String name, @NotNull @Size(min = 1, max = 50) String code, @NotNull @Size(min = 1, max = 50) String coordinate, @NotNull @Size(min = 1, max = 100) String defaultValue, TypeVariable typeVariable, @NotNull boolean bureau) {
         this.name = name;
         this.code = code;
         this.coordinate = coordinate;
         this.defaultValue = defaultValue;
         this.typeVariable = typeVariable;
+        this.bureau = bureau;
     }
 }

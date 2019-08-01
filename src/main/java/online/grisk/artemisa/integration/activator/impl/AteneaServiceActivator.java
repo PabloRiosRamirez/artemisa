@@ -54,7 +54,7 @@ public class AteneaServiceActivator extends BasicRestServiceActivator {
         dataIntegrationService.deletedByOrganization(dataIntegrationDTO.getOrganization());
         Collection<Variable> variableCollection = new ArrayList<>();
         for (VariableBureauDTO variable : dataIntegrationDTO.getVariables()) {
-            variableCollection.add(new Variable(variable.getName(), variable.getName(), variable.getCoordenate(), variable.getValueDefault(), typeVariableService.findByCode(variable.getType())));
+            variableCollection.add(new Variable(variable.getName(), variable.getName(), variable.getCoordenate(), variable.getValueDefault(), typeVariableService.findByCode(variable.getType()), false));
         }
         Collection<Variable> variables = variableService.saveAll(variableCollection);
         DataIntegration dataIntegration = dataIntegrationService.save(new DataIntegration(dataIntegrationDTO.getOrganization(), new Date(), true, false, variables));
