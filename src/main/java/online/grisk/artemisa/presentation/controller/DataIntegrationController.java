@@ -35,10 +35,12 @@ public class DataIntegrationController {
     @GetMapping("/data-integration/organization/{id_organization}")
     public ResponseEntity getDataIntegration(@PathVariable("id_organization") long id_organization) {
         DataIntegration dataIntegration = dataIntegrationService.findByOrganization(id_organization);
-        if (dataIntegration != null)
+        if (dataIntegration != null) {
+            dataIntegration.setAnalyticsFile(null);
             return new ResponseEntity(dataIntegration, HttpStatus.OK);
-        else
+        } else {
             return new ResponseEntity(HttpStatus.CONFLICT);
+        }
     }
 
 

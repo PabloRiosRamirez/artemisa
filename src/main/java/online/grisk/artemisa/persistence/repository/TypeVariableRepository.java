@@ -7,4 +7,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TypeVariableRepository extends JpaRepository<TypeVariable, Long>{
+
+    TypeVariable findByCode(String code);
+
 }

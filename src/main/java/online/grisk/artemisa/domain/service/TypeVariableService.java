@@ -22,4 +22,9 @@ public class TypeVariableService {
 		return typeVariableRepository.findById(id_type_variable)
 				.orElseThrow(() -> new MyFileNotFoundException("Type variable not found with id " + id_type_variable));
 	}
+
+	@Transactional
+	public TypeVariable findByCode(String code) {
+		return typeVariableRepository.findByCode(code);
+	}
 }
