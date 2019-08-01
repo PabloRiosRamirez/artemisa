@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.util.HashMap;
-
 @RestController
 @RequestMapping({"/api/artemisa"})
 public class DataIntegrationController {
@@ -37,12 +35,8 @@ public class DataIntegrationController {
     @GetMapping("/data-integration/organization/{id_organization}")
     public ResponseEntity getDataIntegration(@PathVariable("id_organization") long id_organization) {
         DataIntegration dataIntegration = dataIntegrationService.findByOrganization(id_organization);
-        if (dataIntegration != null) {
-            dataIntegration.setAnalyticsFile(null);
-            return new ResponseEntity(dataIntegration, HttpStatus.OK);
-        } else {
-            return new ResponseEntity(new HashMap<>(), HttpStatus.CONFLICT);
-        }
+        dataIntegration.setAnalyticsFile(null);
+        return new ResponseEntity(dataIntegration, HttpStatus.OK);
     }
 
 
