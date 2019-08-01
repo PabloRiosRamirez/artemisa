@@ -5,14 +5,15 @@
  */
 package online.grisk.artemisa.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 
 /**
@@ -58,17 +59,20 @@ public class DataIntegration implements Serializable {
     private boolean bureau;
 
     @Lob
-    @Column(length = 16000000, name = "analytics_file")
+    @Column(name = "analytics_file")
     private byte[] analyticsFile;
 
     @Column(name = "analytics_filename")
     private String analyticsFileName;
 
-    /*@JoinTable(name = "data_integration_has_variable", joinColumns = {
-        @JoinColumn(name = "id_data_integration", referencedColumnName = "id_data_integration", nullable = false)}, inverseJoinColumns = {
-        @JoinColumn(name = "id_variable", referencedColumnName = "id_variable", nullable = false)})
+    @JsonManagedReference
+    @JoinTable(name = "data_integration_has_variable",
+            joinColumns = {
+                    @JoinColumn(name = "id_data_integration", referencedColumnName = "id_data_integration", nullable = false)},
+            inverseJoinColumns = {
+                    @JoinColumn(name = "id_variable", referencedColumnName = "id_variable", nullable = false)})
     @ManyToMany
-    private Collection<Variable> variableCollection;*/
+    private Collection<Variable> variableCollection;
 
     public DataIntegration(Long idDataIntegration) {
         this.idDataIntegration = idDataIntegration;
@@ -87,6 +91,14 @@ public class DataIntegration implements Serializable {
         this.createdAt = createdAt;
         this.enabled = enabled;
         this.bureau = bureau;
+    }
+
+    public DataIntegration(long organization, Date createdAt, boolean enabled, boolean bureau, Collection<Variable> variableCollection) {
+        this.organization = organization;
+        this.createdAt = createdAt;
+        this.enabled = enabled;
+        this.bureau = bureau;
+        this.variableCollection = variableCollection;
     }
 
     public DataIntegration(@NotNull long organization, @NotNull Date createdAt, @NotNull boolean enabled,

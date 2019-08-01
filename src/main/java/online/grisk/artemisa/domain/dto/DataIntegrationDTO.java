@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +15,7 @@ import java.util.Map;
 public class DataIntegrationDTO {
 
     Long organization;
-    List<VariableBureauDTO> variables;
+    Collection<VariableBureauDTO> variables;
 
     public Map<String, Object> toMap() {
         Map<String, Object> objectMap  = new HashMap<>();

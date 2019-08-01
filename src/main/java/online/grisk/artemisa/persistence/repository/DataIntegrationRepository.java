@@ -6,8 +6,8 @@ import org.springframework.stereotype.Repository;
 import online.grisk.artemisa.domain.entity.DataIntegration;
 
 @Repository
-public interface IDataIntegrationRepository extends JpaRepository<DataIntegration, Long>{
-//    Iterable<DataIntegration> findDataIntegrationsByOrganization(Long organization);
+public interface DataIntegrationRepository extends JpaRepository<DataIntegration, Long>{
     void deleteAllByOrganization(Long organization);
 
+    DataIntegration findDataIntegrationsByOrganization(Long idDataIntegration);
 }

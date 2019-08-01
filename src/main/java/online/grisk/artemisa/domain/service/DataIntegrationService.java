@@ -1,7 +1,6 @@
 package online.grisk.artemisa.domain.service;
 
 import java.io.IOException;
-import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,13 +11,13 @@ import org.springframework.web.multipart.MultipartFile;
 import online.grisk.artemisa.domain.entity.DataIntegration;
 import online.grisk.artemisa.domain.exception.FileStorageException;
 import online.grisk.artemisa.domain.exception.MyFileNotFoundException;
-import online.grisk.artemisa.persistence.repository.IDataIntegrationRepository;
+import online.grisk.artemisa.persistence.repository.DataIntegrationRepository;
 
 @Service
 public class DataIntegrationService {
 
 	@Autowired
-	private IDataIntegrationRepository dataIntegrationRepository;
+	private DataIntegrationRepository dataIntegrationRepository;
 	
 	@Transactional
 	public void deletedByOrganization(Long organization) {
@@ -49,8 +48,13 @@ public class DataIntegrationService {
 		}
 	}
 	@Transactional
-	public DataIntegration findOne(long id_dataintegration) {
-		return dataIntegrationRepository.findById(id_dataintegration)
-				.orElseThrow(() -> new MyFileNotFoundException("DataIntegration not found with id " + id_dataintegration));
+	public DataIntegration findOne(long idDataintegration) {
+		return dataIntegrationRepository.findById(idDataintegration)
+				.orElseThrow(() -> new MyFileNotFoundException("DataIntegration not found with id " + idDataintegration));
+	}
+
+	@Transactional
+	public DataIntegration findByOrganization(long idOrganization){
+		return dataIntegrationRepository.findDataIntegrationsByOrganization(idOrganization);
 	}
 }
