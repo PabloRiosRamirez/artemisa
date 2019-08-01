@@ -5,6 +5,7 @@
  */
 package online.grisk.artemisa.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -58,6 +59,7 @@ public class DataIntegration implements Serializable {
     @Column(name = "bureau", nullable = false)
     private boolean bureau;
 
+    @JsonIgnore
     @Lob
     @Column(name = "analytics_file")
     private byte[] analyticsFile;
