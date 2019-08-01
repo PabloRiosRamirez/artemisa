@@ -38,19 +38,9 @@ public class DataIntegrationController {
     public ResponseEntity getDataIntegration(@PathVariable("id_organization") long id_organization) {
         DataIntegration dataIntegration = dataIntegrationService.findByOrganization(id_organization);
         if (dataIntegration != null) {
-            dataIntegration.setAnalyticsFile(null);
             return new ResponseEntity(dataIntegration, HttpStatus.OK);
         } else {
             return new ResponseEntity(new HashMap<>(), HttpStatus.OK);
         }
-    }
-
-
-    @GetMapping("/data-integration/organization/{id_organization}/file")
-    public ResponseEntity<Resource> getDataIntegrationByFile(@PathVariable long id_organization) {
-        DataIntegration di = dataIntegrationService.findOne(id_organization);
-        return ResponseEntity.ok().contentType(MediaType.APPLICATION_OCTET_STREAM)
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + di.getAnalyticsFileName() + "\"")
-                .body(new ByteArrayResource(di.getAnalyticsFile()));
     }
 }
