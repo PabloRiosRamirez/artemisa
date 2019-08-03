@@ -1,6 +1,5 @@
 package online.grisk.artemisa.presentation.controller;
 
-import io.swagger.annotations.Api;
 import online.grisk.artemisa.integration.gateway.GatewayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,14 +17,13 @@ import java.util.Map;
 
 @RestController
 @RequestMapping({"/api/artemisa"})
-@Api(value = "Consumer API Artemisa")
-public class MainController {
+public class OrchestrationController {
 
     @Autowired
     GatewayService gateway;
 
     @RequestMapping(method = {RequestMethod.POST})
-    public ResponseEntity<?> report(@NotEmpty @Payload @RequestBody Map<String, Object> payload, @NotEmpty @Headers @RequestHeader Map<String, Object> headers) {
+    public ResponseEntity<?> orquestrationAnalysis(@NotEmpty @Payload @RequestBody Map<String, Object> payload, @NotEmpty @Headers @RequestHeader Map<String, Object> headers) {
         this.verifyParameters(payload);
         Map<String, Object> request = new HashMap<>();
         request.put("request", payload);

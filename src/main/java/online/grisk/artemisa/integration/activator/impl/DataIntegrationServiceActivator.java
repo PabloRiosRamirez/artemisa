@@ -24,7 +24,7 @@ public class DataIntegrationServiceActivator extends BasicRestServiceActivator {
     DataIntegrationService dataIntegrationService;
 
     public Map<String, Object> invokeRegisterDataIntegrationExcel(@NotNull Map<String, Object> payload) {
-        ResponseEntity<Map<String, Object>> response = dataIntegrationService.registerDataIntegrationExcel((Map<String, Object>) payload.get("request"));
+        ResponseEntity<Map<String, Object>> response = dataIntegrationService.registerDataIntegrationExcel(payload);
         this.addServiceResponseToResponseMap(payload, response, serviceActivatorAtenea.getServiceId());
         return payload;
     }

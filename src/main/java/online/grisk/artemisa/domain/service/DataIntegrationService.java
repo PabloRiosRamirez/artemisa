@@ -40,6 +40,9 @@ public class DataIntegrationService {
     @Transactional
     public ResponseEntity<Map<String, Object>> registerDataIntegrationExcel(Map<String, Object> request) {
         DataIntegrationDTO dataIntegrationDTO = objectMapper.convertValue(request, DataIntegrationDTO.class);
+        Collection<DataIntegration> dataIntegrationCollection  = new ArrayList<>();
+        dataIntegrationCollection.add(dataIntegrationRepository.findDataIntegrationsByOrganization(dataIntegrationDTO.getOrganization()));
+        variableService.deletedByDataintegration(dataIntegrationCollection);
         this.deletedByOrganization(dataIntegrationDTO.getOrganization());
         Collection<Variable> variableCollection = new ArrayList<>();
         for (VariableBureauDTO variable : dataIntegrationDTO.getVariables()) {
