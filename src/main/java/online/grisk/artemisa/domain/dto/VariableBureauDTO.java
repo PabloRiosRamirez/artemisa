@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class VariableBureauDTO {
+    Long idVariable;
     String name;
     String type;
     String coordenate;

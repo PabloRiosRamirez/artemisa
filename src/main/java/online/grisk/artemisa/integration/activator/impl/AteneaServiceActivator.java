@@ -60,4 +60,21 @@ public class AteneaServiceActivator extends BasicRestServiceActivator {
         DataIntegration dataIntegration = dataIntegrationService.save(new DataIntegration(dataIntegrationDTO.getOrganization(), new Date(), true, false, variables));
         return new ResponseEntity(objectMapper.convertValue(dataIntegration, JsonNode.class), HttpStatus.CREATED);
     }
+
+    public Map<String, Object> invokeRegisterDataIntegrationBureau(@NotNull @Payload Map<String, Object> payload, @NotNull @Headers Map<String, Object> headers) throws Exception {
+        ResponseEntity<JsonNode> response = this.executeRegisterDataIntegrationBureau((Map<String, Object>) payload.get("request"));
+        this.addServiceResponseToResponseMap(payload, response, serviceActivatorAtenea.getServiceId());
+        return payload;
+    }
+
+    private ResponseEntity<JsonNode> executeRegisterDataIntegrationBureau(Map<String, Object> request) {
+        DataIntegrationDTO dataIntegrationDTO = objectMapper.convertValue(request, DataIntegrationDTO.class);
+        dataIntegrationService.deletedByOrganization(dataIntegrationDTO.getOrganization());
+        Collection<Variable> variableCollection = new ArrayList<>();
+        for (VariableBureauDTO variable : dataIntegrationDTO.getVariables()) {
+            variableCollection.add(variableService.findOne(variable.getIdVariable()));
+        }
+        DataIntegration dataIntegration = dataIntegrationService.save(new DataIntegration(dataIntegrationDTO.getOrganization(), new Date(), true, true, variableCollection));
+        return new ResponseEntity(objectMapper.convertValue(dataIntegration, JsonNode.class), HttpStatus.CREATED);
+    }
 }
