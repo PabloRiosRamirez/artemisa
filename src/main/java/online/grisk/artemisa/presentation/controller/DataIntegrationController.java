@@ -9,8 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.handler.annotation.Headers;
-import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -29,29 +27,29 @@ public class DataIntegrationController {
     @Autowired
     private DataIntegrationServiceActivator dataIntegrationServiceActivator;
 
-    @PostMapping("/data-integration/excel")
+    @GetMapping("/dataintegration/organization/{idOrganization}")
+    public ResponseEntity getDataIntegration(@PathVariable("idOrganization") long idOrganization) {
+        DataIntegration dataIntegration = dataIntegrationService.findByOrganization(idOrganization);
+        return new ResponseEntity(dataIntegration, HttpStatus.OK);
+    }
+
+    @PostMapping("/dataintegration/excel")
     public ResponseEntity postDataIntegrationExcel(@NotEmpty @RequestBody Map<String, Object> payload) {
         Map<String, Object> response = dataIntegrationServiceActivator.invokeRegisterDataIntegrationExcel(payload);
         return new ResponseEntity(response, HttpStatus.OK);
     }
 
-    @PutMapping("/data-integration/{idDataintegration}/excel")
+    @PutMapping("/dataintegration/{idDataintegration}/excel")
     public FileResponseDTO putDataIntegration(@PathVariable("idDataintegration") long idDataintegration, @RequestParam("file") MultipartFile file) {
         DataIntegration di = dataIntegrationService.uploadFile(idDataintegration, file);
-        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/v1/rest/data-integration/organization/")
+        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/v1/rest/dataintegration/organization/")
                 .path(di.getIdDataIntegration() + "").toUriString();
         return new FileResponseDTO(di.getAnalyticsFileName(), fileDownloadUri, file.getContentType(), file.getSize());
     }
 
-    @PostMapping("/data-integration/bureau")
+    @PostMapping("/dataintegration/bureau")
     public ResponseEntity postDataIntegrationBureau(@NotEmpty @RequestBody Map<String, Object> payload) {
         Map<String, Object> response = dataIntegrationServiceActivator.invokeRegisterDataIntegrationBureau(payload);
         return new ResponseEntity(response, HttpStatus.OK);
-    }
-
-    @GetMapping("/data-integration/organization/{idOrganization}")
-    public ResponseEntity getDataIntegration(@PathVariable("idOrganization") long idOrganization) {
-        DataIntegration dataIntegration = dataIntegrationService.findByOrganization(idOrganization);
-        return new ResponseEntity(dataIntegration, HttpStatus.OK);
     }
 }

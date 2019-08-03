@@ -9,25 +9,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.io.Serializable;
-import java.math.BigInteger;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
+import java.math.BigInteger;
 
 /**
- *
  * @author Pablo Ríos Ramírez
  * @email pa.riosramirez@gmail.com
  * @web www.pabloriosramirez.com
@@ -36,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "node_tree",schema = "public")
+@Table(name = "node_tree", schema = "public")
 public class NodeTree implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -9,17 +9,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.Date;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.Date;
 
 /**
- *
  * @author Pablo Ríos Ramírez
  * @email pa.riosramirez@gmail.com
  * @web www.pabloriosramirez.com
@@ -28,8 +25,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "tree",schema = "public", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"id_tree", "organization"})})
+@Table(name = "tree", schema = "public", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"id_tree", "organization"})})
 public class Tree implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -69,5 +66,5 @@ public class Tree implements Serializable {
         this.enabled = enabled;
         this.createdAt = createdAt;
     }
-    
+
 }

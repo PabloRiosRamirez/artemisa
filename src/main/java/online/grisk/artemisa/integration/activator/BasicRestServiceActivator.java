@@ -17,10 +17,9 @@ public class BasicRestServiceActivator {
 
 
     @Autowired
-    private RestTemplate restTemplate;
-
-    @Autowired
     ObjectMapper objectMapper;
+    @Autowired
+    private RestTemplate restTemplate;
 
     protected HttpEntity<Object> buildHttpEntity(Map<String, Object> payload, Map<String, Object> headers, ServiceActivator serviceActivator) {
         HttpHeaders httpHeaders = createHttpHeaders(headers, serviceActivator);

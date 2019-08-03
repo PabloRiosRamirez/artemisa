@@ -1,6 +1,5 @@
 package online.grisk.artemisa.integration.activator.impl;
 
-import online.grisk.artemisa.integration.activator.Activator;
 import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
@@ -10,7 +9,7 @@ import java.util.Map;
 import java.util.Random;
 
 @Component
-public class MatrizServiceActivator{
+public class MatrizServiceActivator {
 
     public Map<String, Object> invoke(@Payload Map<String, Object> payload, @Headers Map<String, Object> header) {
         try {

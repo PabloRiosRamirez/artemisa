@@ -1,6 +1,5 @@
 package online.grisk.artemisa.integration.activator.impl;
 
-import online.grisk.artemisa.integration.activator.Activator;
 import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;

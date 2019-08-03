@@ -28,6 +28,7 @@ public class DataIntegrationServiceActivator extends BasicRestServiceActivator {
         this.addServiceResponseToResponseMap(payload, response, serviceActivatorAtenea.getServiceId());
         return payload;
     }
+
     public Map<String, Object> invokeRegisterDataIntegrationBureau(@NotNull Map<String, Object> payload) {
         ResponseEntity<Map<String, Object>> response = dataIntegrationService.registerDataIntegrationBureau((Map<String, Object>) payload.get("request"));
         this.addServiceResponseToResponseMap(payload, response, serviceActivatorAtenea.getServiceId());

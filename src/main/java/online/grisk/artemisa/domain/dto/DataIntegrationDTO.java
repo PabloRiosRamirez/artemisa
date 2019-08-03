@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Data
@@ -18,7 +17,7 @@ public class DataIntegrationDTO {
     Collection<VariableBureauDTO> variables;
 
     public Map<String, Object> toMap() {
-        Map<String, Object> objectMap  = new HashMap<>();
+        Map<String, Object> objectMap = new HashMap<>();
         objectMap.put("organization", organization);
         objectMap.put("variables", variables);
         return objectMap;

@@ -11,7 +11,7 @@
     <int:gateway id="gateway" default-request-channel="channelDefault"
                  service-interface="online.grisk.artemisa.integration.gateway.GatewayService"/>
 
-    <int:recipient-list-router input-channel="channelDefault" >
+    <int:recipient-list-router input-channel="channelDefault">
         <int:recipient channel="channelHermes"
                        selector-expression="headers.action.equals('sendEmailResetPassword')"/>
         <int:recipient channel="channelHermes"
