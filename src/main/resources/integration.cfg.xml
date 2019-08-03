@@ -61,4 +61,11 @@
     <int:service-activator input-channel="channelRegisterDataIntegrationExcel"
                            ref="ateneaServiceActivator" method="invokeRegisterDataIntegrationExcel"/>
 
+
+
+    <int:channel id="channelRegisterDataIntegrationBureau"/>
+
+    <int:service-activator input-channel="channelRegisterDataIntegrationBureau"
+                           ref="ateneaServiceActivator" method="invokeRegisterDataIntegrationBureau"/>
+
 </beans>
