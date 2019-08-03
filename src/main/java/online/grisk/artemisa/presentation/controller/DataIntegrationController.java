@@ -29,7 +29,13 @@ public class DataIntegrationController {
     @Autowired
     private DataIntegrationServiceActivator dataIntegrationServiceActivator;
 
-    @PutMapping("/data-integration/{idDataintegration}")
+    @PostMapping("/data-integration/excel")
+    public ResponseEntity postDataIntegrationExcel(@NotEmpty @RequestBody Map<String, Object> payload) {
+        Map<String, Object> response = dataIntegrationServiceActivator.invokeRegisterDataIntegrationExcel(payload);
+        return new ResponseEntity(response, HttpStatus.OK);
+    }
+
+    @PutMapping("/data-integration/{idDataintegration}/excel")
     public FileResponseDTO putDataIntegration(@PathVariable("idDataintegration") long idDataintegration, @RequestParam("file") MultipartFile file) {
         DataIntegration di = dataIntegrationService.uploadFile(idDataintegration, file);
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/v1/rest/data-integration/organization/")
@@ -37,15 +43,9 @@ public class DataIntegrationController {
         return new FileResponseDTO(di.getAnalyticsFileName(), fileDownloadUri, file.getContentType(), file.getSize());
     }
 
-    @PostMapping("/data-integration/excel")
-    public ResponseEntity postDataIntegrationExcel(@NotEmpty @RequestBody Map<String, Object> payload) {
-        Object response = dataIntegrationServiceActivator.invokeRegisterDataIntegrationExcel(payload);
-        return new ResponseEntity(response, HttpStatus.OK);
-    }
-
     @PostMapping("/data-integration/bureau")
     public ResponseEntity postDataIntegrationBureau(@NotEmpty @RequestBody Map<String, Object> payload) {
-        Object response = dataIntegrationServiceActivator.invokeRegisterDataIntegrationExcel(payload);
+        Map<String, Object> response = dataIntegrationServiceActivator.invokeRegisterDataIntegrationBureau(payload);
         return new ResponseEntity(response, HttpStatus.OK);
     }
 

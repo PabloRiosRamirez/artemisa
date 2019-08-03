@@ -23,7 +23,7 @@
     <int:channel id="channelDataIntegration"/>
 
     <int:service-activator input-channel="channelDataIntegration" output-channel="channelSplitter"
-                           ref="dataIntegrationServiceActivator"/>
+                           ref="dataIntegrationServiceActivator" method="invokeReportDataIntegration"/>
 
     <int:channel id="channelSplitter"/>
 
