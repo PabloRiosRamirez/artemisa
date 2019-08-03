@@ -20,6 +20,8 @@
                        selector-expression="headers.action.equals('proccessAnalisys')"/>
         <int:recipient channel="channelRegisterDataIntegrationExcel"
                        selector-expression="headers.action.equals('registerDataIntegrationExcel')"/>
+        <int:recipient channel="channelRegisterDataIntegrationBureau"
+                       selector-expression="headers.action.equals('registerDataIntegrationBureau')"/>
     </int:recipient-list-router>
 
     <int:channel id="channelDataIntegration"/>
@@ -48,23 +50,17 @@
                            ref="matrizServiceActivator"/>
 
     <int:channel id="channelAggregator"/>
-
     <int:aggregator input-channel="channelAggregator" ref="indicatorsAggregator" method="processMessageGroup"/>
 
     <int:channel id="channelHermes"/>
-
     <int:service-activator input-channel="channelHermes"
                            ref="hermesServiceActivator"/>
 
     <int:channel id="channelRegisterDataIntegrationExcel"/>
-
     <int:service-activator input-channel="channelRegisterDataIntegrationExcel"
                            ref="ateneaServiceActivator" method="invokeRegisterDataIntegrationExcel"/>
 
-
-
     <int:channel id="channelRegisterDataIntegrationBureau"/>
-
     <int:service-activator input-channel="channelRegisterDataIntegrationBureau"
                            ref="ateneaServiceActivator" method="invokeRegisterDataIntegrationBureau"/>
 
