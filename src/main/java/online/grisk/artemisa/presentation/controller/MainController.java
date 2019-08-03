@@ -37,18 +37,16 @@ public class MainController {
     GatewayService gateway;
 
     @RequestMapping(method = {RequestMethod.POST})
-    @ApiOperation("Execution Transaction")
-    @ApiResponses({@ApiResponse(code = 400, message = "Bad Request"), @ApiResponse(code = 500, message = "Server Error")})
-    public ResponseEntity<?> report(@NotEmpty @Payload @RequestBody Map payload,@NotEmpty @Headers @RequestHeader Map headers) {
+    public ResponseEntity<?> report(@NotEmpty @Payload @RequestBody Map<String, Object> payload, @NotEmpty @Headers @RequestHeader Map<String, Object> headers) {
         this.verifyParameters(payload);
         Map<String, Object> request = new HashMap<>();
         request.put("request", payload);
         Message build = MessageBuilder.withPayload(request).setHeader("action", headers.getOrDefault("action", "").toString()).build();
-        Map process = gateway.process(build);
+        Map<String, Object> process = gateway.process(build);
         return new ResponseEntity<>(process, HttpStatus.valueOf(Integer.parseInt(process.getOrDefault("status", "500").toString())));
     }
 
-    private void verifyParameters(Map payload){
+    private void verifyParameters(Map<String, Object> payload){
         Assert.notEmpty(payload, "Payload required");
     }
 }

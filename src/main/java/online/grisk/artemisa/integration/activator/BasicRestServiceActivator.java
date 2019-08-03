@@ -38,10 +38,10 @@ public class BasicRestServiceActivator {
         return httpHeaders;
     }
 
-    protected ResponseEntity<JsonNode> executeRequest(ServiceActivator serviceActivator, HttpEntity<Object> httpEntity) throws Exception {
+    protected ResponseEntity<Map<String, Object>> executeRequest(ServiceActivator serviceActivator, HttpEntity<Object> httpEntity) throws Exception {
         ResponseEntity response;
         try {
-            response = this.restTemplate.exchange(serviceActivator.getUri(), HttpMethod.POST, httpEntity, JsonNode.class);
+            response = this.restTemplate.exchange(serviceActivator.getUri(), HttpMethod.POST, httpEntity, Map.class);
         } catch (RestClientResponseException e) {
             throw new Exception(this.buildErrorMessage(serviceActivator.getServiceId(), e));
         } catch (IllegalStateException e) {
@@ -58,7 +58,7 @@ public class BasicRestServiceActivator {
         return jsonNode.get("message") != null ? String.format("An error ocurred executing %s service activator: %S (STATUS: %d)", nameServiceActivator, jsonNode.get("message").asText(), e.getRawStatusCode()) : String.format("An error ocurred executing %s service activator: %S (STATUS: %d)", nameServiceActivator, e.getMessage(), e.getRawStatusCode());
     }
 
-    protected void addServiceResponseToResponseMap(Map<String, Object> payload, ResponseEntity<JsonNode> response, String serviceId) {
+    protected void addServiceResponseToResponseMap(Map<String, Object> payload, ResponseEntity<Map<String, Object>> response, String serviceId) {
         payload.put(serviceId.toLowerCase() + "_" + "response", response.getBody());
         payload.put("current_response", response.getBody());
         payload.put("status", response.getStatusCodeValue());
