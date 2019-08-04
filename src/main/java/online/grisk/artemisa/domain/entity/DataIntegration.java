@@ -59,8 +59,9 @@ public class DataIntegration implements Serializable {
     @Column(name = "bureau", nullable = false)
     private boolean bureau;
 
-    @JsonIgnore
+
     @Lob
+    @JsonIgnore
     @Column(name = "analytics_file")
     private byte[] analyticsFile;
 

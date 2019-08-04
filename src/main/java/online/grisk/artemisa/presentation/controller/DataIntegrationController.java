@@ -41,9 +41,9 @@ public class DataIntegrationController {
 
     @PutMapping("/dataintegration/{idDataintegration}/excel")
     public FileResponseDTO putDataIntegration(@PathVariable("idDataintegration") long idDataintegration, @RequestParam("file") MultipartFile file) {
-        DataIntegration di = dataIntegrationService.uploadFile(idDataintegration, file);
+        DataIntegration di = dataIntegrationServiceActivator.invokeUpdateDataIntegrationExcel(idDataintegration, file);
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/v1/rest/dataintegration/organization/")
-                .path(di.getIdDataIntegration() + "").toUriString();
+                .path(di.getIdDataIntegration() + "/file").toUriString();
         return new FileResponseDTO(di.getAnalyticsFileName(), fileDownloadUri, file.getContentType(), file.getSize());
     }
 

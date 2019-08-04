@@ -8,17 +8,8 @@
        http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
 
-    <int:gateway id="gateway" default-request-channel="channelDefault"
+    <int:gateway id="gateway" default-request-channel="channelDataIntegration"
                  service-interface="online.grisk.artemisa.integration.gateway.GatewayService"/>
-
-    <int:recipient-list-router input-channel="channelDefault">
-        <int:recipient channel="channelHermes"
-                       selector-expression="headers.action.equals('sendEmailResetPassword')"/>
-        <int:recipient channel="channelHermes"
-                       selector-expression="headers.action.equals('sendEmailRegisterUser')"/>
-        <int:recipient channel="channelDataIntegration"
-                       selector-expression="headers.action.equals('proccessAnalisys')"/>
-    </int:recipient-list-router>
 
     <int:channel id="channelDataIntegration"/>
 
@@ -47,10 +38,6 @@
 
     <int:channel id="channelAggregator"/>
     <int:aggregator input-channel="channelAggregator" ref="indicatorsAggregator" method="processMessageGroup"/>
-
-    <int:channel id="channelHermes"/>
-    <int:service-activator input-channel="channelHermes"
-                           ref="hermesServiceActivator"/>
 
 
 </beans>

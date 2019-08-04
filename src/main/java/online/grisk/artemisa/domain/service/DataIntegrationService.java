@@ -54,8 +54,27 @@ public class DataIntegrationService {
     }
 
     @Transactional
+    public DataIntegration updateDataIntegrationExcel(long id_dataintegration, MultipartFile file) {
+        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        try {
+            if (fileName.contains("..")) {
+                throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
+            }
+            DataIntegration di = dataIntegrationRepository.getOne(id_dataintegration);
+            di.setAnalyticsFileName(fileName);
+            di.setAnalyticsFile(file.getBytes());
+            return dataIntegrationRepository.save(di);
+        } catch (IOException ex) {
+            throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
+        }
+    }
+
+    @Transactional
     public ResponseEntity<Map<String, Object>> registerDataIntegrationBureau(Map<String, Object> request) {
         DataIntegrationDTO dataIntegrationDTO = objectMapper.convertValue(request, DataIntegrationDTO.class);
+        Collection<DataIntegration> dataIntegrationCollection  = new ArrayList<>();
+        dataIntegrationCollection.add(dataIntegrationRepository.findDataIntegrationsByOrganization(dataIntegrationDTO.getOrganization()));
+        variableService.deletedByDataintegration(dataIntegrationCollection);
         this.deletedByOrganization(dataIntegrationDTO.getOrganization());
         Collection<Variable> variableCollection = new ArrayList<>();
         for (VariableBureauDTO variable : dataIntegrationDTO.getVariables()) {
@@ -75,26 +94,7 @@ public class DataIntegrationService {
         return dataIntegrationRepository.save(dataIntegration);
     }
 
-    @Transactional
-    public DataIntegration uploadFile(long id_dataintegration, MultipartFile file) {
-        // Normalize file name
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
-        try {
-            // Check if the file's name contains invalid characters
-            if (fileName.contains("..")) {
-                throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
-            }
-            DataIntegration di = dataIntegrationRepository.getOne(id_dataintegration);
-
-            di.setAnalyticsFileName(fileName);
-            di.setAnalyticsFile(file.getBytes());
-
-            return dataIntegrationRepository.save(di);
-        } catch (IOException ex) {
-            throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
-        }
-    }
 
     @Transactional
     public DataIntegration findOne(long idDataintegration) {

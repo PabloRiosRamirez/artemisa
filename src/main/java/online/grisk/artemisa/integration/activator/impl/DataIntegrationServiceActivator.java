@@ -1,5 +1,6 @@
 package online.grisk.artemisa.integration.activator.impl;
 
+import online.grisk.artemisa.domain.entity.DataIntegration;
 import online.grisk.artemisa.domain.entity.ServiceActivator;
 import online.grisk.artemisa.domain.service.DataIntegrationService;
 import online.grisk.artemisa.integration.activator.BasicRestServiceActivator;
@@ -8,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotNull;
 import java.util.HashMap;
@@ -29,8 +31,12 @@ public class DataIntegrationServiceActivator extends BasicRestServiceActivator {
         return payload;
     }
 
+    public DataIntegration invokeUpdateDataIntegrationExcel(long idDataintegration, @NotNull MultipartFile file) {
+        return dataIntegrationService.updateDataIntegrationExcel(idDataintegration, file);
+    }
+
     public Map<String, Object> invokeRegisterDataIntegrationBureau(@NotNull Map<String, Object> payload) {
-        ResponseEntity<Map<String, Object>> response = dataIntegrationService.registerDataIntegrationBureau((Map<String, Object>) payload.get("request"));
+        ResponseEntity<Map<String, Object>> response = dataIntegrationService.registerDataIntegrationBureau(payload);
         this.addServiceResponseToResponseMap(payload, response, serviceActivatorAtenea.getServiceId());
         return payload;
     }

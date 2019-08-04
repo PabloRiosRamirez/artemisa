@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @Component
-public class HermesServiceActivator extends BasicRestServiceActivator {
+public class EmailServiceActivator extends BasicRestServiceActivator {
 
     @Autowired
     UUID uuid;
@@ -22,7 +22,7 @@ public class HermesServiceActivator extends BasicRestServiceActivator {
     @Autowired
     ServiceActivator serviceActivatorHermes;
 
-    public Map<String, Object> invoke(@NotNull @Payload Map<String, Object> payload, @NotNull @Headers Map<String, Object> headers) throws Exception {
+    public Map<String, Object> invokeSendEmail(@NotNull @Payload Map<String, Object> payload, @NotNull @Headers Map<String, Object> headers) throws Exception {
         HttpEntity<Object> httpEntity = this.buildHttpEntity((Map<String, Object>) payload.get("request"), headers, serviceActivatorHermes);
         ResponseEntity<Map<String, Object>> response = this.executeRequest(serviceActivatorHermes, httpEntity);
         this.addServiceResponseToResponseMap(payload, response, serviceActivatorHermes.getServiceId());

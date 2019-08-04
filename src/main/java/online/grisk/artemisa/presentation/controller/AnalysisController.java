@@ -28,7 +28,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @RestController
-public class AnalysisFileController {
+public class AnalysisController {
     @Autowired
     private RestTemplate restTemplate;
 
