@@ -53,7 +53,7 @@ public class OrchestrationController {
     @PostMapping("/analysis/{idOrganization}/bureau")
     public Map<String, Object> initAnalysisBureau(@PathVariable("idOrganization") long idOrganization, @NotEmpty @RequestBody Map<String, Object> request) {
         Map<String, Object> payload = orquestrationServiceActivator.invokeExtractBureau(request);
-        payload.put("dataintegration", orquestrationServiceActivator.getConfiguration(payload, idOrganization));
+        payload =  orquestrationServiceActivator.getConfiguration(payload, idOrganization);
         Message build = MessageBuilder.withPayload(payload).build();
         Map<String, Object> response = gateway.process(build);
         return response;

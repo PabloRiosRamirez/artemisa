@@ -46,26 +46,26 @@ public class OrchestrationService {
                 try {
                     if (var.getTypeVariable().getCode().equalsIgnoreCase("ND")) {
                         value = Double.parseDouble(getCell(workbook, var.getCoordinate()).toString());
-                        type = "DOUBLE";
+                        type = "ND";
                         isValueDefault = false;
                     } else if (var.getTypeVariable().getCode().equalsIgnoreCase("NE")) {
                         value = Integer.parseInt(getCell(workbook, var.getCoordinate()).toString());
-                        type = "INT";
+                        type = "NE";
                         isValueDefault = false;
                     } else {// PA
                         value = getCell(workbook, var.getCoordinate()).toString();
-                        type = "STRING";
+                        type = "PA";
                         isValueDefault = false;
                     }
                 } catch (Exception e) {
                     value = var.getDefaultValue();
-                    type = var.getTypeVariable().getName();
+                    type = var.getTypeVariable().getCode();
                     isValueDefault = true;
                 }
                 Map<String, Object> variable = new HashMap<>();
                 variable.put("code", var.getName());
-                variable.put("type", value);
-                variable.put("value", var.getName());
+                variable.put("type", type);
+                variable.put("value", value);
                 variable.put("isValueDefault", isValueDefault);
                 listaVariables.add(variable);
             }
@@ -89,9 +89,7 @@ public class OrchestrationService {
         return null;
     }
 
-    public Map extractRut(Map payload){
-        Map response = new HashMap();
-        response.put("rut", payload.get("rut").toString());
-        return response;
+    public String extractRut(Map payload){
+        return payload.get("rut").toString();
     }
 }

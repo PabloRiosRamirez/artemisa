@@ -41,8 +41,8 @@ public class DataIntegrationServiceActivator extends BasicRestServiceActivator {
         return payload;
     }
 
-    public Map<String, Object> invokeReportDataIntegration(@Payload Map<String, Object> payload, @Headers HttpHeaders headers) throws Exception {
-        HttpEntity<Object> httpEntity = this.buildHttpEntity(payload, headers, microserviceAtenea);
+    public Map<String, Object> invokeReportDataIntegration(@Payload Map<String, Object> payload, @Headers Map<String, Object> headers) throws Exception {
+        HttpEntity<Object> httpEntity = this.buildHttpEntity(payload, new HttpHeaders(), microserviceAtenea);
         ResponseEntity<Map<String, Object>> response = this.executeRequest(microserviceAtenea, httpEntity);
         this.addServiceResponseToResponseMap(payload, response, microserviceAtenea.getServiceId());
         return payload;

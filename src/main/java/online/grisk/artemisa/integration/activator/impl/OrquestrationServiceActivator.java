@@ -20,13 +20,17 @@ public class OrquestrationServiceActivator{
 
     public Map<String, Object> invokeExtractExcel(long idOrganization, @NotNull MultipartFile file) {
         Map<String, Object> response = new HashMap<>();
-        response.put("applicant", orchestrationService.extractVariables(file, idOrganization));
+        Map<String, Object> applicant = new HashMap<>();
+        applicant.put("values", orchestrationService.extractVariables(file, idOrganization));
+        response.put("applicant", applicant);
         return response;
     }
 
     public Map<String, Object> invokeExtractBureau(Map payload) {
         Map<String, Object> response = new HashMap<>();
-        response.put("applicant", orchestrationService.extractRut(payload));
+        Map<String, Object> applicant = new HashMap<>();
+        applicant.put("rut", orchestrationService.extractRut(payload));
+        response.put("applicant", applicant);
         return response;
     }
 

@@ -27,8 +27,10 @@ public class BasicRestServiceActivator {
     }
 
     private HttpHeaders createHttpHeaders(HttpHeaders headers, Microservice microservice) {
-    	HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("action", headers.get("action").get(0));
+        HttpHeaders httpHeaders = new HttpHeaders();
+        if (headers.get("action") != null) {
+            httpHeaders.add("action", headers.get("action").toString());
+        }
         httpHeaders.setBasicAuth(microservice.getServiceUsername(), microservice.getServicePassword());
         return httpHeaders;
     }

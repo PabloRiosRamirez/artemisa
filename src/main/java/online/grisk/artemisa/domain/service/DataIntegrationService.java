@@ -81,7 +81,6 @@ public class DataIntegrationService {
         if(!dataIntegrationsByOrganization.isBureau()){
             variableService.deletedByDataintegration(dataIntegrationCollection);
         }
-        variableService.deletedByDataintegration(dataIntegrationCollection);
         this.deletedByOrganization(dataIntegrationDTO.getOrganization());
         Collection<Variable> variableCollection = new ArrayList<>();
         for (VariableBureauDTO variable : dataIntegrationDTO.getVariables()) {
