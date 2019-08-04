@@ -2,7 +2,7 @@ package online.grisk.artemisa.integration.activator;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import online.grisk.artemisa.domain.entity.ServiceActivator;
+import online.grisk.artemisa.domain.entity.Microservice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -21,26 +21,26 @@ public class BasicRestServiceActivator {
     @Autowired
     private RestTemplate restTemplate;
 
-    protected HttpEntity<Object> buildHttpEntity(Map<String, Object> payload, HttpHeaders headers, ServiceActivator serviceActivator) {
-        HttpHeaders httpHeaders = createHttpHeaders(headers, serviceActivator);
+    protected HttpEntity<Object> buildHttpEntity(Map<String, Object> payload, HttpHeaders headers, Microservice microservice) {
+        HttpHeaders httpHeaders = createHttpHeaders(headers, microservice);
         return new HttpEntity<>(payload, httpHeaders);
     }
 
-    private HttpHeaders createHttpHeaders(HttpHeaders headers, ServiceActivator serviceActivator) {
+    private HttpHeaders createHttpHeaders(HttpHeaders headers, Microservice microservice) {
     	HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("action", headers.get("action").get(0));
-        httpHeaders.setBasicAuth(serviceActivator.getServiceUsername(), serviceActivator.getServicePassword());
+        httpHeaders.setBasicAuth(microservice.getServiceUsername(), microservice.getServicePassword());
         return httpHeaders;
     }
 
-    protected ResponseEntity<Map<String, Object>> executeRequest(ServiceActivator serviceActivator, HttpEntity<Object> httpEntity) throws Exception {
+    protected ResponseEntity<Map<String, Object>> executeRequest(Microservice microservice, HttpEntity<Object> httpEntity) throws Exception {
         ResponseEntity response;
         try {
-            response = this.restTemplate.exchange(serviceActivator.getUri(), HttpMethod.POST, httpEntity, Map.class);
+            response = this.restTemplate.exchange(microservice.getUri(), HttpMethod.POST, httpEntity, Map.class);
         } catch (RestClientResponseException e) {
-            throw new Exception(this.buildErrorMessage(serviceActivator.getServiceId(), e));
+            throw new Exception(this.buildErrorMessage(microservice.getServiceId(), e));
         } catch (IllegalStateException e) {
-            throw new IllegalStateException("No instances available for " + serviceActivator.getServiceId());
+            throw new IllegalStateException("No instances available for " + microservice.getServiceId());
         } catch (Exception e) {
             throw new Exception();
         }

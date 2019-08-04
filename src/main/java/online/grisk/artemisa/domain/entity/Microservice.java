@@ -8,10 +8,11 @@ import java.util.Map;
 
 @Data
 @AllArgsConstructor
-public class ServiceActivator {
+public class Microservice {
 
     private String serviceId;
-private HttpMethod serviceCallMethod;
+
+    private HttpMethod serviceCallMethod;
 
     private String servicePath;
 

@@ -1,6 +1,6 @@
 package online.grisk.artemisa;
 
-import online.grisk.artemisa.domain.entity.ServiceActivator;
+import online.grisk.artemisa.domain.entity.Microservice;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -36,12 +36,12 @@ public class ArtemisaApplication {
     }
 
     @Bean
-    ServiceActivator serviceActivatorHermes() {
-        return new ServiceActivator("hermes", HttpMethod.POST, "/api/hermes", "hermes", "GRisk.2019", new HashMap<>());
+    Microservice microserviceHermes() {
+        return new Microservice("hermes", HttpMethod.POST, "/api/hermes", "hermes", "GRisk.2019", new HashMap<>());
     }
 
     @Bean
-    ServiceActivator serviceActivatorAtenea() {
-        return new ServiceActivator("atenea", HttpMethod.POST, "/api/atenea", "atenea", "GRisk.2019", new HashMap<>());
+    Microservice microserviceAtenea() {
+        return new Microservice("atenea", HttpMethod.POST, "/api/atenea", "atenea", "GRisk.2019", new HashMap<>());
     }
 }

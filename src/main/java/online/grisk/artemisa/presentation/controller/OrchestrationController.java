@@ -1,5 +1,7 @@
 package online.grisk.artemisa.presentation.controller;
 
+import online.grisk.artemisa.domain.service.DataIntegrationService;
+import online.grisk.artemisa.integration.activator.impl.OrquestrationServiceActivator;
 import online.grisk.artemisa.integration.gateway.GatewayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,6 +12,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotEmpty;
 import java.util.HashMap;
@@ -22,6 +25,12 @@ public class OrchestrationController {
     @Autowired
     GatewayService gateway;
 
+    @Autowired
+    OrquestrationServiceActivator orquestrationServiceActivator;
+
+    @Autowired
+    DataIntegrationService dataIntegrationService;
+
     @RequestMapping(method = {RequestMethod.POST})
     public ResponseEntity<?> orquestrationAnalysis(@NotEmpty @Payload @RequestBody Map<String, Object> payload, @NotEmpty @Headers @RequestHeader Map<String, Object> headers) {
         this.verifyParameters(payload);
@@ -30,6 +39,24 @@ public class OrchestrationController {
         Message build = MessageBuilder.withPayload(request).setHeader("action", headers.getOrDefault("action", "").toString()).build();
         Map<String, Object> process = gateway.process(build);
         return new ResponseEntity<>(process, HttpStatus.valueOf(Integer.parseInt(process.getOrDefault("status", "500").toString())));
+    }
+
+    @PostMapping("/analysis/{idOrganization}/excel")
+    public Map<String, Object> initAnalysisExcel(@PathVariable("idOrganization") long idOrganization, @RequestParam("file") MultipartFile file) {
+        Map<String, Object> payload = orquestrationServiceActivator.invokeExtractExcel(idOrganization, file);
+        payload = orquestrationServiceActivator.getConfiguration(payload, idOrganization);
+        Message build = MessageBuilder.withPayload(payload).build();
+        Map<String, Object> response = gateway.process(build);
+        return response;
+    }
+
+    @PostMapping("/analysis/{idOrganization}/bureau")
+    public Map<String, Object> initAnalysisBureau(@PathVariable("idOrganization") long idOrganization, @NotEmpty @RequestBody Map<String, Object> request) {
+        Map<String, Object> payload = orquestrationServiceActivator.invokeExtractBureau(request);
+        payload.put("dataintegration", orquestrationServiceActivator.getConfiguration(payload, idOrganization));
+        Message build = MessageBuilder.withPayload(payload).build();
+        Map<String, Object> response = gateway.process(build);
+        return response;
     }
 
     private void verifyParameters(Map<String, Object> payload) {
