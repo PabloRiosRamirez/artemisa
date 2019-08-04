@@ -8,6 +8,7 @@ import online.grisk.artemisa.integration.activator.impl.EmailServiceActivator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.Headers;
@@ -28,8 +29,14 @@ public class EmailController {
     private EmailServiceActivator emailServiceActivator;
 
     @PostMapping("/email")
-    public ResponseEntity sendEmail(@NotEmpty @RequestBody Map<String, Object> payload, @NotNull @Headers Map<String, Object> headers) throws Exception {
-        Map<String, Object> response = emailServiceActivator.invokeSendEmail(payload, headers);
-        return new ResponseEntity(response, HttpStatus.OK);
+    public ResponseEntity sendEmail(@NotEmpty @RequestBody Map<String, Object> payload, @NotNull @RequestHeader HttpHeaders headers) throws Exception {
+        if(!headers.get("action").isEmpty()) {
+	    	Map<String, Object> response = emailServiceActivator.invokeSendEmail(payload, headers);
+	        return new ResponseEntity(response, HttpStatus.OK);
+        } else {
+        	//retornar que no viene action
+        	return null;
+        }
+        
     }
 }

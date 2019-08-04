@@ -21,19 +21,15 @@ public class BasicRestServiceActivator {
     @Autowired
     private RestTemplate restTemplate;
 
-    protected HttpEntity<Object> buildHttpEntity(Map<String, Object> payload, Map<String, Object> headers, ServiceActivator serviceActivator) {
+    protected HttpEntity<Object> buildHttpEntity(Map<String, Object> payload, HttpHeaders headers, ServiceActivator serviceActivator) {
         HttpHeaders httpHeaders = createHttpHeaders(headers, serviceActivator);
         return new HttpEntity<>(payload, httpHeaders);
     }
 
-    private HttpHeaders createHttpHeaders(Map<String, Object> mapHeaders, ServiceActivator serviceActivator) {
-        HttpHeaders httpHeaders = new HttpHeaders();
-        mapHeaders.forEach((k, v) -> {
-            if (v instanceof String) {
-                httpHeaders.add(k.toLowerCase(), v.toString());
-                httpHeaders.setBasicAuth(serviceActivator.getServiceUsername(), serviceActivator.getServicePassword());
-            }
-        });
+    private HttpHeaders createHttpHeaders(HttpHeaders headers, ServiceActivator serviceActivator) {
+    	HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("action", headers.get("action").get(0));
+        httpHeaders.setBasicAuth(serviceActivator.getServiceUsername(), serviceActivator.getServicePassword());
         return httpHeaders;
     }
 
