@@ -42,6 +42,6 @@ public class ArtemisaApplication {
 
     @Bean
     Microservice microserviceAtenea() {
-        return new Microservice("atenea", HttpMethod.POST, "/api/atenea", "atenea", "GRisk.2019", new HashMap<>());
+        return new Microservice("atenea", HttpMethod.POST, "/api/atenea/report", "atenea", "GRisk.2019", new HashMap<>());
     }
 }
