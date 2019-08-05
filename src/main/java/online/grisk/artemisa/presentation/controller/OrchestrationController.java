@@ -31,16 +31,6 @@ public class OrchestrationController {
     @Autowired
     DataIntegrationService dataIntegrationService;
 
-    @RequestMapping(method = {RequestMethod.POST})
-    public ResponseEntity<?> orquestrationAnalysis(@NotEmpty @Payload @RequestBody Map<String, Object> payload, @NotEmpty @Headers @RequestHeader Map<String, Object> headers) {
-        this.verifyParameters(payload);
-        Map<String, Object> request = new HashMap<>();
-        request.put("request", payload);
-        Message build = MessageBuilder.withPayload(request).setHeader("action", headers.getOrDefault("action", "").toString()).build();
-        Map<String, Object> process = gateway.process(build);
-        return new ResponseEntity<>(process, HttpStatus.valueOf(Integer.parseInt(process.getOrDefault("status", "500").toString())));
-    }
-
     @PostMapping("/analysis/{idOrganization}/excel")
     public Map<String, Object> initAnalysisExcel(@PathVariable("idOrganization") long idOrganization, @RequestParam("file") MultipartFile file) {
         Map<String, Object> payload = orquestrationServiceActivator.invokeExtractExcel(idOrganization, file);

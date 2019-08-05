@@ -8,13 +8,8 @@
        http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
 
-    <int:gateway id="gateway" default-request-channel="channelDataIntegration"
+    <int:gateway id="gateway" default-request-channel="channelSplitter"
                  service-interface="online.grisk.artemisa.integration.gateway.GatewayService"/>
-
-    <int:channel id="channelDataIntegration"/>
-
-    <int:service-activator input-channel="channelDataIntegration" output-channel="channelSplitter"
-                           ref="dataIntegrationServiceActivator" method="invokeReportDataIntegration"/>
 
     <int:channel id="channelSplitter"/>
 
@@ -34,7 +29,7 @@
                            ref="ratiosServiceActivator"/>
 
     <int:service-activator input-channel="channelAsync" output-channel="channelAggregator"
-                           ref="matrizServiceActivator"/>
+                           ref="treeServiceActivator"/>
 
     <int:channel id="channelAggregator"/>
     <int:aggregator input-channel="channelAggregator" ref="indicatorsAggregator" method="processMessageGroup"/>

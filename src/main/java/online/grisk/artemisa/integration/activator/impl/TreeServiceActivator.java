@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Random;
 
 @Component
-public class MatrizServiceActivator {
+public class TreeServiceActivator {
 
     public Map<String, Object> invoke(@Payload Map<String, Object> payload, @Headers Map<String, Object> header) {
         try {

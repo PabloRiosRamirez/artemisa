@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.List;
 
 @Service
 public class VariableService {
@@ -30,6 +31,11 @@ public class VariableService {
     public Variable findOne(long id_Variable) {
         return variableRepository.findById(id_Variable)
                 .orElseThrow(() -> new MyFileNotFoundException("Variable not found with id " + id_Variable));
+    }
+
+    @Transactional
+    public List<Variable> findAllByBureau(boolean bureau) {
+        return variableRepository.findAllByBureau(bureau);
     }
 
     @Transactional

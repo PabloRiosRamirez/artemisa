@@ -3,6 +3,7 @@ package online.grisk.artemisa.presentation.controller;
 import online.grisk.artemisa.domain.dto.FileResponseDTO;
 import online.grisk.artemisa.domain.entity.DataIntegration;
 import online.grisk.artemisa.domain.service.DataIntegrationService;
+import online.grisk.artemisa.domain.service.VariableService;
 import online.grisk.artemisa.integration.activator.impl.DataIntegrationServiceActivator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.constraints.NotEmpty;
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -25,12 +27,22 @@ public class DataIntegrationController {
     private DataIntegrationService dataIntegrationService;
 
     @Autowired
+    private VariableService variableService;
+
+    @Autowired
     private DataIntegrationServiceActivator dataIntegrationServiceActivator;
 
     @GetMapping("/dataintegration/organization/{idOrganization}")
     public ResponseEntity getDataIntegration(@PathVariable("idOrganization") long idOrganization) {
         DataIntegration dataIntegration = dataIntegrationService.findByOrganization(idOrganization);
         return new ResponseEntity(dataIntegration, HttpStatus.OK);
+    }
+
+    @GetMapping("/variables/bureau")
+    public ResponseEntity getVariablesBureau() {
+        Map response = new HashMap();
+        response.put("variables", variableService.findAllByBureau(true));
+        return new ResponseEntity(response, HttpStatus.OK);
     }
 
     @PostMapping("/dataintegration/excel")
