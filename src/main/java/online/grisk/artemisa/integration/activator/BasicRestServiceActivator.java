@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import online.grisk.artemisa.domain.entity.Microservice;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -29,16 +30,18 @@ public class BasicRestServiceActivator {
     private HttpHeaders createHttpHeaders(HttpHeaders headers, Microservice microservice) {
         HttpHeaders httpHeaders = new HttpHeaders();
         if (headers.get("action") != null) {
-            httpHeaders.add("action", headers.get("action").toString());
+            httpHeaders.add("action", headers.get("action").get(0).toString());
         }
         httpHeaders.setBasicAuth(microservice.getServiceUsername(), microservice.getServicePassword());
         return httpHeaders;
     }
 
     protected ResponseEntity<Map<String, Object>> executeRequest(Microservice microservice, HttpEntity<Object> httpEntity) throws Exception {
-        ResponseEntity response;
+        ResponseEntity<Map<String, Object>> response;
         try {
-            response = this.restTemplate.exchange(microservice.getUri(), HttpMethod.POST, httpEntity, Map.class);
+        	ParameterizedTypeReference<Map<String, Object>> responseType =  new ParameterizedTypeReference<Map<String, Object>>() {};
+        	String uri = microservice.getUri();
+            response = this.restTemplate.exchange(uri, HttpMethod.POST, httpEntity, responseType);
         } catch (RestClientResponseException e) {
             throw new Exception(this.buildErrorMessage(microservice.getServiceId(), e));
         } catch (IllegalStateException e) {
