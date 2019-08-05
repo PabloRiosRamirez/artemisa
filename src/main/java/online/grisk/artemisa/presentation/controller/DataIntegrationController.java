@@ -39,7 +39,7 @@ public class DataIntegrationController {
     }
 
     @GetMapping("/variables/bureau")
-    public ResponseEntity getVariablesBureau() {
+    public ResponseEntity getVariablesBureau(@RequestHeader Map<String, Object> headers) {
         Map response = new HashMap();
         response.put("variables", variableService.findAllByBureau(true));
         return new ResponseEntity(response, HttpStatus.OK);
