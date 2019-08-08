@@ -40,10 +40,10 @@ public class DataIntegrationService {
     @Transactional
     public ResponseEntity<Map<String, Object>> registerDataIntegrationExcel(Map<String, Object> request) {
         DataIntegrationDTO dataIntegrationDTO = objectMapper.convertValue(request, DataIntegrationDTO.class);
-        Collection<DataIntegration> dataIntegrationCollection  = new ArrayList<>();
+        Collection<DataIntegration> dataIntegrationCollection = new ArrayList<>();
         DataIntegration dataIntegrationsByOrganization = dataIntegrationRepository.findDataIntegrationsByOrganization(dataIntegrationDTO.getOrganization());
-        dataIntegrationCollection.add(dataIntegrationsByOrganization);
-        if(!dataIntegrationsByOrganization.isBureau()){
+        if (dataIntegrationsByOrganization != null && !dataIntegrationsByOrganization.isBureau()) {
+            dataIntegrationCollection.add(dataIntegrationsByOrganization);
             variableService.deletedByDataintegration(dataIntegrationCollection);
         }
         this.deletedByOrganization(dataIntegrationDTO.getOrganization());
@@ -75,10 +75,10 @@ public class DataIntegrationService {
     @Transactional
     public ResponseEntity<Map<String, Object>> registerDataIntegrationBureau(Map<String, Object> request) {
         DataIntegrationDTO dataIntegrationDTO = objectMapper.convertValue(request, DataIntegrationDTO.class);
-        Collection<DataIntegration> dataIntegrationCollection  = new ArrayList<>();
+        Collection<DataIntegration> dataIntegrationCollection = new ArrayList<>();
         DataIntegration dataIntegrationsByOrganization = dataIntegrationRepository.findDataIntegrationsByOrganization(dataIntegrationDTO.getOrganization());
-        dataIntegrationCollection.add(dataIntegrationsByOrganization);
-        if(!dataIntegrationsByOrganization.isBureau()){
+        if (dataIntegrationsByOrganization != null && !dataIntegrationsByOrganization.isBureau()) {
+            dataIntegrationCollection.add(dataIntegrationsByOrganization);
             variableService.deletedByDataintegration(dataIntegrationCollection);
         }
         this.deletedByOrganization(dataIntegrationDTO.getOrganization());
@@ -99,7 +99,6 @@ public class DataIntegrationService {
     public DataIntegration save(DataIntegration dataIntegration) {
         return dataIntegrationRepository.save(dataIntegration);
     }
-
 
 
     @Transactional
