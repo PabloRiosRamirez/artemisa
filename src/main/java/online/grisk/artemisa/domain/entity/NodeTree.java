@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package online.grisk.entity;
+package online.grisk.artemisa.domain.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -56,7 +56,7 @@ public class NodeTree implements Serializable {
     private BigInteger parent;
     @JoinColumn(name = "tree", referencedColumnName = "id_tree", nullable = false)
     @ManyToOne(optional = false)
-    private Tree tree;
+    private BusinessTree tree;
 
     public NodeTree(Long idNodeTree) {
         this.idNodeTree = idNodeTree;

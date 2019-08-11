@@ -3,12 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package online.grisk.entity;
+package online.grisk.artemisa.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import online.grisk.artemisa.domain.entity.RiskScore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -52,10 +54,10 @@ public class ScoreRange implements Serializable {
     @Column(name = "color", nullable = false, length = 10)
     private String color;
 
-    @JsonBackReference
+    @JsonIgnore
     @JoinColumn(name = "score", referencedColumnName = "id_score", nullable = false)
     @ManyToOne(optional = false)
-    private Score score;
+    private RiskScore score;
 
     public ScoreRange(Long idScoreRange) {
         this.idScoreRange = idScoreRange;

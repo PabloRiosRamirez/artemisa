@@ -9,9 +9,13 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.Headers;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Map;
 
 public class BasicRestServiceActivator {
@@ -19,19 +23,23 @@ public class BasicRestServiceActivator {
 
     @Autowired
     ObjectMapper objectMapper;
+
     @Autowired
     private RestTemplate restTemplate;
 
-    protected HttpEntity<Object> buildHttpEntity(Map<String, Object> payload, HttpHeaders headers, Microservice microservice) {
+    protected HttpEntity<Object> buildHttpEntity(Map<String, Object> payload, Map<String, Object> headers, Microservice microservice) {
         HttpHeaders httpHeaders = createHttpHeaders(headers, microservice);
         return new HttpEntity<>(payload, httpHeaders);
     }
 
-    private HttpHeaders createHttpHeaders(HttpHeaders headers, Microservice microservice) {
+    protected HttpHeaders createHttpHeaders(Map<String, Object> mapHeaders, Microservice microservice) {
         HttpHeaders httpHeaders = new HttpHeaders();
-        if (headers.get("action") != null) {
-            httpHeaders.add("action", headers.get("action").get(0).toString());
-        }
+        httpHeaders.add("Content-Type", "application/json");
+        mapHeaders.forEach((k, v) -> {
+            if (v instanceof String) {
+                httpHeaders.add(k.toLowerCase(), v.toString());
+            }
+        });
         httpHeaders.setBasicAuth(microservice.getServiceUsername(), microservice.getServicePassword());
         return httpHeaders;
     }
@@ -62,5 +70,22 @@ public class BasicRestServiceActivator {
         payload.put(serviceId.toLowerCase() + "_" + "response", response.getBody());
         payload.put("current_response", response.getBody());
         payload.put("status", response.getStatusCodeValue());
+    }
+    protected ResponseEntity<Map<String, Object>> consumerRestServiceActivator(@NotBlank String path, @NotNull HttpMethod method, @NotNull @Payload Map<String, Object> payload, @NotNull @Headers Map<String, Object> headers, @NotNull Microservice microserviceArtemisa) throws Exception {
+        HttpEntity<Object> httpEntity = this.buildHttpEntity(payload, headers, microserviceArtemisa);
+        return this.executeRequest(path, method, microserviceArtemisa, httpEntity);
+    }
+    protected ResponseEntity<Map<String, Object>> executeRequest(String path, HttpMethod method, Microservice microservice, HttpEntity<Object> httpEntity) throws Exception {
+        ResponseEntity response;
+        try {
+            response = this.restTemplate.exchange("http://" + microservice.getServiceId() + path, method, httpEntity, Map.class);
+        } catch (RestClientResponseException e) {
+            throw new Exception(this.buildErrorMessage(microservice.getServiceId(), e));
+        } catch (IllegalStateException e) {
+            throw new IllegalStateException("No instances available for " + microservice.getServiceId());
+        } catch (Exception e) {
+            throw new Exception();
+        }
+        return response;
     }
 }

@@ -1,8 +1,10 @@
 package online.grisk.artemisa.domain.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import online.grisk.artemisa.domain.entity.DataIntegration;
 import online.grisk.artemisa.domain.entity.Microservice;
 import online.grisk.artemisa.domain.entity.Variable;
+import online.grisk.artemisa.integration.activator.BasicRestServiceActivator;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -10,24 +12,31 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellReference;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.NotNull;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
-public class OrchestrationService {
+public class OrchestrationService extends BasicRestServiceActivator {
 
     @Autowired
     Microservice microserviceAtenea;
 
+
     @Autowired
     DataIntegrationService dataIntegrationService;
 
+    @Autowired
+    ObjectMapper objectMapper;
 
-    public List<Map> extractVariables(MultipartFile file, long idOrganization){
+
+    public List<Map> extractVariables(Map payload, MultipartFile file) {
         Workbook workbook = null;
         String extension = FilenameUtils.getExtension(file.getOriginalFilename());
         try {
@@ -36,7 +45,7 @@ public class OrchestrationService {
             } else if (extension.equalsIgnoreCase("xls")) {
                 workbook = new HSSFWorkbook(file.getInputStream());
             }
-            DataIntegration dataIntegration = dataIntegrationService.findByOrganization(idOrganization);
+            DataIntegration dataIntegration = objectMapper.convertValue(((Map) payload.get("dataintegration")).get("configuration"), DataIntegration.class);
             Collection<Variable> variables = dataIntegration.getVariableCollection();
             List<Map> listaVariables = new ArrayList<>();
             for (Variable var : variables) {
@@ -89,7 +98,15 @@ public class OrchestrationService {
         return null;
     }
 
-    public String extractRut(Map payload){
+    public String extractRut(Map payload) {
         return payload.get("rut").toString();
     }
+
+
+    public Map<String, Object> invokeBureau(@NotNull Map<String, Object> payload) throws Exception {
+        ResponseEntity<Map<String, Object>> responseEntity = consumerRestServiceActivator("/api/atenea/report", HttpMethod.POST, payload, new HashMap<>(), microserviceAtenea);
+        return responseEntity.getBody();
+    }
+
+
 }

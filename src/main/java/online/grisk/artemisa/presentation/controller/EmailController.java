@@ -29,8 +29,8 @@ public class EmailController {
     private EmailServiceActivator emailServiceActivator;
 
     @PostMapping("/email")
-    public ResponseEntity sendEmail(@NotEmpty @RequestBody Map<String, Object> payload, @NotNull @RequestHeader HttpHeaders headers) throws Exception {
-        if(!headers.get("action").isEmpty()) {
+    public ResponseEntity sendEmail(@NotEmpty @RequestBody Map<String, Object> payload, @NotNull @RequestHeader Map<String, Object> headers) throws Exception {
+        if(headers.get("action") != null) {
 	    	Map<String, Object> response = emailServiceActivator.invokeSendEmail(payload, headers);
 	        return new ResponseEntity(response, HttpStatus.OK);
         } else {

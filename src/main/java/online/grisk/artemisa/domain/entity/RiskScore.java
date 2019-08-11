@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package online.grisk.entity;
+package online.grisk.artemisa.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,50 +22,64 @@ import java.util.Date;
  * @email pa.riosramirez@gmail.com
  * @web www.pabloriosramirez.com
  */
+
 @Getter
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "tree", schema = "public", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"id_tree", "organization"})})
-public class Tree implements Serializable {
+@Table(name = "risk_score", schema = "public", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"id_score"})})
+public class RiskScore implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id_tree", nullable = false)
-    private Long idTree;
+    @Column(name = "id_score", nullable = false)
+    private Long idScore;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "organization", nullable = false)
     private long organization;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
     @Column(name = "titule", nullable = false, length = 100)
     private String titule;
+
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 100)
+    @Column(name = "variable", nullable = false, length = 100)
+    private String variable;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "enabled", nullable = false)
     private boolean enabled;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "created_at", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tree")
-    private Collection<NodeTree> nodeTreeCollection;
 
-    public Tree(Long idTree) {
-        this.idTree = idTree;
+    @JsonManagedReference
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "score")
+    private Collection<ScoreRange> scoreRangeCollection;
+
+    public RiskScore(Long idScore) {
+        this.idScore = idScore;
     }
 
-    public Tree(Long idTree, String titule, boolean enabled, Date createdAt) {
-        this.idTree = idTree;
+    public RiskScore(Long idScore, String titule, String variable, boolean enabled, Date createdAt) {
+        this.idScore = idScore;
         this.titule = titule;
+        this.variable = variable;
         this.enabled = enabled;
         this.createdAt = createdAt;
     }
-
 }
