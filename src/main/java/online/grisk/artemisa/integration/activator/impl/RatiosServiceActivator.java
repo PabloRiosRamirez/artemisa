@@ -1,27 +1,27 @@
 package online.grisk.artemisa.integration.activator.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
+
+import online.grisk.artemisa.domain.entity.Microservice;
+import online.grisk.artemisa.integration.activator.BasicRestServiceActivator;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
 @Component
-public class RatiosServiceActivator {
+public class RatiosServiceActivator extends BasicRestServiceActivator {
+	
+	@Autowired
+	Microservice microserviceHades;
 
-    public Map<String, Object> invoke(@Payload Map<String, Object> payload, @Headers Map<String, Object> header) {
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        Map<String, Object> attribute = new HashMap<>();
-        for (int i = 0; i < new Random().nextInt(35) + 20; i++) {
-            attribute.put("ratio_" + i, new Random().nextInt(35000) + 1 + "");
-        }
-        payload.put("ratiosRisk", attribute);
-        return payload;
+    public Map<String, Object> invoke(@Payload Map<String, Object> payload, @Headers Map<String, Object> header) throws Exception {
+		ResponseEntity<Map<String, Object>> responseEntity = consumerRestServiceActivator("/api/atenea/ratios", HttpMethod.POST, payload, new HashMap<>(), microserviceHades);
+		return responseEntity.getBody();
     }
 }
