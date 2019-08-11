@@ -72,7 +72,7 @@ public class OrchestrationService extends BasicRestServiceActivator {
                     isValueDefault = true;
                 }
                 Map<String, Object> variable = new HashMap<>();
-                variable.put("code", var.getName());
+                variable.put("code", var.getCode());
                 variable.put("type", type);
                 variable.put("value", value);
                 variable.put("isValueDefault", isValueDefault);
