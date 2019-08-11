@@ -49,7 +49,7 @@ public class DataIntegrationService {
         this.deletedByOrganization(dataIntegrationDTO.getOrganization());
         Collection<Variable> variableCollection = new ArrayList<>();
         for (VariableBureauDTO variable : dataIntegrationDTO.getVariables()) {
-            variableCollection.add(new Variable(variable.getName(), variable.getName(), variable.getCoordenate(), variable.getValueDefault(), typeVariableService.findByCode(variable.getType()), false));
+            variableCollection.add(new Variable(variable.getName(), variable.getName().replaceAll(" ", "").trim().toUpperCase(), variable.getCoordenate(), variable.getValueDefault(), typeVariableService.findByCode(variable.getType()), false));
         }
         Collection<Variable> variables = variableService.saveAll(variableCollection);
         DataIntegration dataIntegration = this.save(new DataIntegration(dataIntegrationDTO.getOrganization(), new Date(), true, false, variables));
