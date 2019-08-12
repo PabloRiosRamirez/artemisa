@@ -5,6 +5,7 @@
  */
 package online.grisk.artemisa.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -54,6 +55,8 @@ public class NodeTree implements Serializable {
     private String color;
     @Column(name = "parent")
     private BigInteger parent;
+
+    @JsonIgnore
     @JoinColumn(name = "tree", referencedColumnName = "id_tree", nullable = false)
     @ManyToOne(optional = false)
     private BusinessTree tree;

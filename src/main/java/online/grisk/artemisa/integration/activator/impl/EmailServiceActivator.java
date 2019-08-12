@@ -24,7 +24,7 @@ public class EmailServiceActivator extends BasicRestServiceActivator {
     Microservice microserviceHermes;
 
     public Map<String, Object> invokeSendEmail(@NotNull @Payload Map<String, Object> payload, @NotNull @Headers Map<String, Object> headers) throws Exception {
-        HttpEntity<Object> httpEntity = this.buildHttpEntity((Map<String, Object>) payload, headers, microserviceHermes);
+        HttpEntity<Object> httpEntity = this.buildHttpEntity(payload, headers, microserviceHermes);
         ResponseEntity<Map<String, Object>> response = this.executeRequest(microserviceHermes, httpEntity);
         this.addServiceResponseToResponseMap(payload, response, microserviceHermes.getServiceId());
         return payload;

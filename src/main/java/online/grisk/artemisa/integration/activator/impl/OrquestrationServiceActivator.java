@@ -1,9 +1,6 @@
 package online.grisk.artemisa.integration.activator.impl;
 
-import online.grisk.artemisa.domain.service.DataIntegrationService;
-import online.grisk.artemisa.domain.service.OrchestrationService;
-import online.grisk.artemisa.domain.service.RiskRatiosService;
-import online.grisk.artemisa.domain.service.RiskScoreService;
+import online.grisk.artemisa.domain.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,6 +20,8 @@ public class OrquestrationServiceActivator {
 
     @Autowired
     RiskRatiosService riskRatiosService;
+    @Autowired
+    BusinessTreeService businessTreeService;
 
     @Autowired
     OrchestrationService orchestrationService;
@@ -62,6 +61,10 @@ public class OrquestrationServiceActivator {
         Map ratios = new HashMap();
         ratios.put("configuration", riskRatiosService.findByOrganization(idOrganization));
         response.put("riskRatios", ratios);
+
+        Map businessTree = new HashMap();
+        businessTree.put("configuration", businessTreeService.findByOrganization(idOrganization));
+        response.put("businessTree", businessTree);
 
         return response;
     }

@@ -21,7 +21,7 @@ public class RatiosServiceActivator extends BasicRestServiceActivator {
 	Microservice microserviceHades;
 
     public Map<String, Object> invoke(@Payload Map<String, Object> payload, @Headers Map<String, Object> header) throws Exception {
-		ResponseEntity<Map<String, Object>> responseEntity = consumerRestServiceActivator("/api/atenea/ratios", HttpMethod.POST, payload, new HashMap<>(), microserviceHades);
+		ResponseEntity<Map<String, Object>> responseEntity = consumerRestServiceActivator("/api/hades/ratios", HttpMethod.POST, payload, new HashMap<>(), microserviceHades);
 		return responseEntity.getBody();
     }
 }
