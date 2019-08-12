@@ -49,4 +49,14 @@ public class ArtemisaApplication {
     Microservice microserviceHades() {
         return new Microservice("hades", HttpMethod.POST, "/api/atenea/ratios", "hades", "GRisk.2019", new HashMap<>());
     }
+    
+    @Bean
+    Microservice microservicePoseidon() {
+        return new Microservice("poseidon", HttpMethod.POST, "/api/poseidon/score", "poseidon", "GRisk.2019", new HashMap<>());
+    }
+    
+    @Bean
+    Microservice microserviceZeus() {
+        return new Microservice("zeus", HttpMethod.POST, "/api/zeus/businessTree", "zeus", "GRisk.2019", new HashMap<>());
+    }
 }
