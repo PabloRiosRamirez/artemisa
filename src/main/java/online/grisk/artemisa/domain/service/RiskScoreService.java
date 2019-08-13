@@ -1,6 +1,7 @@
 package online.grisk.artemisa.domain.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import online.grisk.artemisa.domain.dto.RiskScoreDTO;
 import online.grisk.artemisa.domain.entity.RiskScore;
 import online.grisk.artemisa.domain.exception.MyFileNotFoundException;
 import online.grisk.artemisa.persistence.repository.RiskScoreRepository;
@@ -29,10 +30,9 @@ public class RiskScoreService {
 
     @Transactional
     public ResponseEntity<Map<String, Object>> registerScore(Map<String, Object> request) {
-        /*
-        DataIntegrationDTO dataIntegrationDTO = objectMapper.convertValue(request, DataIntegrationDTO.class);
-        Collection<DataIntegration> dataIntegrationCollection = new ArrayList<>();
-        DataIntegration dataIntegrationsByOrganization = dataIntegrationRepository.findDataIntegrationsByOrganization(dataIntegrationDTO.getOrganization());
+
+        RiskScoreDTO riskScoreDTO = objectMapper.convertValue(request, RiskScoreDTO.class);
+        /*RiskScore riskScore = riskScoreRepository.findScoreByOrganization(riskScoreDTO.getOrganization());
         if (dataIntegrationsByOrganization != null && !dataIntegrationsByOrganization.isBureau()) {
             dataIntegrationCollection.add(dataIntegrationsByOrganization);
             variableService.deletedByDataintegration(dataIntegrationCollection);

@@ -29,32 +29,35 @@ import java.math.BigInteger;
 public class NodeTree implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id_node_tree", nullable = false)
     private Long idNodeTree;
-    @Size(max = 100)
-    @Column(name = "variable", length = 100)
-    private String variable;
-    @Size(max = 50)
-    @Column(name = "comparator", length = 50)
-    private String comparator;
-    @Size(max = 50)
-    @Column(name = "value_comparator", length = 50)
-    private String valueComparator;
+
+    @Size(max = 200)
+    @Column(name = "expression", length = 200)
+    private String expression;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "output", nullable = false)
     private boolean output;
+
     @Size(max = 100)
     @Column(name = "label_output", length = 100)
     private String labelOutput;
+
     @Size(max = 10)
     @Column(name = "color", length = 10)
     private String color;
-    @Column(name = "parent")
-    private BigInteger parent;
+
+    @Column(name = "children_negation")
+    private Long childrenNegation;
+
+    @Column(name = "children_afirmation")
+    private Long childrenAfirmation;
 
     @JsonIgnore
     @JoinColumn(name = "tree", referencedColumnName = "id_tree", nullable = false)
