@@ -6,8 +6,8 @@ spring:
       uri:  ${SPRING_CLOUD_CONFIG_URI}
       label:  ${SPRING_CLOUD_CONFIG_LABEL}
       profile:  ${SPRING_CLOUD_CONFIG_PROFILE}
-#server:
-#  port: 8050
+server:
+  port: 8088
 #eureka:
 #  client:
 #    registerWithEureka: false
