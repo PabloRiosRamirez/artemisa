@@ -60,8 +60,8 @@ public class DataIntegration implements Serializable {
     private boolean bureau;
 
 
-    @Lob
     @JsonIgnore
+    @Lob
     @Column(name = "analytics_file")
     private byte[] analyticsFile;
 

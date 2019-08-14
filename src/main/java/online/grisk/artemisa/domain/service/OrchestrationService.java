@@ -54,11 +54,11 @@ public class OrchestrationService extends BasicRestServiceActivator {
                 Boolean isValueDefault = false;
                 try {
                     if (var.getTypeVariable().getCode().equalsIgnoreCase("ND")) {
-                        value = Double.parseDouble(getCell(workbook, var.getCoordinate()).toString());
+                        value = Double.valueOf(getCell(workbook, var.getCoordinate()).toString());
                         type = "ND";
                         isValueDefault = false;
                     } else if (var.getTypeVariable().getCode().equalsIgnoreCase("NE")) {
-                        value = Integer.parseInt(getCell(workbook, var.getCoordinate()).toString());
+                        value = convertIntToDouble(Double.valueOf(getCell(workbook, var.getCoordinate()).toString()));
                         type = "NE";
                         isValueDefault = false;
                     } else {// PA
@@ -83,6 +83,11 @@ public class OrchestrationService extends BasicRestServiceActivator {
             // TODO: handle exception
         }
         return null;
+    }
+    private Integer convertIntToDouble(Double value){
+        double dbl = value.doubleValue();
+        int intgr = (int) dbl;
+        return Integer.valueOf(intgr);
     }
 
     private Cell getCell(Workbook workbook, String cellName) {
