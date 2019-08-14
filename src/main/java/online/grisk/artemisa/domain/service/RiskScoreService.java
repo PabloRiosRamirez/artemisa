@@ -3,15 +3,17 @@ package online.grisk.artemisa.domain.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import online.grisk.artemisa.domain.dto.RiskScoreDTO;
 import online.grisk.artemisa.domain.entity.RiskScore;
+import online.grisk.artemisa.domain.entity.ScoreRange;
 import online.grisk.artemisa.domain.exception.MyFileNotFoundException;
 import online.grisk.artemisa.persistence.repository.RiskScoreRepository;
+import online.grisk.artemisa.persistence.repository.ScoreRangeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class RiskScoreService {
@@ -27,6 +29,10 @@ public class RiskScoreService {
 
     @Autowired
     private RiskScoreRepository riskScoreRepository;
+
+    @Autowired
+    private ScoreRangeRepository scoreRangeRepository;
+
 
     @Transactional
     public ResponseEntity<Map<String, Object>> registerScore(Map<String, Object> request) {
@@ -68,7 +74,9 @@ public class RiskScoreService {
 
     @Transactional
     public RiskScore findByOrganization(long idOrganization) {
-        return riskScoreRepository.findScoreByOrganization(idOrganization);
+        RiskScore scoreByOrganization = riskScoreRepository.findScoreByOrganization(idOrganization);
+        scoreByOrganization.setScoreRangeCollection(scoreRangeRepository.findAllByScoreOrderByLowerLimit(scoreByOrganization));
+        return scoreByOrganization;
     }
 
 }
