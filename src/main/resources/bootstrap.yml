@@ -12,5 +12,5 @@ server:
 #  client:
 #    registerWithEureka: false
 #    fetchRegistry: true
-eureka.client.register-with-eureka: false
-eureka.client.fetch-registry: true
+#eureka.client.register-with-eureka: false
+#eureka.client.fetch-registry: true
