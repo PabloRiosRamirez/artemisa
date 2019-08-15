@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,8 +12,8 @@ import java.util.Map;
 @AllArgsConstructor
 public class RangesDTO {
 
-    int limitDown;
-    int limitUp;
+    Short limitDown;
+    Short limitUp;
     String color;
 
     public Map<String, Object> toMap() {

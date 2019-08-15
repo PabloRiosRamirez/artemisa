@@ -1,6 +1,8 @@
 package online.grisk.artemisa.domain.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import online.grisk.artemisa.domain.dto.RangesDTO;
 import online.grisk.artemisa.domain.dto.RiskScoreDTO;
 import online.grisk.artemisa.domain.entity.RiskRatio;
 import online.grisk.artemisa.domain.entity.RiskScore;
@@ -63,16 +65,32 @@ public class RiskScoreService {
 
 	@Transactional
 	public void deletedByOrganization(Long organization) {
-		RiskScore riskScore = riskScoreRepository.findScoreByOrganization(organization);
-		if (riskScore != null) {
-			scoreRangeRepository.deleteByIdRiskScore(riskScore.getIdScore());
-			riskScoreRepository.deleteAllByOrganization(organization);
-		}
+		riskScoreRepository.deleteAllByOrganization(organization);
 	}
 
 	@Transactional
-	public RiskScore save(RiskScore dataIntegration) {
-		return riskScoreRepository.save(dataIntegration);
+	public RiskScore save(RiskScoreDTO riskScoreDto) {
+
+		RiskScore riskScore = new RiskScore();
+
+		riskScore.setCreatedAt(new Date());
+		riskScore.setEnabled(true);
+		riskScore.setTitule(riskScoreDto.getTitule());
+		riskScore.setOrganization(riskScoreDto.getOrganization());
+		riskScore.setVariable(riskScoreDto.getVariable());
+
+		riskScore = riskScoreRepository.save(riskScore);
+
+		for (RangesDTO rangeDto : riskScoreDto.getRanges()) {
+			ScoreRange scoreRange = new ScoreRange();
+			scoreRange.setColor(rangeDto.getColor());
+			scoreRange.setUpperLimit(rangeDto.getLimitUp());
+			scoreRange.setLowerLimit(rangeDto.getLimitDown());
+			scoreRange.setScore(riskScore);
+			scoreRangeRepository.save(scoreRange);
+		}
+
+		return riskScore;
 	}
 
 	@Transactional

@@ -7,7 +7,11 @@ import online.grisk.artemisa.domain.entity.DataIntegration;
 import online.grisk.artemisa.domain.entity.Variable;
 import online.grisk.artemisa.domain.exception.FileStorageException;
 import online.grisk.artemisa.domain.exception.MyFileNotFoundException;
+import online.grisk.artemisa.persistence.repository.BusinessTreeRepository;
 import online.grisk.artemisa.persistence.repository.DataIntegrationRepository;
+import online.grisk.artemisa.persistence.repository.RiskRatioRepository;
+import online.grisk.artemisa.persistence.repository.RiskScoreRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +34,15 @@ public class DataIntegrationService {
 
     @Autowired
     TypeVariableService typeVariableService;
+    
+    @Autowired
+    private BusinessTreeRepository businessTreeRepository;
+    
+    @Autowired
+    private RiskRatioRepository riskRatioRepository;
+    
+    @Autowired
+    private RiskScoreRepository riskScoreRepository;
 
     @Autowired
     ObjectMapper objectMapper;
@@ -93,6 +106,9 @@ public class DataIntegrationService {
     @Transactional
     public void deletedByOrganization(Long organization) {
         dataIntegrationRepository.deleteAllByOrganization(organization);
+        businessTreeRepository.deleteAllByOrganization(organization);
+        riskRatioRepository.deleteAllByOrganization(organization);
+        riskScoreRepository.deleteAllByOrganization(organization);
     }
 
     @Transactional

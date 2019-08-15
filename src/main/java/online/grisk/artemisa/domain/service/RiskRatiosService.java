@@ -2,6 +2,8 @@ package online.grisk.artemisa.domain.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import online.grisk.artemisa.domain.dto.RatioDTO;
+import online.grisk.artemisa.domain.dto.RiskRatioDTO;
 import online.grisk.artemisa.domain.entity.Ratio;
 import online.grisk.artemisa.domain.entity.RiskRatio;
 import online.grisk.artemisa.domain.exception.MyFileNotFoundException;
@@ -13,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.Map;
 
 @Service
@@ -63,16 +66,37 @@ public class RiskRatiosService {
 
 	@Transactional
 	public void deletedByOrganization(Long organization) {
-		RiskRatio riskRatio = riskRatioRepository.findRiskRatioByOrganization(organization);
-		if (riskRatio != null) {
-			ratioRepository.deleteByIdRiskRatio(riskRatio.getIdRiskRatio());
-			riskRatioRepository.deleteAllByOrganization(organization);
-		}
+		riskRatioRepository.deleteAllByOrganization(organization);
 	}
 
 	@Transactional
-	public RiskRatio save(RiskRatio ratio) {
-		return riskRatioRepository.save(ratio);
+	public RiskRatio save(RiskRatioDTO riskRatioDto) {
+
+		RiskRatio riskRatio = new RiskRatio();
+
+		riskRatio.setCreatedAt(new Date());
+		riskRatio.setTitule(riskRatioDto.getTitule());
+		riskRatio.setOrganization(riskRatioDto.getOrganization());
+
+		riskRatio = riskRatioRepository.save(riskRatio);
+
+		Short count = 0;
+		for (RatioDTO ratioDto : riskRatioDto.getRatios()) {
+			Ratio ratio = new Ratio();
+			ratio.setTitule(riskRatioDto.getTitule());
+			ratio.setColor(ratioDto.getColor());
+			ratio.setPostResult(ratioDto.getPostResult());
+			ratio.setOperation(ratioDto.getOperation());
+			ratio.setOrderDisplay(count);
+			ratio.setEnabled(true);
+			ratio.setCreatedAt(new Date());
+			ratio.setRiskRatio(riskRatio);
+			ratioRepository.save(ratio);
+			count++;
+		}
+
+		return riskRatio;
+		
 	}
 
 	@Transactional
