@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping({"/api/artemisa"})
+ 
 public class DataIntegrationController {
     private static final Logger logger = LoggerFactory.getLogger(DataIntegrationController.class);
 
@@ -33,13 +33,13 @@ public class DataIntegrationController {
     private DataIntegrationServiceActivator dataIntegrationServiceActivator;
 
     @GetMapping("/dataintegration/organization/{idOrganization}")
-    public ResponseEntity getDataIntegration(@PathVariable("idOrganization") long idOrganization) {
+    public ResponseEntity<?> getDataIntegration(@PathVariable("idOrganization") long idOrganization) {
         DataIntegration dataIntegration = dataIntegrationService.findByOrganization(idOrganization);
-        return new ResponseEntity(dataIntegration, HttpStatus.OK);
+        return new ResponseEntity<DataIntegration>(dataIntegration, HttpStatus.OK);
     }
 
     @GetMapping("/variables/bureau")
-    public ResponseEntity getVariablesBureau(@RequestHeader Map<String, Object> headers) {
+    public ResponseEntity<?> getVariablesBureau(@RequestHeader Map<String, Object> headers) {
         Map response = new HashMap();
         response.put("variables", variableService.findAllByBureau(true));
         return new ResponseEntity(response, HttpStatus.OK);

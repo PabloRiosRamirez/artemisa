@@ -2,6 +2,7 @@ package online.grisk.artemisa.domain.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import online.grisk.artemisa.domain.dto.RiskScoreDTO;
+import online.grisk.artemisa.domain.entity.RiskRatio;
 import online.grisk.artemisa.domain.entity.RiskScore;
 import online.grisk.artemisa.domain.entity.ScoreRange;
 import online.grisk.artemisa.domain.exception.MyFileNotFoundException;
@@ -57,6 +58,8 @@ public class RiskScoreService {
 
     @Transactional
     public void deletedByOrganization(Long organization) {
+    	RiskScore riskScore = riskScoreRepository.findScoreByOrganization(organization);
+    	scoreRangeRepository.deleteByIdRiskScore(riskScore.getIdScore());
         riskScoreRepository.deleteAllByOrganization(organization);
     }
 
@@ -78,5 +81,5 @@ public class RiskScoreService {
         scoreByOrganization.setScoreRangeCollection(scoreRangeRepository.findAllByScoreOrderByLowerLimit(scoreByOrganization));
         return scoreByOrganization;
     }
-
+    
 }

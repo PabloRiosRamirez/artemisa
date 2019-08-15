@@ -5,6 +5,8 @@ import online.grisk.artemisa.domain.entity.BusinessTree;
 import online.grisk.artemisa.domain.entity.RiskScore;
 import online.grisk.artemisa.domain.exception.MyFileNotFoundException;
 import online.grisk.artemisa.persistence.repository.BusinessTreeRepository;
+import online.grisk.artemisa.persistence.repository.NodeTreeRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +29,9 @@ public class BusinessTreeService {
 
     @Autowired
     private BusinessTreeRepository businessTreeRepository;
+    
+    @Autowired
+    private NodeTreeRepository NodeTreeRepository;
 
     @Transactional
     public ResponseEntity<Map<String, Object>> registerScore(Map<String, Object> request) {
@@ -52,6 +57,8 @@ public class BusinessTreeService {
 
     @Transactional
     public void deletedByOrganization(Long organization) {
+    	BusinessTree bt = businessTreeRepository.findBusinessTreeByOrganization(organization);
+    	NodeTreeRepository.deleteByIdBusinessTree(bt.getIdTree());
         businessTreeRepository.deleteAllByOrganization(organization);
     }
 

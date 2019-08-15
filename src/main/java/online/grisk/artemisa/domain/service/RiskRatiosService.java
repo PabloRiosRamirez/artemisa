@@ -1,8 +1,11 @@
 package online.grisk.artemisa.domain.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import online.grisk.artemisa.domain.entity.Ratio;
 import online.grisk.artemisa.domain.entity.RiskRatio;
 import online.grisk.artemisa.domain.exception.MyFileNotFoundException;
+import online.grisk.artemisa.persistence.repository.RatioRepository;
 import online.grisk.artemisa.persistence.repository.RiskRatioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,6 +29,9 @@ public class RiskRatiosService {
 
     @Autowired
     private RiskRatioRepository riskRatioRepository;
+    
+    @Autowired
+    private RatioRepository ratioRepository;
 
     @Transactional
     public ResponseEntity<Map<String, Object>> registerScore(Map<String, Object> request) {
@@ -51,6 +57,8 @@ public class RiskRatiosService {
 
     @Transactional
     public void deletedByOrganization(Long organization) {
+    	RiskRatio riskRatio = riskRatioRepository.findRiskRatioByOrganization(organization);
+    	ratioRepository.deleteByIdRiskRatio(riskRatio.getIdRiskRatio());
         riskRatioRepository.deleteAllByOrganization(organization);
     }
 
