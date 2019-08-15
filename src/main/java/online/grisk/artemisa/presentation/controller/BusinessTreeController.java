@@ -24,6 +24,7 @@ public class BusinessTreeController {
 	@PostMapping
 	public ResponseEntity<?> save(@RequestBody BusinessTree businessTree) {
 		try {
+			businessTreeService.deletedByOrganization(businessTree.getOrganization());
 			return new ResponseEntity<Object>(businessTreeService.save(businessTree), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<String>("Internal Server Error.", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -34,16 +35,6 @@ public class BusinessTreeController {
 	public ResponseEntity<?> findByOrganizationId(@PathVariable(name = "organizationId", required = true) long id) {
 		try {
 			return new ResponseEntity<Object>(businessTreeService.findByOrganization(id), HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<String>("Internal Server Error.", HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
-
-	@DeleteMapping("/organization/{id}")
-	public ResponseEntity<?> delete(@PathVariable(name = "id", required = true) long id) {
-		try {
-			businessTreeService.deletedByOrganization(id);
-			return new ResponseEntity<Object>("Business Tree deleted.", HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<String>("Internal Server Error.", HttpStatus.INTERNAL_SERVER_ERROR);
 		}

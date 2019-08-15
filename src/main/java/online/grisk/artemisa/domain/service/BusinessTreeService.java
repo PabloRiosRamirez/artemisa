@@ -58,8 +58,10 @@ public class BusinessTreeService {
     @Transactional
     public void deletedByOrganization(Long organization) {
     	BusinessTree bt = businessTreeRepository.findBusinessTreeByOrganization(organization);
-    	NodeTreeRepository.deleteByIdBusinessTree(bt.getIdTree());
-        businessTreeRepository.deleteAllByOrganization(organization);
+    	if(bt != null) {
+	    	NodeTreeRepository.deleteByIdBusinessTree(bt.getIdTree());
+	        businessTreeRepository.deleteAllByOrganization(organization);
+    	}
     }
 
     @Transactional

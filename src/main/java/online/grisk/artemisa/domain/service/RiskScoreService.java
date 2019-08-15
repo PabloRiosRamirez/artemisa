@@ -19,67 +19,74 @@ import java.util.*;
 @Service
 public class RiskScoreService {
 
-    @Autowired
-    VariableService variableService;
+	@Autowired
+	VariableService variableService;
 
-    @Autowired
-    TypeVariableService typeVariableService;
+	@Autowired
+	TypeVariableService typeVariableService;
 
-    @Autowired
-    ObjectMapper objectMapper;
+	@Autowired
+	ObjectMapper objectMapper;
 
-    @Autowired
-    private RiskScoreRepository riskScoreRepository;
+	@Autowired
+	private RiskScoreRepository riskScoreRepository;
 
-    @Autowired
-    private ScoreRangeRepository scoreRangeRepository;
+	@Autowired
+	private ScoreRangeRepository scoreRangeRepository;
 
+	@Transactional
+	public ResponseEntity<Map<String, Object>> registerScore(Map<String, Object> request) {
 
-    @Transactional
-    public ResponseEntity<Map<String, Object>> registerScore(Map<String, Object> request) {
+		RiskScoreDTO riskScoreDTO = objectMapper.convertValue(request, RiskScoreDTO.class);
+		/*
+		 * RiskScore riskScore =
+		 * riskScoreRepository.findScoreByOrganization(riskScoreDTO.getOrganization());
+		 * if (dataIntegrationsByOrganization != null &&
+		 * !dataIntegrationsByOrganization.isBureau()) {
+		 * dataIntegrationCollection.add(dataIntegrationsByOrganization);
+		 * variableService.deletedByDataintegration(dataIntegrationCollection); }
+		 * this.deletedByOrganization(dataIntegrationDTO.getOrganization());
+		 * Collection<Variable> variableCollection = new ArrayList<>(); for
+		 * (VariableBureauDTO variable : dataIntegrationDTO.getVariables()) {
+		 * variableCollection.add(new Variable(variable.getName(), variable.getName(),
+		 * variable.getCoordenate(), variable.getValueDefault(),
+		 * typeVariableService.findByCode(variable.getType()), false)); }
+		 * Collection<Variable> variables = variableService.saveAll(variableCollection);
+		 * DataIntegration dataIntegration = this.save(new
+		 * DataIntegration(dataIntegrationDTO.getOrganization(), new Date(), true,
+		 * false, variables)); return new
+		 * ResponseEntity(objectMapper.convertValue(dataIntegration, Map.class),
+		 * HttpStatus.CREATED);
+		 */
+		return new ResponseEntity(request, HttpStatus.OK);
+	}
 
-        RiskScoreDTO riskScoreDTO = objectMapper.convertValue(request, RiskScoreDTO.class);
-        /*RiskScore riskScore = riskScoreRepository.findScoreByOrganization(riskScoreDTO.getOrganization());
-        if (dataIntegrationsByOrganization != null && !dataIntegrationsByOrganization.isBureau()) {
-            dataIntegrationCollection.add(dataIntegrationsByOrganization);
-            variableService.deletedByDataintegration(dataIntegrationCollection);
-        }
-        this.deletedByOrganization(dataIntegrationDTO.getOrganization());
-        Collection<Variable> variableCollection = new ArrayList<>();
-        for (VariableBureauDTO variable : dataIntegrationDTO.getVariables()) {
-            variableCollection.add(new Variable(variable.getName(), variable.getName(), variable.getCoordenate(), variable.getValueDefault(), typeVariableService.findByCode(variable.getType()), false));
-        }
-        Collection<Variable> variables = variableService.saveAll(variableCollection);
-        DataIntegration dataIntegration = this.save(new DataIntegration(dataIntegrationDTO.getOrganization(), new Date(), true, false, variables));
-        return new ResponseEntity(objectMapper.convertValue(dataIntegration, Map.class), HttpStatus.CREATED);
-        */
-        return new ResponseEntity(request, HttpStatus.OK);
-    }
+	@Transactional
+	public void deletedByOrganization(Long organization) {
+		RiskScore riskScore = riskScoreRepository.findScoreByOrganization(organization);
+		if (riskScore != null) {
+			scoreRangeRepository.deleteByIdRiskScore(riskScore.getIdScore());
+			riskScoreRepository.deleteAllByOrganization(organization);
+		}
+	}
 
-    @Transactional
-    public void deletedByOrganization(Long organization) {
-    	RiskScore riskScore = riskScoreRepository.findScoreByOrganization(organization);
-    	scoreRangeRepository.deleteByIdRiskScore(riskScore.getIdScore());
-        riskScoreRepository.deleteAllByOrganization(organization);
-    }
+	@Transactional
+	public RiskScore save(RiskScore dataIntegration) {
+		return riskScoreRepository.save(dataIntegration);
+	}
 
-    @Transactional
-    public RiskScore save(RiskScore dataIntegration) {
-        return riskScoreRepository.save(dataIntegration);
-    }
+	@Transactional
+	public RiskScore findOne(long idScore) {
+		return riskScoreRepository.findById(idScore)
+				.orElseThrow(() -> new MyFileNotFoundException("RiskScore not found with id " + idScore));
+	}
 
+	@Transactional
+	public RiskScore findByOrganization(long idOrganization) {
+		RiskScore scoreByOrganization = riskScoreRepository.findScoreByOrganization(idOrganization);
+		scoreByOrganization
+				.setScoreRangeCollection(scoreRangeRepository.findAllByScoreOrderByLowerLimit(scoreByOrganization));
+		return scoreByOrganization;
+	}
 
-    @Transactional
-    public RiskScore findOne(long idScore) {
-        return riskScoreRepository.findById(idScore)
-                .orElseThrow(() -> new MyFileNotFoundException("RiskScore not found with id " + idScore));
-    }
-
-    @Transactional
-    public RiskScore findByOrganization(long idOrganization) {
-        RiskScore scoreByOrganization = riskScoreRepository.findScoreByOrganization(idOrganization);
-        scoreByOrganization.setScoreRangeCollection(scoreRangeRepository.findAllByScoreOrderByLowerLimit(scoreByOrganization));
-        return scoreByOrganization;
-    }
-    
 }

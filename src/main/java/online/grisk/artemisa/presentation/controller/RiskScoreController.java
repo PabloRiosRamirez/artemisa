@@ -15,15 +15,16 @@ import online.grisk.artemisa.domain.entity.RiskScore;
 import online.grisk.artemisa.domain.service.RiskScoreService;
 
 @RestController
-@RequestMapping({ "/api/artemisa/riskScores" })
+@RequestMapping({ "/api/artemisa/score" })
 public class RiskScoreController {
-	
+	 
 	@Autowired
 	private RiskScoreService riskScoreService;
 
 	@PostMapping
 	public ResponseEntity<?> save(@RequestBody RiskScore riskScore) {
 		try {
+			riskScoreService.deletedByOrganization(riskScore.getOrganization());
 			return new ResponseEntity<Object>(riskScoreService.save(riskScore),HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<String>("Internal Server Error.", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -38,16 +39,4 @@ public class RiskScoreController {
 			return new ResponseEntity<String>("Internal Server Error.", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-
-	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deleteByIdOrganization(@PathVariable(name = "id", required = true) long id) {
-		try {
-			//borrar padre e hijo (risk ratio y ratio)
-			riskScoreService.deletedByOrganization(id);
-			return new ResponseEntity<Object>("Business Tree deleted.",HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<String>("Internal Server Error.", HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
-
 }

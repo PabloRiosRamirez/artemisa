@@ -24,6 +24,7 @@ public class RiskRatioController {
 	@PostMapping
 	public ResponseEntity<?> save(@RequestBody RiskRatio riskRatio) {
 		try {
+			riskRatiosServices.deletedByOrganization(riskRatio.getOrganization());
 			return new ResponseEntity<Object>(riskRatiosServices.save(riskRatio),HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<String>("Internal Server Error.", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -38,16 +39,4 @@ public class RiskRatioController {
 			return new ResponseEntity<String>("Internal Server Error.", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-
-	@DeleteMapping("/{id}")
-	public ResponseEntity<?> delete(@PathVariable(name = "id", required = true) long id) {
-		try {
-			//borrar padre e hijo (risk ratio y ratio)
-			riskRatiosServices.deletedByOrganization(id);
-			return new ResponseEntity<Object>("Business Tree deleted.",HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<String>("Internal Server Error.", HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
-
 }
