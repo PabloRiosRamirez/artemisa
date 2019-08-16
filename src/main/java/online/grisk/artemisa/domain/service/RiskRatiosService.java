@@ -75,7 +75,7 @@ public class RiskRatiosService {
 		RiskRatio riskRatio = new RiskRatio();
 
 		riskRatio.setCreatedAt(new Date());
-		riskRatio.setTitule(riskRatioDto.getTitule());
+		riskRatio.setTitule(riskRatioDto.getTitule() + "*");
 		riskRatio.setOrganization(riskRatioDto.getOrganization());
 
 		riskRatio = riskRatioRepository.save(riskRatio);
@@ -83,7 +83,7 @@ public class RiskRatiosService {
 		Short count = 0;
 		for (RatioDTO ratioDto : riskRatioDto.getRatios()) {
 			Ratio ratio = new Ratio();
-			ratio.setTitule(riskRatioDto.getTitule());
+			ratio.setTitule(ratioDto.getTitule());
 			ratio.setColor(ratioDto.getColor());
 			ratio.setPostResult(ratioDto.getPostResult());
 			ratio.setOperation(ratioDto.getOperation());
