@@ -15,7 +15,7 @@ import online.grisk.artemisa.domain.entity.RiskScore;
 import online.grisk.artemisa.domain.service.RiskScoreService;
 
 @RestController
-@RequestMapping({ "/api/artemisa/score" })
+@RequestMapping({ "/api/artemisa/score" }) ///api/artemisa/score/organization/" + id_organization
 public class RiskScoreController {
 
 	@Autowired

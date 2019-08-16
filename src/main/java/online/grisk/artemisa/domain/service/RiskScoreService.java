@@ -102,8 +102,9 @@ public class RiskScoreService {
 	@Transactional
 	public RiskScore findByOrganization(long idOrganization) {
 		RiskScore scoreByOrganization = riskScoreRepository.findScoreByOrganization(idOrganization);
-		scoreByOrganization
-				.setScoreRangeCollection(scoreRangeRepository.findAllByScoreOrderByLowerLimit(scoreByOrganization));
+		if(scoreByOrganization != null) {
+			scoreByOrganization.setScoreRangeCollection(scoreRangeRepository.findAllByScoreOrderByLowerLimit(scoreByOrganization));
+		}
 		return scoreByOrganization;
 	}
 
