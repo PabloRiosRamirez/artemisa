@@ -5,8 +5,6 @@ import online.grisk.artemisa.domain.entity.DataIntegration;
 import online.grisk.artemisa.domain.service.DataIntegrationService;
 import online.grisk.artemisa.domain.service.VariableService;
 import online.grisk.artemisa.integration.activator.impl.DataIntegrationServiceActivator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +19,6 @@ import java.util.Map;
 @RestController
 @RequestMapping({"/api/artemisa"})
 public class DataIntegrationController {
-    private static final Logger logger = LoggerFactory.getLogger(DataIntegrationController.class);
-
     @Autowired
     private DataIntegrationService dataIntegrationService;
 

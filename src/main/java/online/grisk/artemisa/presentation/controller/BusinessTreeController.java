@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import online.grisk.artemisa.domain.dto.BusinessTreeDTO;
+import online.grisk.artemisa.domain.entity.BusinessTree;
 import online.grisk.artemisa.domain.service.BusinessTreeService;
 
 @RestController
@@ -33,7 +34,8 @@ public class BusinessTreeController {
 	@GetMapping("/organization/{organizationId}")
 	public ResponseEntity<?> findByOrganizationId(@PathVariable(name = "organizationId", required = true) long id) {
 		try {
-			return new ResponseEntity<Object>(businessTreeService.findByOrganization(id), HttpStatus.OK);
+			BusinessTree businessTree = businessTreeService.findByOrganization(id);
+			return businessTree != null ? new ResponseEntity<Object>(businessTree, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} catch (Exception e) {
 			return new ResponseEntity<String>("Internal Server Error.", HttpStatus.INTERNAL_SERVER_ERROR);
 		}

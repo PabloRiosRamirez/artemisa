@@ -35,7 +35,8 @@ public class RiskRatioController {
 	@GetMapping("/organization/{organizationId}")
 	public ResponseEntity<?> findByOrganizationId(@PathVariable(name = "organizationId", required = true) long id) {
 		try {
-			return new ResponseEntity<Object>(riskRatiosServices.findByOrganization(id), HttpStatus.OK);
+			RiskRatio riskRatio = riskRatiosServices.findByOrganization(id);
+			return riskRatio != null ? new ResponseEntity<Object>(riskRatio, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} catch (Exception e) {
 			return new ResponseEntity<String>("Internal Server Error.", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
