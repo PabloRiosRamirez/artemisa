@@ -15,7 +15,7 @@ import online.grisk.artemisa.domain.entity.BusinessTree;
 import online.grisk.artemisa.domain.service.BusinessTreeService;
 
 @RestController
-@RequestMapping({ "/api/artemisa/businessTrees" })
+@RequestMapping({ "/api/artemisa/tree" })
 public class BusinessTreeController {
 
 	@Autowired
