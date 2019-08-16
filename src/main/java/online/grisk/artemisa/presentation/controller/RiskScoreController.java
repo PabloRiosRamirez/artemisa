@@ -31,11 +31,12 @@ public class RiskScoreController {
 			return new ResponseEntity<String>("Internal Server Error.", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-
+	
 	@GetMapping("/organization/{organizationId}")
 	public ResponseEntity<?> findByOrganizationId(@PathVariable(name = "organizationId", required = true) long id) {
 		try {
-			return new ResponseEntity<RiskScore>(riskScoreService.findByOrganization(id), HttpStatus.OK);
+			RiskScore riskScore = riskScoreService.findByOrganization(id);
+			return riskScore != null ? new ResponseEntity<RiskScore>(riskScore, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} catch (Exception e) {
 			return new ResponseEntity<String>("Internal Server Error.", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
