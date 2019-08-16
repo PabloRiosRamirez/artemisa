@@ -35,7 +35,7 @@ public class BusinessTreeController {
 	public ResponseEntity<?> findByOrganizationId(@PathVariable(name = "organizationId", required = true) long id) {
 		try {
 			BusinessTree businessTree = businessTreeService.findByOrganization(id);
-			return businessTree != null ? new ResponseEntity<Object>(businessTree, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<BusinessTree>(businessTree, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<String>("Internal Server Error.", HttpStatus.INTERNAL_SERVER_ERROR);
 		}

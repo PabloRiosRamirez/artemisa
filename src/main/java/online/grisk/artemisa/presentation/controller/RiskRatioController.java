@@ -36,7 +36,7 @@ public class RiskRatioController {
 	public ResponseEntity<?> findByOrganizationId(@PathVariable(name = "organizationId", required = true) long id) {
 		try {
 			RiskRatio riskRatio = riskRatiosServices.findByOrganization(id);
-			return riskRatio != null ? new ResponseEntity<Object>(riskRatio, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<RiskRatio>(riskRatio, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<String>("Internal Server Error.", HttpStatus.INTERNAL_SERVER_ERROR);
 		}

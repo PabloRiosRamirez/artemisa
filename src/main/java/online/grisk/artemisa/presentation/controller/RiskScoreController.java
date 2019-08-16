@@ -36,7 +36,7 @@ public class RiskScoreController {
 	public ResponseEntity<?> findByOrganizationId(@PathVariable(name = "organizationId", required = true) long id) {
 		try {
 			RiskScore riskScore = riskScoreService.findByOrganization(id);
-			return riskScore != null ? new ResponseEntity<RiskScore>(riskScore, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<RiskScore>(riskScore, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<String>("Internal Server Error.", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
