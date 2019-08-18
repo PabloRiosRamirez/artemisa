@@ -34,15 +34,13 @@ public class DataintegrationService {
 
     @Autowired
     TypeVariableService typeVariableService;
-    
-    @Autowired
-    private BusinessTreeRepository businessTreeRepository;
-    
-    @Autowired
-    private RiskRatioRepository riskRatioRepository;
-    
+
     @Autowired
     private RiskScoreRepository riskScoreRepository;
+    @Autowired
+    private RiskRatioRepository riskRatioRepository;
+    @Autowired
+    private BusinessTreeRepository businessTreeRepository;
 
     @Autowired
     ObjectMapper objectMapper;
@@ -60,6 +58,9 @@ public class DataintegrationService {
             variableService.deletedByDataintegration(dataintegrationCollection);
         }
         this.deletedByOrganization(dataIntegrationDTO.getOrganization());
+        riskScoreRepository.deleteAllByOrganization(dataIntegrationDTO.getOrganization());
+        riskRatioRepository.deleteAllByOrganization(dataIntegrationDTO.getOrganization());
+        businessTreeRepository.deleteAllByOrganization(dataIntegrationDTO.getOrganization());
         Collection<Variable> variableCollection = new ArrayList<>();
         for (VariableDTO variable : dataIntegrationDTO.getVariables()) {
             variableCollection.add(new Variable(variable.getName(), variable.getName().replaceAll(" ", "").trim().toUpperCase(), variable.getCoordinate(), variable.getDefaultValue(), typeVariableService.findByCode(variable.getType()), false));
@@ -95,6 +96,9 @@ public class DataintegrationService {
             variableService.deletedByDataintegration(dataintegrationCollection);
         }
         this.deletedByOrganization(dataIntegrationDTO.getOrganization());
+        riskScoreRepository.deleteAllByOrganization(dataIntegrationDTO.getOrganization());
+        riskRatioRepository.deleteAllByOrganization(dataIntegrationDTO.getOrganization());
+        businessTreeRepository.deleteAllByOrganization(dataIntegrationDTO.getOrganization());
         Collection<Variable> variableCollection = new ArrayList<>();
         for (VariableDTO variable : dataIntegrationDTO.getVariables()) {
             variableCollection.add(variableService.findOne(variable.getIdVariable()));

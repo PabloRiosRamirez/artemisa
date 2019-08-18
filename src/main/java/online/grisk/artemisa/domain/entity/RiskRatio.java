@@ -27,7 +27,7 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "risk_ratio", schema = "public", uniqueConstraints = {
+@Table(name = "riskratio", schema = "public", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"id_riskratio", "organization"})})
 public class RiskRatio implements Serializable {
 
@@ -43,10 +43,6 @@ public class RiskRatio implements Serializable {
     @Column(name = "organization", nullable = false)
     private long organization;
 
-    @Size(min = 1, max = 100)
-    @Column(name = "titule", length = 100)
-    private String titule;
-
     @Basic(optional = false)
     @NotNull
     @Column(name = "created_at", nullable = false)
@@ -58,9 +54,8 @@ public class RiskRatio implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "riskRatio")
     private Collection<RiskRatioRatio> riskRatiosRatiosCollection;
 
-    public RiskRatio(@NotNull long organization, @Size(min = 1, max = 100) String titule, @NotNull Date createdAt, Collection<RiskRatioRatio> riskRatiosRatiosCollection) {
+    public RiskRatio(@NotNull long organization, @NotNull Date createdAt, Collection<RiskRatioRatio> riskRatiosRatiosCollection) {
         this.organization = organization;
-        this.titule = titule;
         this.createdAt = createdAt;
         this.riskRatiosRatiosCollection = riskRatiosRatiosCollection;
     }

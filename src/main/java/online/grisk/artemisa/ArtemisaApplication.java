@@ -44,10 +44,10 @@ public class ArtemisaApplication {
         return UUID.randomUUID();
     }
 
-    @Value("HERMES_USER")
+    @Value("${HERMES_USER}")
     String hermesUser;
 
-    @Value("HERMES_PASS")
+    @Value("${HERMES_PASS}")
     String hermesPass;
 
     @Bean
@@ -55,10 +55,10 @@ public class ArtemisaApplication {
         return new Microservice("hermes", HttpMethod.POST, "/api/hermes", hermesUser, hermesPass, new HashMap<>());
     }
 
-    @Value("ATENEA_USER")
+    @Value("${ATENEA_USER}")
     String ateneaUser;
 
-    @Value("ATENEA_PASS")
+    @Value("${ATENEA_PASS}")
     String ateneaPass;
 
     @Bean
@@ -66,10 +66,10 @@ public class ArtemisaApplication {
         return new Microservice("atenea", HttpMethod.POST, "/api/atenea/report", ateneaUser, ateneaPass, new HashMap<>());
     }
 
-    @Value("HADES_USER")
+    @Value("${HADES_USER}")
     String hadesUser;
 
-    @Value("HADES_PASS")
+    @Value("${HADES_PASS}")
     String hadesPass;
 
     @Bean
@@ -77,10 +77,10 @@ public class ArtemisaApplication {
         return new Microservice("hades", HttpMethod.POST, "/api/atenea/ratios", hadesUser, hadesPass, new HashMap<>());
     }
 
-    @Value("POSEIDON_USER")
+    @Value("${POSEIDON_USER}")
     String poseidonUser;
 
-    @Value("POSEIDON_PASS")
+    @Value("${POSEIDON_PASS}")
     String poseidonPass;
 
     @Bean
@@ -88,10 +88,10 @@ public class ArtemisaApplication {
         return new Microservice("poseidon", HttpMethod.POST, "/api/poseidon/score", poseidonUser, poseidonPass, new HashMap<>());
     }
 
-    @Value("ZEUS_USER")
+    @Value("${ZEUS_USER}")
     String zeusUser;
 
-    @Value("ZEUS_PASS")
+    @Value("${ZEUS_PASS}")
     String zeusPass;
 
     @Bean

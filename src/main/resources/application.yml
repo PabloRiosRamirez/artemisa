@@ -12,8 +12,11 @@ spring:
       max-active: 2
     dbcp2:
       max-idle: 2
-logging:
-  level:
-    org:
-      springframework:
-        web: trace
+#server:
+#  port: 8088
+#logging:
+#  level:
+#    org:
+#      springframework:
+#        web: debug
+#    root: debug

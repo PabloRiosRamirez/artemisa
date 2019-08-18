@@ -58,6 +58,11 @@ public class BusinessTreeNode implements Serializable {
     @Column(name = "children_affirmation")
     private Long childrenAffirmation;
 
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "main", nullable = false)
+    private boolean main;
+
     @JsonIgnore
     @JoinColumn(name = "businesstree", referencedColumnName = "id_businesstree", nullable = false)
     @ManyToOne(optional = false)
@@ -67,8 +72,9 @@ public class BusinessTreeNode implements Serializable {
         this.idBusinessTreeNode = idBusinessTreeNode;
     }
 
-    public BusinessTreeNode(Long idBusinessTreeNode, boolean output) {
+    public BusinessTreeNode(Long idBusinessTreeNode, boolean output, boolean main) {
         this.idBusinessTreeNode = idBusinessTreeNode;
         this.output = output;
+        this.main = main;
     }
 }
