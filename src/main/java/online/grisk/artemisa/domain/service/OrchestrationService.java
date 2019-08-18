@@ -1,8 +1,8 @@
 package online.grisk.artemisa.domain.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import online.grisk.artemisa.domain.entity.DataIntegration;
-import online.grisk.artemisa.domain.entity.Microservice;
+import online.grisk.artemisa.domain.entity.Dataintegration;
+import online.grisk.artemisa.domain.pojo.Microservice;
 import online.grisk.artemisa.domain.entity.Variable;
 import online.grisk.artemisa.integration.activator.BasicRestServiceActivator;
 import org.apache.commons.io.FilenameUtils;
@@ -30,7 +30,7 @@ public class OrchestrationService extends BasicRestServiceActivator {
 
 
     @Autowired
-    DataIntegrationService dataIntegrationService;
+    DataintegrationService dataIntegrationService;
 
     @Autowired
     ObjectMapper objectMapper;
@@ -45,7 +45,7 @@ public class OrchestrationService extends BasicRestServiceActivator {
             } else if (extension.equalsIgnoreCase("xls")) {
                 workbook = new HSSFWorkbook(file.getInputStream());
             }
-            DataIntegration dataIntegration = objectMapper.convertValue(((Map) payload.get("dataintegration")).get("configuration"), DataIntegration.class);
+            Dataintegration dataIntegration = objectMapper.convertValue(((Map) payload.get("dataintegration")).get("configuration"), Dataintegration.class);
             Collection<Variable> variables = dataIntegration.getVariableCollection();
             List<Map> listaVariables = new ArrayList<>();
             for (Variable var : variables) {

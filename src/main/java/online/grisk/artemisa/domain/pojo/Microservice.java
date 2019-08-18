@@ -1,4 +1,4 @@
-package online.grisk.artemisa.domain.entity;
+package online.grisk.artemisa.domain.pojo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

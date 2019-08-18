@@ -3,9 +3,9 @@ package online.grisk.artemisa.domain.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import online.grisk.artemisa.domain.dto.BusinessTreeDTO;
-import online.grisk.artemisa.domain.dto.NodeTreeDTO;
+import online.grisk.artemisa.domain.dto.BusinessTreeNodeDTO;
 import online.grisk.artemisa.domain.entity.BusinessTree;
-import online.grisk.artemisa.domain.entity.NodeTree;
+import online.grisk.artemisa.domain.entity.BusinessTreeNode;
 import online.grisk.artemisa.domain.exception.MyFileNotFoundException;
 import online.grisk.artemisa.persistence.repository.BusinessTreeRepository;
 import online.grisk.artemisa.persistence.repository.NodeTreeRepository;
@@ -72,28 +72,21 @@ public class BusinessTreeService {
 
 	@Transactional
 	public BusinessTree save(BusinessTreeDTO businessTreedTO) {
-
 		BusinessTree businessTree = new BusinessTree();
-
 		businessTree.setCreatedAt(new Date());
-		businessTree.setTitule(businessTreedTO.getTitule());
 		businessTree.setOrganization(businessTreedTO.getOrganization());
-		businessTree.setEnabled(true);
-
 		businessTree = businessTreeRepository.save(businessTree);
-
-		for (NodeTreeDTO nodeDto : businessTreedTO.getNodes()) {
-			NodeTree node = new NodeTree();
-		    node.setExpression(nodeDto.getExpression());
-		    node.setOutput(nodeDto.isOutput());
-		    node.setLabelOutput(nodeDto.getLabelOutput());
-		    node.setColor(nodeDto.getColor());
-			node.setChildrenNegation(nodeDto.getChildrenNegation());
-			node.setChildrenAfirmation(nodeDto.getChildrenAfirmation());
-			node.setTree(businessTree);
-			nodeTreeRepository.save(node);
+		for (BusinessTreeNodeDTO nodeDto : businessTreedTO.getNodes()) {
+			BusinessTreeNode businessTreeNode = new BusinessTreeNode();
+		    businessTreeNode.setExpression(nodeDto.getExpression());
+		    businessTreeNode.setOutput(nodeDto.isOutput());
+		    businessTreeNode.setLabelOutput(nodeDto.getLabelOutput());
+		    businessTreeNode.setColor(nodeDto.getColor());
+			businessTreeNode.setChildrenNegation(nodeDto.getChildrenNegation());
+			businessTreeNode.setChildrenAffirmation(nodeDto.getChildrenAffirmation());
+			businessTreeNode.setBusinessTree(businessTree);
+			nodeTreeRepository.save(businessTreeNode);
 		}
-
 		return businessTree;
 	}
 

@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 public interface RiskScoreRepository extends JpaRepository<RiskScore, Long> {
     void deleteAllByOrganization(Long organization);
 
-    RiskScore findScoreByOrganization(Long idScore);
+    RiskScore findRiskScoreByOrganization(Long idScore);
 }

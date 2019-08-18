@@ -11,7 +11,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
@@ -25,46 +24,38 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "business_tree", schema = "public", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"id_tree", "organization"})})
+@Table(name = "businesstree", schema = "public", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"id_businesstree", "organization"})})
 public class BusinessTree implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id_tree", nullable = false)
-    private Long idTree;
+    @Column(name = "id_businesstree", nullable = false)
+    private Long idBusinessTree;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "organization", nullable = false)
     private long organization;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "titule", nullable = false, length = 100)
-    private String titule;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "enabled", nullable = false)
-    private boolean enabled;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "created_at", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tree")
-    private Collection<NodeTree> nodeTreeCollection;
 
-    public BusinessTree(Long idTree) {
-        this.idTree = idTree;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "businessTree")
+    private Collection<BusinessTreeNode> businessTreeNodeCollection;
+
+    public BusinessTree(Long idBusinessTree) {
+        this.idBusinessTree = idBusinessTree;
     }
 
-    public BusinessTree(Long idTree, String titule, boolean enabled, Date createdAt) {
-        this.idTree = idTree;
-        this.titule = titule;
-        this.enabled = enabled;
+    public BusinessTree(Long idBusinessTree, String titule, boolean enabled, Date createdAt) {
+        this.idBusinessTree = idBusinessTree;
         this.createdAt = createdAt;
     }
-
 }

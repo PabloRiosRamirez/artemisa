@@ -56,12 +56,12 @@ public class RiskRatio implements Serializable {
 
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "riskRatio")
-    private Collection<Ratio> ratiosCollection;
+    private Collection<RiskRatioRatio> riskRatiosRatiosCollection;
 
-    public RiskRatio(@NotNull long organization, @Size(min = 1, max = 100) String titule, @NotNull Date createdAt, Collection<Ratio> ratiosCollection) {
+    public RiskRatio(@NotNull long organization, @Size(min = 1, max = 100) String titule, @NotNull Date createdAt, Collection<RiskRatioRatio> riskRatiosRatiosCollection) {
         this.organization = organization;
         this.titule = titule;
         this.createdAt = createdAt;
-        this.ratiosCollection = ratiosCollection;
+        this.riskRatiosRatiosCollection = riskRatiosRatiosCollection;
     }
 }

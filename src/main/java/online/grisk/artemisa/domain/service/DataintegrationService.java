@@ -1,9 +1,9 @@
 package online.grisk.artemisa.domain.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import online.grisk.artemisa.domain.dto.DataIntegrationDTO;
-import online.grisk.artemisa.domain.dto.VariableBureauDTO;
-import online.grisk.artemisa.domain.entity.DataIntegration;
+import online.grisk.artemisa.domain.dto.DataintegrationDTO;
+import online.grisk.artemisa.domain.dto.VariableDTO;
+import online.grisk.artemisa.domain.entity.Dataintegration;
 import online.grisk.artemisa.domain.entity.Variable;
 import online.grisk.artemisa.domain.exception.FileStorageException;
 import online.grisk.artemisa.domain.exception.MyFileNotFoundException;
@@ -27,7 +27,7 @@ import java.util.Date;
 import java.util.Map;
 
 @Service
-public class DataIntegrationService {
+public class DataintegrationService {
 
     @Autowired
     VariableService variableService;
@@ -52,31 +52,31 @@ public class DataIntegrationService {
 
     @Transactional
     public ResponseEntity<Map<String, Object>> registerDataIntegrationExcel(Map<String, Object> request) {
-        DataIntegrationDTO dataIntegrationDTO = objectMapper.convertValue(request, DataIntegrationDTO.class);
-        Collection<DataIntegration> dataIntegrationCollection = new ArrayList<>();
-        DataIntegration dataIntegrationsByOrganization = dataIntegrationRepository.findDataIntegrationsByOrganization(dataIntegrationDTO.getOrganization());
+        DataintegrationDTO dataIntegrationDTO = objectMapper.convertValue(request, DataintegrationDTO.class);
+        Collection<Dataintegration> dataintegrationCollection = new ArrayList<>();
+        Dataintegration dataIntegrationsByOrganization = dataIntegrationRepository.findDataIntegrationsByOrganization(dataIntegrationDTO.getOrganization());
         if (dataIntegrationsByOrganization != null && !dataIntegrationsByOrganization.isBureau()) {
-            dataIntegrationCollection.add(dataIntegrationsByOrganization);
-            variableService.deletedByDataintegration(dataIntegrationCollection);
+            dataintegrationCollection.add(dataIntegrationsByOrganization);
+            variableService.deletedByDataintegration(dataintegrationCollection);
         }
         this.deletedByOrganization(dataIntegrationDTO.getOrganization());
         Collection<Variable> variableCollection = new ArrayList<>();
-        for (VariableBureauDTO variable : dataIntegrationDTO.getVariables()) {
-            variableCollection.add(new Variable(variable.getName(), variable.getName().replaceAll(" ", "").trim().toUpperCase(), variable.getCoordenate(), variable.getValueDefault(), typeVariableService.findByCode(variable.getType()), false));
+        for (VariableDTO variable : dataIntegrationDTO.getVariables()) {
+            variableCollection.add(new Variable(variable.getName(), variable.getName().replaceAll(" ", "").trim().toUpperCase(), variable.getCoordinate(), variable.getDefaultValue(), typeVariableService.findByCode(variable.getType()), false));
         }
         Collection<Variable> variables = variableService.saveAll(variableCollection);
-        DataIntegration dataIntegration = this.save(new DataIntegration(dataIntegrationDTO.getOrganization(), new Date(), true, false, variables));
+        Dataintegration dataIntegration = this.save(new Dataintegration(dataIntegrationDTO.getOrganization(), new Date(), false, variables));
         return new ResponseEntity(objectMapper.convertValue(dataIntegration, Map.class), HttpStatus.CREATED);
     }
 
     @Transactional
-    public DataIntegration updateDataIntegrationExcel(long id_dataintegration, MultipartFile file) {
+    public Dataintegration updateDataIntegrationExcel(long id_dataintegration, MultipartFile file) {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         try {
             if (fileName.contains("..")) {
                 throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
             }
-            DataIntegration di = dataIntegrationRepository.getOne(id_dataintegration);
+            Dataintegration di = dataIntegrationRepository.getOne(id_dataintegration);
             di.setAnalyticsFileName(fileName);
             di.setAnalyticsFile(file.getBytes());
             return dataIntegrationRepository.save(di);
@@ -87,19 +87,19 @@ public class DataIntegrationService {
 
     @Transactional
     public ResponseEntity<Map<String, Object>> registerDataIntegrationBureau(Map<String, Object> request) {
-        DataIntegrationDTO dataIntegrationDTO = objectMapper.convertValue(request, DataIntegrationDTO.class);
-        Collection<DataIntegration> dataIntegrationCollection = new ArrayList<>();
-        DataIntegration dataIntegrationsByOrganization = dataIntegrationRepository.findDataIntegrationsByOrganization(dataIntegrationDTO.getOrganization());
+        DataintegrationDTO dataIntegrationDTO = objectMapper.convertValue(request, DataintegrationDTO.class);
+        Collection<Dataintegration> dataintegrationCollection = new ArrayList<>();
+        Dataintegration dataIntegrationsByOrganization = dataIntegrationRepository.findDataIntegrationsByOrganization(dataIntegrationDTO.getOrganization());
         if (dataIntegrationsByOrganization != null && !dataIntegrationsByOrganization.isBureau()) {
-            dataIntegrationCollection.add(dataIntegrationsByOrganization);
-            variableService.deletedByDataintegration(dataIntegrationCollection);
+            dataintegrationCollection.add(dataIntegrationsByOrganization);
+            variableService.deletedByDataintegration(dataintegrationCollection);
         }
         this.deletedByOrganization(dataIntegrationDTO.getOrganization());
         Collection<Variable> variableCollection = new ArrayList<>();
-        for (VariableBureauDTO variable : dataIntegrationDTO.getVariables()) {
+        for (VariableDTO variable : dataIntegrationDTO.getVariables()) {
             variableCollection.add(variableService.findOne(variable.getIdVariable()));
         }
-        DataIntegration dataIntegration = this.save(new DataIntegration(dataIntegrationDTO.getOrganization(), new Date(), true, true, variableCollection));
+        Dataintegration dataIntegration = this.save(new Dataintegration(dataIntegrationDTO.getOrganization(), new Date(), true, variableCollection));
         return new ResponseEntity((Map<String, Object>) objectMapper.convertValue(dataIntegration, Map.class), HttpStatus.CREATED);
     }
 
@@ -112,19 +112,19 @@ public class DataIntegrationService {
     }
 
     @Transactional
-    public DataIntegration save(DataIntegration dataIntegration) {
+    public Dataintegration save(Dataintegration dataIntegration) {
         return dataIntegrationRepository.save(dataIntegration);
     }
 
 
     @Transactional
-    public DataIntegration findOne(long idDataintegration) {
+    public Dataintegration findOne(long idDataintegration) {
         return dataIntegrationRepository.findById(idDataintegration)
                 .orElseThrow(() -> new MyFileNotFoundException("DataIntegration not found with id " + idDataintegration));
     }
 
     @Transactional
-    public DataIntegration findByOrganization(long idOrganization) {
+    public Dataintegration findByOrganization(long idOrganization) {
         return dataIntegrationRepository.findDataIntegrationsByOrganization(idOrganization);
     }
 

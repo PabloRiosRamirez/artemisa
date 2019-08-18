@@ -26,16 +26,17 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "ratio", schema = "public", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"id_ratio"})})
-public class Ratio implements Serializable {
+@Table(name = "riskratio_ratio", schema = "public", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"id_riskratio_ratio"})})
+public class RiskRatioRatio implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id_ratio", nullable = false)
-    private Long idRatio;
+    @Column(name = "id_riskratio_ratio", nullable = false)
+    private Long idRiskRatioRatio;
 
     @Basic(optional = false)
     @NotNull
@@ -58,19 +59,13 @@ public class Ratio implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
-    @Column(name = "operation", nullable = false, length = 100)
-    private String operation;
+    @Column(name = "expression", nullable = false, length = 100)
+    private String expression;
 
     @Basic(optional = false)
     @NotNull
     @Column(name = "order_display", nullable = false)
     private short orderDisplay;
-
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "enabled", nullable = false)
-    private boolean enabled;
-    @Basic(optional = false)
 
     @NotNull
     @Column(name = "created_at", nullable = false)
@@ -82,28 +77,25 @@ public class Ratio implements Serializable {
     @ManyToOne(optional = false)
     private RiskRatio riskRatio;
 
-    public Ratio(Long idRatio) {
-        this.idRatio = idRatio;
+    public RiskRatioRatio(Long idRiskRatioRatio) {
+        this.idRiskRatioRatio = idRiskRatioRatio;
     }
 
-    public Ratio(Long idRatio, String titule, String color, String postResult, String operation, short orderDisplay, boolean enabled, Date createdAt) {
-        this.idRatio = idRatio;
+    public RiskRatioRatio(Long idRiskRatioRatio, String titule, String color, String postResult, String expression, short orderDisplay, boolean enabled, Date createdAt) {
+        this.idRiskRatioRatio = idRiskRatioRatio;
         this.titule = titule;
         this.color = color;
         this.postResult = postResult;
-        this.operation = operation;
+        this.expression = expression;
         this.orderDisplay = orderDisplay;
-        this.enabled = enabled;
         this.createdAt = createdAt;
     }
 
-    public Ratio(@NotNull @Size(min = 1, max = 100) String titule, @NotNull @Size(min = 1, max = 10) String color, @NotNull @Size(min = 1, max = 25) String postResult, @NotNull @Size(min = 1, max = 100) String operation, @NotNull short orderDisplay, @NotNull boolean enabled, @NotNull Date createdAt, RiskRatio riskRatio) {
+    public RiskRatioRatio(@NotNull @Size(min = 1, max = 100) String titule, @NotNull @Size(min = 1, max = 10) String color, @NotNull @Size(min = 1, max = 25) String postResult, @NotNull @Size(min = 1, max = 100) String operation, @NotNull short orderDisplay, @NotNull boolean enabled, @NotNull Date createdAt, RiskRatio riskRatio) {
         this.titule = titule;
         this.color = color;
         this.postResult = postResult;
-        this.operation = operation;
         this.orderDisplay = orderDisplay;
-        this.enabled = enabled;
         this.createdAt = createdAt;
         this.riskRatio = riskRatio;
     }

@@ -4,22 +4,23 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class DataIntegrationDTO {
+public class RiskScoreRangeDTO {
 
-    Long organization;
-    Collection<VariableBureauDTO> variables;
+    Short upperLimit;
+    Short lowerLimit;
+    String color;
 
     public Map<String, Object> toMap() {
         Map<String, Object> objectMap = new HashMap<>();
-        objectMap.put("organization", organization);
-        objectMap.put("variables", variables);
+        objectMap.put("lowerLimit", lowerLimit);
+        objectMap.put("upperLimit", upperLimit);
+        objectMap.put("color", color);
         return objectMap;
     }
 }

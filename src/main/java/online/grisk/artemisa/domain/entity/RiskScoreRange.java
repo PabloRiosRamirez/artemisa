@@ -26,16 +26,16 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "score_range", schema = "public")
-public class ScoreRange implements Serializable {
+@Table(name = "riskscore_range", schema = "public")
+public class RiskScoreRange implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id_score_range", nullable = false)
-    private Long idScoreRange;
+    @Column(name = "id_riskscore_range", nullable = false)
+    private Long idRiskScoreRange;
 
     @Basic(optional = false)
     @NotNull
@@ -54,16 +54,16 @@ public class ScoreRange implements Serializable {
     private String color;
 
     @JsonIgnore
-    @JoinColumn(name = "score", referencedColumnName = "id_score", nullable = false)
+    @JoinColumn(name = "riskscore", referencedColumnName = "id_riskscore", nullable = false)
     @ManyToOne(optional = false)
-    private RiskScore score;
+    private RiskScore riskScore;
 
-    public ScoreRange(Long idScoreRange) {
-        this.idScoreRange = idScoreRange;
+    public RiskScoreRange(Long idRiskScoreRange) {
+        this.idRiskScoreRange = idRiskScoreRange;
     }
 
-    public ScoreRange(Long idScoreRange, short upperLimit, short lowerLimit, String color) {
-        this.idScoreRange = idScoreRange;
+    public RiskScoreRange(Long idRiskScoreRange, short upperLimit, short lowerLimit, String color) {
+        this.idRiskScoreRange = idRiskScoreRange;
         this.upperLimit = upperLimit;
         this.lowerLimit = lowerLimit;
         this.color = color;

@@ -16,7 +16,7 @@ public class TypeVariableService {
     @Transactional
     public TypeVariable findOne(long id_type_variable) {
         return typeVariableRepository.findById(id_type_variable)
-                .orElseThrow(() -> new MyFileNotFoundException("Type variable not found with id " + id_type_variable));
+                .orElseThrow(() -> new MyFileNotFoundException("Type Variable not found with id " + id_type_variable));
     }
 
     @Transactional

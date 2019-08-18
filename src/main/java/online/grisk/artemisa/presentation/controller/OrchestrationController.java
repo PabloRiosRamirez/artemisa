@@ -1,6 +1,6 @@
 package online.grisk.artemisa.presentation.controller;
 
-import online.grisk.artemisa.domain.service.DataIntegrationService;
+import online.grisk.artemisa.domain.service.DataintegrationService;
 import online.grisk.artemisa.integration.activator.impl.OrquestrationServiceActivator;
 import online.grisk.artemisa.integration.gateway.GatewayService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class OrchestrationController {
     OrquestrationServiceActivator orquestrationServiceActivator;
 
     @Autowired
-    DataIntegrationService dataIntegrationService;
+    DataintegrationService dataIntegrationService;
 
     @PostMapping("/analysis/{idOrganization}/excel")
     public Map<String, Object> initAnalysisExcel(@PathVariable("idOrganization") long idOrganization, @RequestParam("file") MultipartFile file) {

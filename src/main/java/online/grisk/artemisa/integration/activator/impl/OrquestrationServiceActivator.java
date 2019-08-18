@@ -13,7 +13,7 @@ import java.util.Map;
 public class OrquestrationServiceActivator {
 
     @Autowired
-    DataIntegrationService dataIntegrationService;
+    DataintegrationService dataIntegrationService;
 
     @Autowired
     RiskScoreService riskScoreService;

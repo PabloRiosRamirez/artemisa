@@ -10,14 +10,14 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class NodeTreeDTO {
+public class BusinessTreeNodeDTO {
 
 	private String expression;
 	private boolean output;
 	private String labelOutput;
 	private String color;
 	private Long childrenNegation;
-	private Long childrenAfirmation;
+	private Long childrenAffirmation;
 
 	public Map<String, Object> toMap() {
 		Map<String, Object> objectMap = new HashMap<>();
@@ -26,7 +26,7 @@ public class NodeTreeDTO {
 		objectMap.put("labelOutput", labelOutput);
 		objectMap.put("color", color);
 		objectMap.put("childrenNegation", childrenNegation);
-		objectMap.put("childrenAfirmation", childrenAfirmation);
+		objectMap.put("childrenAffirmation", childrenAffirmation);
 		return objectMap;
 	}
 }

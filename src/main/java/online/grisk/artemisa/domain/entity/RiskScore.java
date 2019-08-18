@@ -27,8 +27,8 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "risk_score", schema = "public", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"id_score"})})
+@Table(name = "riskscore", schema = "public", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"id_riskscore"})})
 public class RiskScore implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -36,8 +36,8 @@ public class RiskScore implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id_score", nullable = false)
-    private Long idScore;
+    @Column(name = "id_riskscore", nullable = false)
+    private Long idRiskScore;
 
     @Basic(optional = false)
     @NotNull
@@ -47,19 +47,8 @@ public class RiskScore implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
-    @Column(name = "titule", nullable = false, length = 100)
-    private String titule;
-
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
     @Column(name = "variable", nullable = false, length = 100)
     private String variable;
-
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "enabled", nullable = false)
-    private boolean enabled;
 
     @Basic(optional = false)
     @NotNull
@@ -68,18 +57,16 @@ public class RiskScore implements Serializable {
     private Date createdAt;
 
     @JsonManagedReference
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "score")
-    private Collection<ScoreRange> scoreRangeCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "riskScore")
+    private Collection<RiskScoreRange> riskScoreRangeCollection;
 
-    public RiskScore(Long idScore) {
-        this.idScore = idScore;
+    public RiskScore(Long idRiskScore) {
+        this.idRiskScore = idRiskScore;
     }
 
-    public RiskScore(Long idScore, String titule, String variable, boolean enabled, Date createdAt) {
-        this.idScore = idScore;
-        this.titule = titule;
+    public RiskScore(Long idRiskScore, String variable, Date createdAt) {
+        this.idRiskScore = idRiskScore;
         this.variable = variable;
-        this.enabled = enabled;
         this.createdAt = createdAt;
     }
 }

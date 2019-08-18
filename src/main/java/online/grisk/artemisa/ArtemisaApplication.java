@@ -1,6 +1,7 @@
 package online.grisk.artemisa;
 
-import online.grisk.artemisa.domain.entity.Microservice;
+import online.grisk.artemisa.domain.pojo.Microservice;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -8,15 +9,9 @@ import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.client.BufferingClientHttpRequestFactory;
-import org.springframework.http.client.ClientHttpRequestInterceptor;
-import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
-import java.time.Duration;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.UUID;
 
 @SpringBootApplication
@@ -49,28 +44,58 @@ public class ArtemisaApplication {
         return UUID.randomUUID();
     }
 
+    @Value("HERMES_USER")
+    String hermesUser;
+
+    @Value("HERMES_PASS")
+    String hermesPass;
+
     @Bean
     Microservice microserviceHermes() {
-        return new Microservice("hermes", HttpMethod.POST, "/api/hermes", "hermes", "GRisk.2019", new HashMap<>());
+        return new Microservice("hermes", HttpMethod.POST, "/api/hermes", hermesUser, hermesPass, new HashMap<>());
     }
+
+    @Value("ATENEA_USER")
+    String ateneaUser;
+
+    @Value("ATENEA_PASS")
+    String ateneaPass;
 
     @Bean
     Microservice microserviceAtenea() {
-        return new Microservice("atenea", HttpMethod.POST, "/api/atenea/report", "atenea", "GRisk.2019", new HashMap<>());
+        return new Microservice("atenea", HttpMethod.POST, "/api/atenea/report", ateneaUser, ateneaPass, new HashMap<>());
     }
-    
+
+    @Value("HADES_USER")
+    String hadesUser;
+
+    @Value("HADES_PASS")
+    String hadesPass;
+
     @Bean
     Microservice microserviceHades() {
-        return new Microservice("hades", HttpMethod.POST, "/api/atenea/ratios", "hades", "GRisk.2019", new HashMap<>());
+        return new Microservice("hades", HttpMethod.POST, "/api/atenea/ratios", hadesUser, hadesPass, new HashMap<>());
     }
-    
+
+    @Value("POSEIDON_USER")
+    String poseidonUser;
+
+    @Value("POSEIDON_PASS")
+    String poseidonPass;
+
     @Bean
     Microservice microservicePoseidon() {
-        return new Microservice("poseidon", HttpMethod.POST, "/api/poseidon/score", "poseidon", "GRisk.2019", new HashMap<>());
+        return new Microservice("poseidon", HttpMethod.POST, "/api/poseidon/score", poseidonUser, poseidonPass, new HashMap<>());
     }
-    
+
+    @Value("ZEUS_USER")
+    String zeusUser;
+
+    @Value("ZEUS_PASS")
+    String zeusPass;
+
     @Bean
     Microservice microserviceZeus() {
-        return new Microservice("zeus", HttpMethod.POST, "/api/zeus/businessTree", "zeus", "GRisk.2019", new HashMap<>());
+        return new Microservice("zeus", HttpMethod.POST, "/api/zeus/businessTree", zeusUser, zeusPass, new HashMap<>());
     }
 }

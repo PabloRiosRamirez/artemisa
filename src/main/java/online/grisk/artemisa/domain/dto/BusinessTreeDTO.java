@@ -15,7 +15,7 @@ public class BusinessTreeDTO {
 
 	private long organization;
 	private String titule;
-	Collection<NodeTreeDTO> nodes;
+	Collection<BusinessTreeNodeDTO> nodes;
 
 	public Map<String, Object> toMap() {
 		Map<String, Object> objectMap = new HashMap<>();

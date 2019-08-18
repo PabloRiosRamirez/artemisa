@@ -24,16 +24,16 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "node_tree", schema = "public")
-public class NodeTree implements Serializable {
+@Table(name = "businesstree_node", schema = "public")
+public class BusinessTreeNode implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id_node_tree", nullable = false)
-    private Long idNodeTree;
+    @Column(name = "id_businesstree_node", nullable = false)
+    private Long idBusinessTreeNode;
 
     @Size(max = 200)
     @Column(name = "expression", length = 200)
@@ -55,21 +55,20 @@ public class NodeTree implements Serializable {
     @Column(name = "children_negation")
     private Long childrenNegation;
 
-    @Column(name = "children_afirmation")
-    private Long childrenAfirmation;
+    @Column(name = "children_affirmation")
+    private Long childrenAffirmation;
 
     @JsonIgnore
-    @JoinColumn(name = "tree", referencedColumnName = "id_tree", nullable = false)
+    @JoinColumn(name = "businesstree", referencedColumnName = "id_businesstree", nullable = false)
     @ManyToOne(optional = false)
-    private BusinessTree tree;
+    private BusinessTree businessTree;
 
-    public NodeTree(Long idNodeTree) {
-        this.idNodeTree = idNodeTree;
+    public BusinessTreeNode(Long idBusinessTreeNode) {
+        this.idBusinessTreeNode = idBusinessTreeNode;
     }
 
-    public NodeTree(Long idNodeTree, boolean output) {
-        this.idNodeTree = idNodeTree;
+    public BusinessTreeNode(Long idBusinessTreeNode, boolean output) {
+        this.idBusinessTreeNode = idBusinessTreeNode;
         this.output = output;
     }
-
 }

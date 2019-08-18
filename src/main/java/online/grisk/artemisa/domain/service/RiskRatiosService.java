@@ -1,13 +1,12 @@
 package online.grisk.artemisa.domain.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import online.grisk.artemisa.domain.dto.RatioDTO;
 import online.grisk.artemisa.domain.dto.RiskRatioDTO;
-import online.grisk.artemisa.domain.entity.Ratio;
+import online.grisk.artemisa.domain.dto.RiskRatioRatioDTO;
 import online.grisk.artemisa.domain.entity.RiskRatio;
+import online.grisk.artemisa.domain.entity.RiskRatioRatio;
 import online.grisk.artemisa.domain.exception.MyFileNotFoundException;
-import online.grisk.artemisa.persistence.repository.RatioRepository;
+import online.grisk.artemisa.persistence.repository.RiskRatioRatioRepository;
 import online.grisk.artemisa.persistence.repository.RiskRatioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,7 +33,7 @@ public class RiskRatiosService {
 	private RiskRatioRepository riskRatioRepository;
 
 	@Autowired
-	private RatioRepository ratioRepository;
+	private RiskRatioRatioRepository riskRatioRatioRepository;
 
 	@Transactional
 	public ResponseEntity<Map<String, Object>> registerScore(Map<String, Object> request) {
@@ -71,38 +70,30 @@ public class RiskRatiosService {
 
 	@Transactional
 	public RiskRatio save(RiskRatioDTO riskRatioDto) {
-
 		RiskRatio riskRatio = new RiskRatio();
-
 		riskRatio.setCreatedAt(new Date());
-		riskRatio.setTitule(riskRatioDto.getTitule() + "*");
 		riskRatio.setOrganization(riskRatioDto.getOrganization());
-
 		riskRatio = riskRatioRepository.save(riskRatio);
-
 		Short count = 0;
-		for (RatioDTO ratioDto : riskRatioDto.getRatios()) {
-			Ratio ratio = new Ratio();
-			ratio.setTitule(ratioDto.getTitule());
-			ratio.setColor(ratioDto.getColor());
-			ratio.setPostResult(ratioDto.getPostResult());
-			ratio.setOperation(ratioDto.getOperation());
-			ratio.setOrderDisplay(count);
-			ratio.setEnabled(true);
-			ratio.setCreatedAt(new Date());
-			ratio.setRiskRatio(riskRatio);
-			ratioRepository.save(ratio);
+		for (RiskRatioRatioDTO riskRatioRatioDto : riskRatioDto.getRatios()) {
+			RiskRatioRatio riskRatioRatio = new RiskRatioRatio();
+			riskRatioRatio.setTitule(riskRatioRatioDto.getTitule());
+			riskRatioRatio.setColor(riskRatioRatioDto.getColor());
+			riskRatioRatio.setPostResult(riskRatioRatioDto.getPostResult());
+			riskRatioRatio.setExpression(riskRatioRatioDto.getExpression());
+			riskRatioRatio.setOrderDisplay(count);
+			riskRatioRatio.setCreatedAt(new Date());
+			riskRatioRatio.setRiskRatio(riskRatio);
+			riskRatioRatioRepository.save(riskRatioRatio);
 			count++;
 		}
-
 		return riskRatio;
-		
 	}
 
 	@Transactional
 	public RiskRatio findOne(long idRatio) {
 		return riskRatioRepository.findById(idRatio)
-				.orElseThrow(() -> new MyFileNotFoundException("Ratio not found with id " + idRatio));
+				.orElseThrow(() -> new MyFileNotFoundException("RiskRatio not found with id " + idRatio));
 	}
 
 	@Transactional

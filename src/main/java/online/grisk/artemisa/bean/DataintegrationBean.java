@@ -2,14 +2,14 @@ package online.grisk.artemisa.bean;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-import online.grisk.artemisa.domain.entity.DataIntegration;
+import online.grisk.artemisa.domain.entity.Dataintegration;
 import online.grisk.artemisa.domain.entity.Variable;
 
 import java.util.Collection;
 import java.util.List;
 
 @Data
-public class DataIntegrationBean extends DataIntegration {
+public class DataintegrationBean extends Dataintegration {
 
     private List<VariableBean> variables;
 

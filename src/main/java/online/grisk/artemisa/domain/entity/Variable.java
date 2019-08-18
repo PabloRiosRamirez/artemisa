@@ -62,7 +62,7 @@ public class Variable implements Serializable {
 
     @JsonBackReference
     @ManyToMany(mappedBy = "variableCollection")
-    private Collection<DataIntegration> dataIntegrationCollection;
+    private Collection<Dataintegration> dataintegrationCollection;
 
     @JoinColumn(name = "type_variable", referencedColumnName = "id_type_variable", nullable = false)
     @ManyToOne(optional = false)
@@ -86,12 +86,12 @@ public class Variable implements Serializable {
         this.bureau = bureau;
     }
 
-    public Variable(@NotNull @Size(min = 1, max = 100) String name, @NotNull @Size(min = 1, max = 50) String code, @NotNull @Size(min = 1, max = 50) String coordinate, @NotNull @Size(min = 1, max = 100) String defaultValue, Collection<DataIntegration> dataIntegrationCollection, TypeVariable typeVariable, @NotNull boolean bureau) {
+    public Variable(@NotNull @Size(min = 1, max = 100) String name, @NotNull @Size(min = 1, max = 50) String code, @NotNull @Size(min = 1, max = 50) String coordinate, @NotNull @Size(min = 1, max = 100) String defaultValue, Collection<Dataintegration> dataintegrationCollection, TypeVariable typeVariable, @NotNull boolean bureau) {
         this.name = name;
         this.code = code;
         this.coordinate = coordinate;
         this.defaultValue = defaultValue;
-        this.dataIntegrationCollection = dataIntegrationCollection;
+        this.dataintegrationCollection = dataintegrationCollection;
         this.typeVariable = typeVariable;
         this.bureau = bureau;
     }

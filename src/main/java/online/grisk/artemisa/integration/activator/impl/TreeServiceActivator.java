@@ -7,7 +7,7 @@ import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
-import online.grisk.artemisa.domain.entity.Microservice;
+import online.grisk.artemisa.domain.pojo.Microservice;
 import online.grisk.artemisa.integration.activator.BasicRestServiceActivator;
 
 import java.util.HashMap;

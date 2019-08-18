@@ -2,7 +2,7 @@ package online.grisk.artemisa.integration.activator;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import online.grisk.artemisa.domain.entity.Microservice;
+import online.grisk.artemisa.domain.pojo.Microservice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;

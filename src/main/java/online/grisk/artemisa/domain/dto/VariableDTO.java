@@ -7,12 +7,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class VariableBureauDTO {
+public class VariableDTO {
     Long idVariable;
     String name;
     String type;
-    String coordenate;
-    String valueDefault;
+    String coordinate;
+    String defaultValue;
 
 
 }

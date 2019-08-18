@@ -1,8 +1,8 @@
 package online.grisk.artemisa.presentation.controller;
 
 import online.grisk.artemisa.domain.dto.FileResponseDTO;
-import online.grisk.artemisa.domain.entity.DataIntegration;
-import online.grisk.artemisa.domain.service.DataIntegrationService;
+import online.grisk.artemisa.domain.entity.Dataintegration;
+import online.grisk.artemisa.domain.service.DataintegrationService;
 import online.grisk.artemisa.domain.service.VariableService;
 import online.grisk.artemisa.integration.activator.impl.DataIntegrationServiceActivator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ import java.util.Map;
 @RequestMapping({"/api/artemisa"})
 public class DataIntegrationController {
     @Autowired
-    private DataIntegrationService dataIntegrationService;
+    private DataintegrationService dataIntegrationService;
 
     @Autowired
     private VariableService variableService;
@@ -30,8 +30,8 @@ public class DataIntegrationController {
 
     @GetMapping("/dataintegration/organization/{idOrganization}")
     public ResponseEntity<?> getDataIntegration(@PathVariable("idOrganization") long idOrganization) {
-        DataIntegration dataIntegration = dataIntegrationService.findByOrganization(idOrganization);
-        return new ResponseEntity<DataIntegration>(dataIntegration, HttpStatus.OK);
+        Dataintegration dataIntegration = dataIntegrationService.findByOrganization(idOrganization);
+        return new ResponseEntity<Dataintegration>(dataIntegration, HttpStatus.OK);
     }
 
     @GetMapping("/variables/bureau")
@@ -49,9 +49,9 @@ public class DataIntegrationController {
 
     @PutMapping("/dataintegration/{idDataintegration}/excel")
     public FileResponseDTO putDataIntegration(@PathVariable("idDataintegration") long idDataintegration, @RequestParam("file") MultipartFile file) {
-        DataIntegration di = dataIntegrationServiceActivator.invokeUpdateDataIntegrationExcel(idDataintegration, file);
+        Dataintegration di = dataIntegrationServiceActivator.invokeUpdateDataIntegrationExcel(idDataintegration, file);
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/v1/rest/dataintegration/organization/")
-                .path(di.getIdDataIntegration() + "/file").toUriString();
+                .path(di.getIdDataintegration() + "/file").toUriString();
         return new FileResponseDTO(di.getAnalyticsFileName(), fileDownloadUri, file.getContentType(), file.getSize());
     }
 

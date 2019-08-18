@@ -1,6 +1,6 @@
 package online.grisk.artemisa.domain.service;
 
-import online.grisk.artemisa.domain.entity.DataIntegration;
+import online.grisk.artemisa.domain.entity.Dataintegration;
 import online.grisk.artemisa.domain.entity.Variable;
 import online.grisk.artemisa.domain.exception.MyFileNotFoundException;
 import online.grisk.artemisa.persistence.repository.VariableRepository;
@@ -39,7 +39,8 @@ public class VariableService {
     }
 
     @Transactional
-    public void deletedByDataintegration(Collection< DataIntegration > dataIntegrationCollection) {
-        variableRepository.deleteAllByDataIntegrationCollection(dataIntegrationCollection); ;
+    public void deletedByDataintegration(Collection<Dataintegration> dataintegrationCollection) {
+        variableRepository.deleteAllByDataintegrationCollection(dataintegrationCollection);
+        ;
     }
 }

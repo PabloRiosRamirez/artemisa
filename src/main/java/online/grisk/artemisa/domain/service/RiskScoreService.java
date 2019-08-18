@@ -1,22 +1,21 @@
 package online.grisk.artemisa.domain.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import online.grisk.artemisa.domain.dto.RangesDTO;
 import online.grisk.artemisa.domain.dto.RiskScoreDTO;
-import online.grisk.artemisa.domain.entity.RiskRatio;
+import online.grisk.artemisa.domain.dto.RiskScoreRangeDTO;
 import online.grisk.artemisa.domain.entity.RiskScore;
-import online.grisk.artemisa.domain.entity.ScoreRange;
+import online.grisk.artemisa.domain.entity.RiskScoreRange;
 import online.grisk.artemisa.domain.exception.MyFileNotFoundException;
+import online.grisk.artemisa.persistence.repository.RiskScoreRangeRepository;
 import online.grisk.artemisa.persistence.repository.RiskScoreRepository;
-import online.grisk.artemisa.persistence.repository.ScoreRangeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.Date;
+import java.util.Map;
 
 @Service
 public class RiskScoreService {
@@ -34,7 +33,7 @@ public class RiskScoreService {
 	private RiskScoreRepository riskScoreRepository;
 
 	@Autowired
-	private ScoreRangeRepository scoreRangeRepository;
+	private RiskScoreRangeRepository riskScoreRangeRepository;
 
 	@Transactional
 	public ResponseEntity<Map<String, Object>> registerScore(Map<String, Object> request) {
@@ -70,26 +69,19 @@ public class RiskScoreService {
 
 	@Transactional
 	public RiskScore save(RiskScoreDTO riskScoreDto) {
-
 		RiskScore riskScore = new RiskScore();
-
 		riskScore.setCreatedAt(new Date());
-		riskScore.setEnabled(true);
-		riskScore.setTitule(riskScoreDto.getTitule());
 		riskScore.setOrganization(riskScoreDto.getOrganization());
 		riskScore.setVariable(riskScoreDto.getVariable());
-
 		riskScore = riskScoreRepository.save(riskScore);
-
-		for (RangesDTO rangeDto : riskScoreDto.getRanges()) {
-			ScoreRange scoreRange = new ScoreRange();
-			scoreRange.setColor(rangeDto.getColor());
-			scoreRange.setUpperLimit(rangeDto.getLimitUp());
-			scoreRange.setLowerLimit(rangeDto.getLimitDown());
-			scoreRange.setScore(riskScore);
-			scoreRangeRepository.save(scoreRange);
+		for (RiskScoreRangeDTO rangeDto : riskScoreDto.getRanges()) {
+			RiskScoreRange riskScoreRange = new RiskScoreRange();
+			riskScoreRange.setColor(rangeDto.getColor());
+			riskScoreRange.setUpperLimit(rangeDto.getUpperLimit());
+			riskScoreRange.setLowerLimit(rangeDto.getLowerLimit());
+			riskScoreRange.setRiskScore(riskScore);
+			riskScoreRangeRepository.save(riskScoreRange);
 		}
-
 		return riskScore;
 	}
 
@@ -101,9 +93,9 @@ public class RiskScoreService {
 
 	@Transactional
 	public RiskScore findByOrganization(long idOrganization) {
-		RiskScore scoreByOrganization = riskScoreRepository.findScoreByOrganization(idOrganization);
+		RiskScore scoreByOrganization = riskScoreRepository.findRiskScoreByOrganization(idOrganization);
 		if(scoreByOrganization != null) {
-			scoreByOrganization.setScoreRangeCollection(scoreRangeRepository.findAllByScoreOrderByLowerLimit(scoreByOrganization));
+			scoreByOrganization.setRiskScoreRangeCollection(riskScoreRangeRepository.findAllByRiskScoreOrderByLowerLimit(scoreByOrganization));
 		}
 		return scoreByOrganization;
 	}
