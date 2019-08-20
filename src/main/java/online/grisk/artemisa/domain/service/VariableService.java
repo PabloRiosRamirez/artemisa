@@ -35,7 +35,7 @@ public class VariableService {
 
     @Transactional
     public List<Variable> findAllByBureau(boolean bureau) {
-        return variableRepository.findAllByBureau(bureau);
+        return variableRepository.findAllByBureauOrderByName(bureau);
     }
 
     @Transactional
