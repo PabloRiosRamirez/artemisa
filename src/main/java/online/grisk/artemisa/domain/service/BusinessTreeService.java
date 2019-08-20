@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import online.grisk.artemisa.domain.dto.BusinessTreeDTO;
 import online.grisk.artemisa.domain.dto.BusinessTreeNodeDTO;
+import online.grisk.artemisa.domain.dto.FrontBusinessTreeDTO;
+import online.grisk.artemisa.domain.dto.FrontBusinessTreeNodeDTO;
 import online.grisk.artemisa.domain.entity.BusinessTree;
 import online.grisk.artemisa.domain.entity.BusinessTreeNode;
 import online.grisk.artemisa.domain.exception.MyFileNotFoundException;
@@ -16,7 +18,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -71,23 +75,44 @@ public class BusinessTreeService {
 	}
 
 	@Transactional
-	public BusinessTree save(BusinessTreeDTO businessTreedTO) {
+	public BusinessTree save(FrontBusinessTreeDTO frontBusinessTreeDTO) {
 		BusinessTree businessTree = new BusinessTree();
 		businessTree.setCreatedAt(new Date());
-		businessTree.setOrganization(businessTreedTO.getOrganization());
+		businessTree.setOrganization(frontBusinessTreeDTO.getOrganization());
 		businessTree = businessTreeRepository.save(businessTree);
-		for (BusinessTreeNodeDTO nodeDto : businessTreedTO.getNodes()) {
+		List<BusinessTreeNode> listaNodosGuardados = new ArrayList<BusinessTreeNode>();
+		for (FrontBusinessTreeNodeDTO nodeDto : frontBusinessTreeDTO.getNodes()) {
 			BusinessTreeNode businessTreeNode = new BusinessTreeNode();
 		    businessTreeNode.setExpression(nodeDto.getExpression());
 		    businessTreeNode.setOutput(nodeDto.isOutput());
-		    businessTreeNode.setLabelOutput(nodeDto.getLabelOutput());
+		    businessTreeNode.setLabelOutput(nodeDto.getLabel());
 		    businessTreeNode.setColor(nodeDto.getColor());
-			businessTreeNode.setChildrenNegation(nodeDto.getChildrenNegation());
-			businessTreeNode.setChildrenAffirmation(nodeDto.getChildrenAffirmation());
+			businessTreeNode.setChildrenNegation(null);
+			businessTreeNode.setChildrenAffirmation(null);
 			businessTreeNode.setBusinessTree(businessTree);
-			nodeTreeRepository.save(businessTreeNode);
+			businessTreeNode.setMain(nodeDto.isMain());
+			BusinessTreeNode bt = nodeTreeRepository.save(businessTreeNode);
+			listaNodosGuardados.add(bt);
+		}
+		ArrayList<FrontBusinessTreeNodeDTO> listaArrayNodesFront = (ArrayList<FrontBusinessTreeNodeDTO>) frontBusinessTreeDTO.getNodes();
+		for (int i = 0; i < listaArrayNodesFront.size(); i++) {
+			if(!listaArrayNodesFront.get(i).isOutput()) {
+				listaNodosGuardados.get(i).setChildrenAffirmation(listaNodosGuardados.get(getIdChilden(listaArrayNodesFront, listaArrayNodesFront.get(i).getChildrenAffirmation())).getIdBusinessTreeNode());
+				listaNodosGuardados.get(i).setChildrenNegation(listaNodosGuardados.get(getIdChilden(listaArrayNodesFront, listaArrayNodesFront.get(i).getChildrenNegation())).getIdBusinessTreeNode());
+				nodeTreeRepository.save(listaNodosGuardados.get(i));
+			}
 		}
 		return businessTree;
+
+	}
+	
+	private int getIdChilden(List<FrontBusinessTreeNodeDTO> listaNodes, String id) {
+		for (int i = 0; i < listaNodes.size(); i++) {
+			if(listaNodes.get(i).getId().equalsIgnoreCase(id)) {
+				return i;
+			}
+		}
+		return -1;
 	}
 
 	@Transactional

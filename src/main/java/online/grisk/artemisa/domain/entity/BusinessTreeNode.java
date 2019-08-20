@@ -34,9 +34,8 @@ public class BusinessTreeNode implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_businesstree_node", nullable = false)
     private Long idBusinessTreeNode;
-
-    @Size(max = 200)
-    @Column(name = "expression", length = 200)
+    
+    @Column(name = "expression")
     private String expression;
 
     @Basic(optional = false)
@@ -44,12 +43,10 @@ public class BusinessTreeNode implements Serializable {
     @Column(name = "output", nullable = false)
     private boolean output;
 
-    @Size(max = 100)
-    @Column(name = "label_output", length = 100)
+    @Column(name = "label_output")
     private String labelOutput;
 
-    @Size(max = 10)
-    @Column(name = "color", length = 10)
+    @Column(name = "color")
     private String color;
 
     @Column(name = "children_negation")

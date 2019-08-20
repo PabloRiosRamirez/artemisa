@@ -12,8 +12,8 @@ spring:
       max-active: 2
     dbcp2:
       max-idle: 2
-#server:
-#  port: 8088
+server:
+  port: 8088
 #logging:
 #  level:
 #    org:

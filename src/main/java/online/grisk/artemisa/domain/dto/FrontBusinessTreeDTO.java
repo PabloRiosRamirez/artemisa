@@ -11,10 +11,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BusinessTreeDTO {
-
+public class FrontBusinessTreeDTO {
 	private long organization;
-	Collection<BusinessTreeNodeDTO> nodes;
+	Collection<FrontBusinessTreeNodeDTO> nodes;
 
 	public Map<String, Object> toMap() {
 		Map<String, Object> objectMap = new HashMap<>();

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import online.grisk.artemisa.domain.dto.BusinessTreeDTO;
+import online.grisk.artemisa.domain.dto.FrontBusinessTreeDTO;
 import online.grisk.artemisa.domain.entity.BusinessTree;
 import online.grisk.artemisa.domain.service.BusinessTreeService;
 
@@ -22,10 +23,10 @@ public class BusinessTreeController {
 	private BusinessTreeService businessTreeService;
 
 	@PostMapping
-	public ResponseEntity<?> save(@RequestBody BusinessTreeDTO businessTreeDto) {
+	public ResponseEntity<?> save(@RequestBody FrontBusinessTreeDTO frontBusinessTreeDTO) {
 		try {
-			businessTreeService.deletedByOrganization(businessTreeDto.getOrganization());
-			return new ResponseEntity<Object>(businessTreeService.save(businessTreeDto), HttpStatus.OK);
+			businessTreeService.deletedByOrganization(frontBusinessTreeDTO.getOrganization());
+			return new ResponseEntity<Object>(businessTreeService.save(frontBusinessTreeDTO), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<String>("Internal Server Error.", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
