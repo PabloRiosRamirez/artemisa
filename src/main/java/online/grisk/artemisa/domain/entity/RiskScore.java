@@ -50,6 +50,9 @@ public class RiskScore implements Serializable {
     @Column(name = "variable", nullable = false, length = 100)
     private String variable;
 
+    @Column(name = "titule", length = 50)
+    private String titule;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "created_at", nullable = false)
