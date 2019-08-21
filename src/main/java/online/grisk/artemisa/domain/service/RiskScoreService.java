@@ -73,6 +73,7 @@ public class RiskScoreService {
 		riskScore.setCreatedAt(new Date());
 		riskScore.setOrganization(riskScoreDto.getOrganization());
 		riskScore.setVariable(riskScoreDto.getVariable());
+		riskScore.setTitule(riskScoreDto.getTitule());
 		riskScore = riskScoreRepository.save(riskScore);
 		for (RiskScoreRangeDTO rangeDto : riskScoreDto.getRanges()) {
 			RiskScoreRange riskScoreRange = new RiskScoreRange();
