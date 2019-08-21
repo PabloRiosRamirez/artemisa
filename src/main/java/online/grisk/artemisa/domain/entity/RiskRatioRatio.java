@@ -50,10 +50,7 @@ public class RiskRatioRatio implements Serializable {
     @Column(name = "color", nullable = false, length = 10)
     private String color;
 
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 25)
-    @Column(name = "post_result", nullable = false, length = 25)
+    @Column(name = "post_result", length = 50)
     private String postResult;
 
     @Basic(optional = false)
