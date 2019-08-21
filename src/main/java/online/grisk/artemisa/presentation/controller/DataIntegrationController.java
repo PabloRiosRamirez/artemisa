@@ -12,6 +12,20 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import javax.validation.constraints.NotEmpty;
 import java.util.HashMap;
 import java.util.Map;
@@ -50,8 +64,8 @@ public class DataIntegrationController {
     @PutMapping("/dataintegration/{idDataintegration}/excel")
     public FileResponseDTO putDataIntegration(@PathVariable("idDataintegration") long idDataintegration, @RequestParam("file") MultipartFile file) {
         Dataintegration di = dataIntegrationServiceActivator.invokeUpdateDataIntegrationExcel(idDataintegration, file);
-        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/v1/rest/dataintegration/organization/")
-                .path(di.getIdDataintegration() + "/file").toUriString();
+        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/artemisa/dataintegration/")
+                .path(di.getIdDataintegration() + "/downloadFile").toUriString();
         return new FileResponseDTO(di.getAnalyticsFileName(), fileDownloadUri, file.getContentType(), file.getSize());
     }
 
@@ -60,4 +74,14 @@ public class DataIntegrationController {
         Map<String, Object> response = dataIntegrationServiceActivator.invokeRegisterDataIntegrationBureau(payload);
         return new ResponseEntity(response, HttpStatus.OK);
     }
+    
+	@GetMapping("/dataintegration/{id}/downloadFile")
+	public ResponseEntity<Resource> downloadFile(@PathVariable long id) {
+		// Load file from database
+		Dataintegration di = dataIntegrationService.findOne(id);
+
+		return ResponseEntity.ok().contentType(MediaType.parseMediaType("application/vnd.ms-excel"))
+				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + di.getAnalyticsFileName() + "\"")
+				.body(new ByteArrayResource(di.getAnalyticsFile()));
+	}
 }
