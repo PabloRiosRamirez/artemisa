@@ -129,7 +129,11 @@ public class DataintegrationService {
 
     @Transactional
     public Dataintegration findByOrganization(long idOrganization) {
-        return dataIntegrationRepository.findDataIntegrationsByOrganization(idOrganization);
+        Dataintegration dataIntegrationsByOrganization = dataIntegrationRepository.findDataIntegrationsByOrganization(idOrganization);
+        Collection<Dataintegration> dataintegrationCollection = new ArrayList<>();
+        dataintegrationCollection.add(dataIntegrationsByOrganization);
+        dataIntegrationsByOrganization.setVariableCollection(variableService.findAllByDataintegrationOrderByName(dataintegrationCollection));
+        return dataIntegrationsByOrganization;
     }
 
 }

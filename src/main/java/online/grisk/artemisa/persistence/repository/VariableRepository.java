@@ -12,4 +12,5 @@ import java.util.List;
 public interface VariableRepository extends JpaRepository<Variable, Long> {
     void deleteAllByDataintegrationCollection(Collection<Dataintegration> dataintegrationCollection);
     List<Variable> findAllByBureauOrderByName(boolean bureau);
+    List<Variable> findAllByDataintegrationCollectionOrderByName(Collection<Dataintegration> dataintegrationCollection);
 }

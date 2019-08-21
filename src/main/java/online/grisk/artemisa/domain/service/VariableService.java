@@ -37,6 +37,11 @@ public class VariableService {
     public List<Variable> findAllByBureau(boolean bureau) {
         return variableRepository.findAllByBureauOrderByName(bureau);
     }
+    @Transactional
+    public List<Variable> findAllByDataintegrationOrderByName(Collection<Dataintegration> dataintegrationCollection) {
+        return variableRepository.findAllByDataintegrationCollectionOrderByName(dataintegrationCollection);
+    }
+
 
     @Transactional
     public void deletedByDataintegration(Collection<Dataintegration> dataintegrationCollection) {
