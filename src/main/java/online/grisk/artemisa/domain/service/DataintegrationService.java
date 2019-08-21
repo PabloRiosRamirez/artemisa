@@ -132,7 +132,9 @@ public class DataintegrationService {
         Dataintegration dataIntegrationsByOrganization = dataIntegrationRepository.findDataIntegrationsByOrganization(idOrganization);
         Collection<Dataintegration> dataintegrationCollection = new ArrayList<>();
         dataintegrationCollection.add(dataIntegrationsByOrganization);
-        dataIntegrationsByOrganization.setVariableCollection(variableService.findAllByDataintegrationOrderByName(dataintegrationCollection));
+        if(dataIntegrationsByOrganization != null) {
+        	dataIntegrationsByOrganization.setVariableCollection(variableService.findAllByDataintegrationOrderByName(dataintegrationCollection));
+        }
         return dataIntegrationsByOrganization;
     }
 
