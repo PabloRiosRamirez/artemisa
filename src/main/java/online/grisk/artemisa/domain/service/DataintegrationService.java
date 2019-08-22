@@ -11,7 +11,6 @@ import online.grisk.artemisa.persistence.repository.BusinessTreeRepository;
 import online.grisk.artemisa.persistence.repository.DataIntegrationRepository;
 import online.grisk.artemisa.persistence.repository.RiskRatioRepository;
 import online.grisk.artemisa.persistence.repository.RiskScoreRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -63,7 +62,7 @@ public class DataintegrationService {
         businessTreeRepository.deleteAllByOrganization(dataIntegrationDTO.getOrganization());
         Collection<Variable> variableCollection = new ArrayList<>();
         for (VariableDTO variable : dataIntegrationDTO.getVariables()) {
-            variableCollection.add(new Variable(variable.getName(), variable.getName().replaceAll(" ", "").trim().toUpperCase(), variable.getCoordinate(), variable.getDefaultValue(), typeVariableService.findByCode(variable.getType()), false));
+            variableCollection.add(new Variable(variable.getName(), "IND" + dataIntegrationDTO.getOrganization() + "_" + variable.getName().replaceAll(" ", "_").trim().toUpperCase(), variable.getCoordinate(), variable.getDefaultValue(), typeVariableService.findByCode(variable.getType()), false));
         }
         Collection<Variable> variables = variableService.saveAll(variableCollection);
         Dataintegration dataIntegration = this.save(new Dataintegration(dataIntegrationDTO.getOrganization(), new Date(), false, variables));
@@ -132,8 +131,8 @@ public class DataintegrationService {
         Dataintegration dataIntegrationsByOrganization = dataIntegrationRepository.findDataIntegrationsByOrganization(idOrganization);
         Collection<Dataintegration> dataintegrationCollection = new ArrayList<>();
         dataintegrationCollection.add(dataIntegrationsByOrganization);
-        if(dataIntegrationsByOrganization != null) {
-        	dataIntegrationsByOrganization.setVariableCollection(variableService.findAllByDataintegrationOrderByName(dataintegrationCollection));
+        if (dataIntegrationsByOrganization != null) {
+            dataIntegrationsByOrganization.setVariableCollection(variableService.findAllByDataintegrationOrderByName(dataintegrationCollection));
         }
         return dataIntegrationsByOrganization;
     }
