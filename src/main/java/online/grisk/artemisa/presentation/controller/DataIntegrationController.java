@@ -75,7 +75,7 @@ public class DataIntegrationController {
         return new ResponseEntity(response, HttpStatus.OK);
     }
     
-	@GetMapping("/dataintegration/{id}/downloadFile")
+	@GetMapping("/dataintegration/downloadFile/{id}")
 	public ResponseEntity<Resource> downloadFile(@PathVariable long id) {
 		// Load file from database
 		Dataintegration di = dataIntegrationService.findOne(id);
