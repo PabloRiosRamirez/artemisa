@@ -31,20 +31,20 @@ public class OrchestrationController {
     public Map<String, Object> initAnalysisExcel(@PathVariable("idOrganization") long idOrganization, @RequestParam("file") MultipartFile file) {
         Map<String, Object> payload = orquestrationServiceActivator.getConfigurations(new HashMap(), idOrganization);
         payload = orquestrationServiceActivator.invokeExtractExcel(payload, file);
-        return payload;
-//        Message build = MessageBuilder.withPayload(payload).build();
-//        Map<String, Object> response = gateway.process(build);
-//        return response;
+//        return payload;
+        Message build = MessageBuilder.withPayload(payload).build();
+        Map<String, Object> response = gateway.process(build);
+        return response;
     }
 
     @PostMapping("/analysis/{idOrganization}/bureau")
     public Map<String, Object> initAnalysisBureau(@PathVariable("idOrganization") long idOrganization, @NotEmpty @RequestBody Map<String, Object> request) throws Exception {
         Map<String, Object> payload = orquestrationServiceActivator.getConfigurations(request, idOrganization);
         payload =  orquestrationServiceActivator.invokeExtractBureau(payload);
-        return payload;
-//        Message build = MessageBuilder.withPayload(payload).build();
-//        Map<String, Object> response = gateway.process(build);
-//        return response;
+//        return payload;
+        Message build = MessageBuilder.withPayload(payload).build();
+        Map<String, Object> response = gateway.process(build);
+        return response;
     }
 
     private void verifyParameters(Map<String, Object> payload) {
