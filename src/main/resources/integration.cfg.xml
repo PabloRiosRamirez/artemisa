@@ -28,8 +28,8 @@
     <int:service-activator input-channel="channelAsync" output-channel="channelAggregator"
                            ref="ratiosServiceActivator"/>
 
-    <!--<int:service-activator input-channel="channelAsync" output-channel="channelAggregator"
-                           ref="treeServiceActivator"/>-->
+    <int:service-activator input-channel="channelAsync" output-channel="channelAggregator"
+                           ref="treeServiceActivator"/>
 
     <int:channel id="channelAggregator"/>
     <int:aggregator input-channel="channelAggregator" ref="indicatorsAggregator" method="processMessageGroup"/>

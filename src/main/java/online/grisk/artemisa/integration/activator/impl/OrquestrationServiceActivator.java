@@ -46,7 +46,11 @@ public class OrquestrationServiceActivator {
         applicant.put("rut", rut);
         response.put("applicant", applicant);
         response.put("dataintegration", payload.get("dataintegration"));
-        return orchestrationService.invokeBureau(response);
+        Map<String, Object> bureau = orchestrationService.invokeBureau(response);
+        bureau.put("riskScore", payload.get("riskScore"));
+        bureau.put("riskRatios", payload.get("riskRatios"));
+        bureau.put("businessTree", payload.get("businessTree"));
+        return bureau;
     }
 
     public Map getConfigurations(Map response, Long idOrganization) {
